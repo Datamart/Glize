@@ -59,23 +59,44 @@ dom.Template = function() {
    * document.getElementById('div').innerHTML = template.parse(content, values);
    */
   this.parse = function(content, values, opt_prefix) {
-    for (/** @type {string} */ var key in values) {
-      /** @type {string} */
-      var name = (opt_prefix ? opt_prefix + '.' : '') + key;
-      /** @type {*} */ var value = values[key];
-      /** @type {!RegExp} */
-      var re = new RegExp('{{ ' + name.replace('.', '\\.') + ' }}', 'img');
-      if ('function' == typeof value) {
-        content = content.replace(re, '' + value());
+    /** @type {number} */ var i = 0;
+    /** @type {*} */ var value;
+    /** @type {string} */ var key;
+    /** @type {Array} */ var matches;
+    /** @type {string} */ var match;
+    /** @type {string} */ var name;
+    /** @type {!RegExp} */ var re;
+
+    for (key in values) {
+      name = ((opt_prefix ? opt_prefix + '.' : '') + key).replace('.', '\\.');
+      value = values[key];
+      re = new RegExp('{{ ' + name + '(\\|\\w+)? }}', 'img');
+      if (value instanceof Array) {
+        value = value.join(', ');
+        if (value) content = content.replace(re, value);
+      } else if ('function' == typeof value) {
+        value = value();
+        if (value) content = content.replace(re, '' + value);
       } else if ('object' == typeof value) {
         content = self_.parse(content, /** @type {!Object} */ (value), key);
-      } else {
+      } else if (value) {
         content = content.replace(re, '' + value);
       }
     }
 
-    // Clear all not parsed variables.
-    if (!opt_prefix) content = content.replace(/\{\{ [\w\.]+ \}\}/img, '');
+    if (!opt_prefix) {
+      // Replace default values.
+      matches = content.match(/\{\{ [\w\-\.]+(\|\w+) \}\}/img);
+      if (matches) {
+        for (; i < matches.length;) {
+          match = matches[i++];
+          value = match.match(/\|(\w+) \}\}/);
+          content = content.replace(match, (value && value[1]) || '');
+        }
+      }
+      // Clear all not parsed variables.
+      content = content.replace(/\{\{ [\w\-\.]+ \}\}/img, '');
+    }
     return content;
   };
 
