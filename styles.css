@@ -17,3 +17,6 @@ body {
   font-style: normal;
   text-decoration: underline;
 }
+.dtm-footer p {
+  max-width: none;
+}
