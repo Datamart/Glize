@@ -3,9 +3,9 @@
 body {
   background-attachment: fixed;
   background-color: white;
-  background-image: url(http://www.zastavki.com/pictures/1920x1200/2012/Space_Red_space_033992_.jpg);
+  background-image: url(/Glize/images/glize-bg.jpg);
   background-size: cover;
-  opacity: .75;
+  opacity: .8;
 }
 
 .kc-features {
