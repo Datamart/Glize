@@ -1,1 +1,11 @@
 /** overriding dtm default styles */
+
+.kc-features {
+  display: block;
+  margin: -1em 0 2em 2.7em;
+  text-decoration: none;
+}
+.kc-features i {
+  font-style: normal;
+  text-decoration: underline;
+}
