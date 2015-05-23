@@ -10,25 +10,53 @@
 /**
  * Creates and return a URL object composed from the given parameters.
  * @param {string} url Is a String representing an absolute or relative URL.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/URL
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
  * @constructor
  */
-net.URL = window['URL'] || function(url) {
-  /** @type {!RegExp} */
-  var pattern = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
-  /** @type {Array} */
-  var result = (url || '').match(pattern) || [];
+net.URL = window['URL'] || window['webkitURL'] || function(url) {
 
-  this['protocol'] = result[2] ? result[2] + ':' : '';
-  this['host'] = result[4] || '';
-  this['hostname'] = this['host'].split(':')[0];
-  this['port'] = +(this['host'].split(':')[1]) || '';
-  this['pathname'] = result[5] || '';
-  this['search'] = result[7] ? ('?' + result[7]) : '';
-  this['hash'] = result[9] ? ('#' + result[9]) : '';
+  /**
+   * @private
+   */
+  function init_() {
+    self_['protocol'] = match_[2] ? match_[2] + ':' : '';
+    self_['host'] = match_[4] || '';
+    self_['hostname'] = self_['host'].split(':')[0];
+    self_['port'] = +(self_['host'].split(':')[1]) || '';
+    self_['pathname'] = match_[5] || '';
+    self_['search'] = match_[7] ? ('?' + match_[7]) : '';
+    self_['hash'] = match_[9] ? ('#' + match_[9]) : '';
 
-  this['toString'] = function() {
-    return this['protocol'] + '//' + this['host'] +
-           this['pathname'] + this['search'] + this['hash'];
-  };
-  return this;
+    self_['toString'] = function() {
+      return self_['protocol'] + '//' + self_['host'] +
+             self_['pathname'] + self_['search'] + self_['hash'];
+    };
+  }
+
+  /**
+   * The regular expression for matching URL parts from <code>url</code> string.
+   * @type {!RegExp}
+   * @private
+   */
+  var regexp_ = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
+
+  /**
+   * The list of matched URL parts.
+   * @type {!Array.<string>}
+   * @private
+   */
+  var match_ = (url || '').match(regexp_) || [];
+
+  /**
+   * The reference to current class instance.
+   * Used in private methods and for preventing jslint errors.
+   * @type {!net.URL}
+   * @private
+   */
+  var self_ = this;
+
+  init_();
+
+  return self_;
 };
