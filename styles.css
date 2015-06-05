@@ -1,12 +1,13 @@
 /** overriding dtm default styles */
 .dtm-header #dtmLogo {display: none !important}
-.dtm-header .dtm-ext-logo {background: url(./images/glize-logo.png) no-repeat left center/48px}
+.dtm-header .dtm-ext-logo {background: url(/Glize/images/glize-logo.png) no-repeat left center/48px}
 
 body {
   background-attachment: fixed;
   background-color: white;
   background-image: url(/Glize/images/glize-bg.jpg);
   background-size: cover;
+  background-blend-mode: luminosity;
 }
 .dtm-content {opacity:.8}
 .kc-features{display:block;margin:-1em 0 2em 2.7em;text-decoration:none;}
