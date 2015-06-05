@@ -1,4 +1,6 @@
 /** overriding dtm default styles */
+#dtmLogo {display: none !important}
+.dtm-ext-logo {background: url(./images/glize-logo.png) no-repeat left center/48px}
 
 body {
   background-attachment: fixed;
