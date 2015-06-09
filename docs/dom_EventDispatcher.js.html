@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: dom/EventDispatcher.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: dom/EventDispatcher.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * @fileoverview Event-driven implementation is based on W3C DOM Level 3
+ * Events Specification.
+ * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+ * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ */
+
+
+
+/**
+ * The EventDispatcher class implements W3C EventTarget and EventListener
+ * interfaces.
+ * @constructor
+ * @example
+ * &lt;b>function&lt;/b> UserMenu() {
+ *    dom.EventDispatcher.call(&lt;b>this&lt;/b>);
+ *
+ *   &lt;b>this&lt;/b>.onClick = &lt;b>function&lt;/b>() {
+ *     &lt;b>this&lt;/b>.dispatchEvent('menu.clicked');
+ *   };
+ * }
+ *
+ * &lt;b>function&lt;/b> ContentArea() {
+ *    dom.EventDispatcher.call(&lt;b>this&lt;/b>);
+ *
+ *    &lt;b>function&lt;/b> update_(menu) {
+ *      console.log(menu);
+ *    }
+ *
+ *    &lt;b>this&lt;/b>.addEventListener('menu.clicked', update_);
+ * }
+ */
+dom.EventDispatcher = function() {
+
+  /**
+   * Registrates event listener on the event target.
+   * @param {string} type The event type for which the user is registering.
+   * @param {function(dom.EventDispatcher)} listener The listener parameter
+   *     takes an interface implemented by the user which contains the
+   *     methods to be called when the event occurs.
+   */
+  this.addEventListener = function(type, listener) {
+    events_[type] = (events_[type] || []).concat([listener]);
+  };
+
+  /**
+   * Removes event listeners from the event target.
+   * @param {string} type The event type of the listener being removed.
+   * @param {function(dom.EventDispatcher)} listener Reference to the event
+   *     listener to be removed.
+   * @return {boolean} Returns true if listener was removed.
+   */
+  this.removeEventListener = function(type, listener) {
+    /** @type {Array} */ var listeners = events_[type];
+    if (listeners) {
+      /** @type {number} */ var index = listeners.length >>> 0;
+      while (index--) {
+        if (listeners[index] === listener) {
+          listeners.splice(index, 1);
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  /**
+   * Dispatches events into the implementations event model.
+   * @param {string} type The event type to be used in processing the event.
+   */
+  this.dispatchEvent = function(type) {
+    /** @type {Array} */ var listeners = events_[type];
+    if (listeners) {
+      /** @type {number} */ var index = 0;
+      while (index &lt; listeners.length) {
+        listeners[index++](self_);
+      }
+    }
+  };
+
+  /**
+   * Event storage.
+   * @type {!Object.&lt;string, Array>}
+   * @private
+   */
+  var events_ = {};
+
+  /**
+   * The reference to current class instance.
+   * Used in private methods and for preventing jslint errors.
+   * @type {!dom.EventDispatcher}
+   * @private
+   */
+  var self_ = this;
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="Miscellaneous%2520String%2520utility%2520methods..html">Miscellaneous String utility methods.</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 09 2015 15:05:11 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

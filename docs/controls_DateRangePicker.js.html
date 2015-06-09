@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controls/DateRangePicker.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controls/DateRangePicker.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * @fileoverview DateRangePicker control.
+ * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+ * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ */
+
+
+
+/**
+ * Constructor of DateRangePicker.
+ * @param {Object=} opt_options Optional options.
+ * @extends {controls.DatePicker} controls.DatePicker
+ * @constructor
+ */
+controls.DateRangePicker = function(opt_options) {
+  opt_options = opt_options || {};
+  opt_options['multiple'] = true;
+  opt_options['separator'] = opt_options['separator'] || ' - ';
+  opt_options['timeout'] = opt_options['timeout'] || 300;
+
+  controls.DatePicker.apply(this, [opt_options]);
+
+  /** @inheritDoc */
+  this.clickHandler = function() {
+    /** @type {controls.Calendar} */ var calendar = self_.getCalendar();
+    /** @type {Array.&lt;Date>} */ var dates = calendar.getDates();
+    /** @type {number} */ var length = dates.length;
+    if (length > 1) {
+      /** @type {string} */ var format = self_.getFormat();
+      /** @type {Date} */ var start = dates[0];
+      /** @type {Date} */ var end = dates[length - 1];
+      self_.setValue(
+          formatters.DateFormatter.format(start, format) +
+          opt_options['separator'] +
+          formatters.DateFormatter.format(end, format));
+
+      setTimeout(self_.hide, opt_options['timeout']);
+    }
+  };
+
+  /** @inheritDoc */
+  this.getDates = function() {
+    /** @type {!Array.&lt;Date>} */ var range = [];
+    /** @type {Date} */ var start = new Date;
+    /** @type {Date} */ var end = new Date;
+
+    /** @type {Array.&lt;string>} */
+    var value = self_.getValue().split(opt_options['separator']);
+    /** @type {number} */ var length = value.length;
+    if (length == 2) {
+      /** @type {string} */ var format = self_.getFormat();
+      start = formatters.DateFormatter.parse(value[0], format);
+      end = formatters.DateFormatter.parse(value[length - 1], format);
+    }
+
+    while (start &lt;= end) {
+      range.push(new Date(start));
+      start.setDate(start.getDate() + 1);
+      //start = new Date(+start + 864e5);
+    }
+    return range;
+  };
+
+  /**
+   * The reference to current class instance. Used in private methods.
+   * @type {!controls.DateRangePicker}
+   * @private
+   */
+  var self_ = this;
+
+  /**
+   * Indicates first click, selecting start date.
+   * @type {boolean}
+   * @private
+   */
+  var first_ = true;
+};
+
+
+/**
+ * @param {Node|Element} element The related element.
+ * @static
+ */
+controls.DateRangePicker.show = function(element) {
+  if (!element.picker_) {
+    element.picker_ = new controls.DateRangePicker;
+  }
+  element.picker_.show(element);
+};
+
+// Export for closure compiler.
+controls.DateRangePicker['show'] = controls.DateRangePicker.show;
+
+// Export for closure compiler.
+controls['DateRangePicker'] = controls.DateRangePicker;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="Miscellaneous%2520String%2520utility%2520methods..html">Miscellaneous String utility methods.</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 09 2015 15:05:11 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
