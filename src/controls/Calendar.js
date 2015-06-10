@@ -51,9 +51,6 @@ controls.Calendar = function(container, opt_options) {
   /**
    * Enumeration of calendar events.
    * @enum {string}
-   * @example <code>{
-   *  PREV_MONTH, NEXT_MONTH, DRAW
-   * }</code>
    */
   this.events = {
     NEXT_MONTH: 'next.month',
