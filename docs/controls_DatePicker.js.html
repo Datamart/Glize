@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controls/DatePicker.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controls/DatePicker.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * @fileoverview DatePicker control.
+ * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+ * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ */
+
+
+
+/**
+ * Constructor of DatePicker.
+ * @param {Object=} opt_options Optional options.
+ * @constructor
+ * @requires formatters.DateFormatter
+ * @requires controls.Calendar
+ * @example
+ * &amp;lt;input onclick="controls.DatePicker.show(this)"
+ *        data-format="YYYY/MM/dd"
+ *        value="2013/06/20"
+ *        readonly&amp;gt;
+ * &amp;lt;input onclick="controls.DatePicker.show(this)"
+ *        data-format="MMM dd YYYY"
+ *        value="May 20 2013"
+ *        readonly&amp;gt;
+ * &lt;style>
+ * table.calendar {border: solid 1px gray; border-collapse: collapse;
+ *                 background: white; font-family: Arial; font-size: 13px;}
+ * table.calendar thead {background: silver;}
+ * table.calendar td,
+ * table.calendar th {border: solid 1px gray;}
+ * table.calendar td.today {font-weight: bold; background: silver;}
+ * table.calendar td.active {font-weight: bold; background: blue; color: white;}
+ * table.calendar th.prev,
+ * table.calendar th.next {cursor: pointer;}
+ * &lt;/style>
+ * &lt;script src="../../bin/jscb.js">&lt;/script>
+ * &lt;input onclick="controls.DatePicker.show(this)"
+ *        data-format="YYYY/MM/dd" value="2013/06/20" readonly>
+ */
+controls.DatePicker = function(opt_options) {
+
+  opt_options = opt_options || {};
+  opt_options['selectable'] = true;
+  opt_options['format'] = opt_options['format'] || 'YYYY-MM-dd';
+
+  /**
+   * Gets date format.
+   * &lt;br>Gets date format from element &lt;code>data-format&lt;/code> attribute,
+   * otherwise returns &lt;code>YYYY-MM-dd&lt;/code>.
+   * @return {string} Returns date format.
+   */
+  this.getFormat = function() {
+    return element_.getAttribute('data-format') || opt_options['format'];
+  };
+
+  /**
+   * &lt;code>protected&lt;/code> Gets related HTML element.
+   * @return {Node} Returns related HTML element.
+   * @protected
+   */
+  this.getElement = function() {
+    return element_;
+  };
+
+  /**
+   * &lt;code>protected&lt;/code> Gets reference to
+   * &lt;code>{@link controls.Calendar}&lt;/code>.
+   * @return {controls.Calendar} Returns reference to
+   * &lt;code>{@link controls.Calendar}&lt;/code>.
+   * @protected
+   */
+  this.getCalendar = function() {
+    return calendar_;
+  };
+
+  /**
+   * Shows date picker control.
+   * @param {Node|Element} element The related element.
+   * @example
+   * &amp;lt;input onclick="controls.DatePicker.show(this)"
+   *        data-format="YYYY/MM/dd"
+   *        value="2013/06/20"
+   *        readonly&amp;gt;
+   */
+  this.show = function(element) {
+    /** @type {Node} */ var picker = controls.DatePicker.control_;
+    if (picker.style.display == 'block') {
+      self_.hide();
+    } else {
+      element_ = element;
+      draw_();
+      /** @type {number} */ var y = dom.document.documentElement.scrollTop ||
+                                    window.pageYOffset || 0;
+      /** @type {number} */ var x = dom.document.documentElement.scrollLeft ||
+                                    window.pageXOffset || 0;
+      /** @type {Object} */ var rect = dom.getBoundingClientRect(element);
+      // TODO: implement possibility to show picker above element.
+      picker.style.top = (rect['bottom'] + y) + 'px';
+      picker.style.left = (rect['left'] + x) + 'px';
+      picker.style.display = 'block';
+      dom.events.addEventListener(
+          dom.document, dom.events.TYPE.KEYDOWN, keydown_);
+      dom.events.addEventListener(
+          dom.document, dom.events.TYPE.MOUSEDOWN, mousedown_);
+    }
+  };
+
+  // Export for closure compiler.
+  this['show'] = this.show;
+
+  /**
+   * Hides date picker control.
+   */
+  this.hide = function() {
+    if (controls.DatePicker.control_)
+      controls.DatePicker.control_.style.display = 'none';
+    dom.events.removeEventListener(
+        dom.document, dom.events.TYPE.KEYDOWN, keydown_);
+    dom.events.removeEventListener(dom.document,
+        dom.events.TYPE.MOUSEDOWN, mousedown_);
+  };
+
+  // Export for closure compiler.
+  this['hide'] = this.hide;
+
+  /**
+   * Sets formatted date as element value.
+   * &lt;br>&lt;i>Note:&lt;/i> For HTML form elements sets &lt;code>value&lt;/code> attribute,
+   * for other HTML elements sets &lt;code>innerHTML&lt;/code>.
+   * Dispatches {@link dom.events.TYPE.CHANGE} event.
+   * @param {string} value The formatted date value.
+   */
+  this.setValue = function(value) {
+    if ('value' in element_) element_.value = value;
+    else element_.innerHTML = value;
+    dom.events.dispatchEvent(element_, dom.events.TYPE.CHANGE);
+  };
+
+  /**
+   * Gets element value.
+   * &lt;br>&lt;i>Note:&lt;/i> From HTML form elements gets &lt;code>value&lt;/code> attribute,
+   * from other HTML elements gets &lt;code>textContent || innerText&lt;/code>.
+   * @return {string} Returns element value.
+   */
+  this.getValue = function() {
+    return element_.getAttribute('data-value') || element_.value ||
+           element_.textContent || element_.innerText;
+  };
+
+  /**
+   * &lt;code>protected&lt;/code> Gets list of date objects.
+   * @return {!Array.&lt;Date>} Returns list of date objects.
+   * @protected
+   */
+  this.getDates = function() {
+    /** @type {string} */ var value = self_.getValue();
+    return [value ? formatter_.parse(value, self_.getFormat()) : new Date];
+  };
+
+  /**
+   * Handles calendar click event.
+   * @protected
+   */
+  this.clickHandler = function() {
+    self_.setValue(formatter_.format(calendar_.getDate(), self_.getFormat()));
+    self_.hide();
+  };
+
+  /**
+   * @private
+   */
+  function draw_() {
+    calendar_ ? calendar_.clear() : init_();
+    calendar_.draw(self_.getDates());
+    calendar_.addEventListener(dom.events.TYPE.CLICK, self_.clickHandler);
+  }
+
+  /**
+   * @private
+   */
+  function init_() {
+    if (!controls.DatePicker.control_) {
+      controls.DatePicker.control_ = dom.document.body.appendChild(
+          dom.createElement('DIV'));
+      controls.DatePicker.control_.style.position = 'absolute';
+      dom.css.setClass(controls.DatePicker.control_, 'date-picker');
+    }
+    calendar_ = new controls.Calendar(
+        controls.DatePicker.control_, opt_options);
+  }
+
+  /**
+   * @param {Event} e The keydown event.
+   * @private
+   */
+  function keydown_(e) {
+    e = e || window.event;
+    /** @type {number} */ var code = e.keyCode || e.which;
+    if (27 == code) {
+      self_.hide();
+    }
+  }
+
+  /**
+   * @param {Event} e The mousedown event.
+   * @private
+   */
+  function mousedown_(e) {
+    e = e || window.event;
+    /** @type {boolean} */ var hide = true;
+    /** @type {Node|Element} */ var target = e.target || e.srcElement;
+    if (target) {
+      while (target &amp;&amp; target.tagName != 'BODY') {
+        if (target == controls.DatePicker.control_) {
+          hide = false;
+          break;
+        }
+        target = target.parentNode;
+      }
+      if (hide) self_.hide();
+    }
+  }
+
+  /**
+   * The reference to current class instance. Used in private methods.
+   * @type {!controls.DatePicker}
+   * @private
+   */
+  var self_ = this;
+
+  /**
+   * @type {Node}
+   * @private
+   */
+  var element_ = null;
+
+  /**
+   * @type {controls.Calendar}
+   * @private
+   */
+  var calendar_ = null;
+
+  /**
+   * @type {!formatters.DateFormatter}
+   * @private
+   */
+  var formatter_ = new formatters.DateFormatter;
+
+  init_();
+};
+
+
+/**
+ * Shows date picker control.
+ * @param {Node} element The related element.
+ * @static
+ */
+controls.DatePicker.show = function(element) {
+  if (!element.picker_) {
+    element.picker_ = new controls.DatePicker;
+  }
+  element.picker_.show(element);
+};
+
+// Export for closure compiler.
+controls.DatePicker['show'] = controls.DatePicker.show;
+
+// Export for closure compiler.
+controls['DatePicker'] = controls.DatePicker;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="Miscellaneous%2520String%2520utility%2520methods..html">Miscellaneous String utility methods.</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jun 10 2015 10:52:06 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

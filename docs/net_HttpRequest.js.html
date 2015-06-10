@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: net/HttpRequest.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: net/HttpRequest.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * @fileoverview Simple implementation of XMLHttpRequest.
+ * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+ * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ */
+
+
+
+/**
+ * The constructor initiates a XMLHttpRequest.
+ * @constructor
+ */
+net.HttpRequest = function() {
+  /**
+   * Performs DELETE request.
+   * @param {string} url The URL to which to send the request.
+   * @param {function(XMLHttpRequest)} callback A JavaScript function object
+   *     that is called whenever the &lt;code>readyState&lt;/code> attribute equals
+   *     to 4 (DONE).
+   * @return {!XMLHttpRequest} Returns instance of XMLHttpRequest.
+   */
+  this.doDelete = function(url, callback) {
+    return doRequest_('DELETE', url, callback);
+  };
+
+  /**
+   * Performs GET request.
+   * @param {string} url The URL to which to send the request.
+   * @param {function(XMLHttpRequest)} callback A JavaScript function object
+   *     that is called whenever the &lt;code>readyState&lt;/code> attribute equals
+   *     to 4 (DONE).
+   * @return {!XMLHttpRequest} Returns instance of XMLHttpRequest.
+   */
+  this.doGet = function(url, callback) {
+    // @link http://tools.ietf.org/html/rfc2616#section-3.2.1
+    if (url.length > 255) {
+      /** @type {!Array} */ var parts = url.split('?');
+      return self_.doPost(parts[0], callback, parts[1]);
+    }
+    return doRequest_('GET', url, callback);
+  };
+
+  /**
+   * Performs HEAD request.
+   * @param {string} url The URL to which to send the request.
+   * @param {function(XMLHttpRequest)} callback A JavaScript function object
+   *     that is called whenever the &lt;code>readyState&lt;/code> attribute equals
+   *     to 4 (DONE).
+   * @return {!XMLHttpRequest} Returns instance of XMLHttpRequest.
+   */
+  this.doHead = function(url, callback) {
+    return doRequest_('HEAD', url, callback);
+  };
+
+  /**
+   * Performs POST request.
+   * @param {string} url The URL to which to send the request.
+   * @param {function(XMLHttpRequest)} callback A JavaScript function object
+   *     that is called whenever the &lt;code>readyState&lt;/code> attribute equals
+   *     to 4 (DONE).
+   * @param {Object|string} data Provides the request entity body.
+   * @return {!XMLHttpRequest} Returns instance of XMLHttpRequest.
+   */
+  this.doPost = function(url, callback, data) {
+    return doRequest_('POST', url, callback, data);
+  };
+
+  /**
+   * Performs PUT request.
+   * @param {string} url The URL to which to send the request.
+   * @param {function(XMLHttpRequest)} callback A JavaScript function object
+   *     that is called whenever the &lt;code>readyState&lt;/code> attribute equals
+   *     to 4 (DONE).
+   * @param {Object|string} data Provides the request entity body.
+   * @return {!XMLHttpRequest} Returns instance of XMLHttpRequest.
+   */
+  this.doPut = function(url, callback, data) {
+    return doRequest_('PUT', url, callback, data);
+  };
+
+  /**
+   * Gets count of active requests.
+   * @return {number} Returns count of active requests.
+   */
+  this.getCount = function() {
+    return net.HttpRequest.count_ || 0;
+  };
+
+  /**
+   * Performs HTTP request.
+   * @param {string} method The HTTP method to use, such as "GET", "POST",
+   *     "PUT", "DELETE", etc. Ignored for non-HTTP(S) URLs.
+   * @param {string} url The URL to which to send the request.
+   * @param {function(XMLHttpRequest)} callback A JavaScript function object
+   *     that is called whenever the &lt;code>readyState&lt;/code> attribute equals
+   *     to 4 (DONE).
+   * @param {string|Object=} opt_data Provides the request entity body.
+   *     If opt_data is Object, request will be sent as application/json.
+   * @return {!XMLHttpRequest} Returns instance of XMLHttpRequest.
+   * @private
+   */
+  function doRequest_(method, url, callback, opt_data) {
+    url = url.replace(/^\/+/, '/');
+    url += (~url.indexOf('?') ? '&amp;' : '?') + 'nocache=' + (+new Date);
+    net.HttpRequest.count_++;
+
+    /** @type {!XMLHttpRequest} */
+    var req = window.XMLHttpRequest ? new XMLHttpRequest :
+                                      new ActiveXObject('Microsoft.XMLHTTP');
+    req.onreadystatechange = function() {
+      if (req.readyState == 4) {
+        net.HttpRequest.count_--;
+        callback(req);
+      }
+    };
+    req.open(method, url, true);
+    req.send(prepare_(req, method, opt_data));
+    return req;
+  }
+
+  /**
+   * Sets request &lt;code>request&lt;/code> headers depending to request
+   * &lt;code>method&lt;/code> and &lt;code>opt_data&lt;/code>.
+   * @param {!XMLHttpRequest} request The instance of XMLHttpRequest.
+   * @param {string} method The HTTP method to use, such as "GET", "POST",
+   *     "PUT", "DELETE", etc. Ignored for non-HTTP(S) URLs.
+   * @param {string|Object=} opt_data Provides the request entity body.
+   *     If opt_data is Object, request will be sent as application/json.
+   * @return {string} Returns modified &lt;code>opt_data&lt;/code>.
+   * @private
+   */
+  function prepare_(request, method, opt_data) {
+    for (/** @type {string} */ var name in net.HttpRequest.headers_) {
+      request.setRequestHeader(name, net.HttpRequest.headers_[name]);
+    }
+
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+    if (opt_data &amp;&amp; typeof opt_data == 'object') {
+      request.setRequestHeader('Content-Type',
+          'application/json; charset=' + dom.CHARSET);
+      opt_data = util.StringUtils.JSON.stringify(
+          /** @type {!Object} */ (opt_data));
+    } else if (method == 'POST') {
+      request.setRequestHeader('Content-Type',
+          'application/x-www-form-urlencoded; charset=' + dom.CHARSET);
+    }
+
+    return /** @type {string} */ (opt_data);
+  }
+
+  /**
+   * The reference to current class instance.
+   * Used in private methods and for preventing jslint errors.
+   * @type {!net.HttpRequest}
+   * @private
+   */
+  var self_ = this;
+
+  /**
+   * The count of active requests.
+   * @static
+   * @type {number}
+   * @see net.HttpRequest#getCount
+   * @private
+   */
+  net.HttpRequest.count_ = net.HttpRequest.count_ || 0;
+};
+
+
+/**
+ * @static
+ * @type {!Object.&lt;string, string>}
+ * @see net.HttpRequest.setRequestHeader
+ * @private
+ */
+net.HttpRequest.headers_ = {};
+
+
+/**
+ * Sets custom header.
+ * @param {string} name The header name.
+ * @param {string} value The header value.
+ * @static
+ */
+net.HttpRequest.setRequestHeader = function(name, value) {
+  net.HttpRequest.headers_[name] = value;
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="Miscellaneous%2520String%2520utility%2520methods..html">Miscellaneous String utility methods.</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jun 10 2015 10:52:06 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
