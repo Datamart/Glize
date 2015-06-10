@@ -44,7 +44,7 @@
  * @requires formatters.DateFormatter
  * @requires locale.Calendar
  * @example
- * &amp;lt;style>
+ * &lt;style>
  * table.calendar {border: solid 1px gray; border-collapse: collapse;}
  * table.calendar thead {background: silver;}
  * table.calendar td,
@@ -54,10 +54,10 @@
  * table.calendar td.disabled {color: gray;}
  * table.calendar th.prev,
  * table.calendar th.next {cursor: pointer;}
- * &amp;lt;/style>
- * &amp;lt;div id="calendar-container">&amp;lt;/div>
- * &amp;lt;script>controls.Calendar.draw('calendar-container');&amp;lt;/script>
- * &amp;lt;script>
+ * &lt;/style>
+ * &lt;div id="calendar-container">&lt;/div>
+ * &lt;script>controls.Calendar.draw('calendar-container');&lt;/script>
+ * &lt;script>
  * var cal = new controls.Calendar('calendar-container', {
  *   'format': 'YYYY-MM-dd', // Default date format.
  *   'selectable': false,    // Specifies if date is selectable.
@@ -65,22 +65,7 @@
  *   'empty-row': false      // Display an empty row for short month.
  * });
  * cal.draw();
- * &amp;lt;/script>
- * &lt;style>
- * table.calendar {border: solid 1px gray; border-collapse: collapse;
- *                 background: white; font-family: Arial; font-size: 13px;}
- * table.calendar thead {background: silver;}
- * table.calendar td,
- * table.calendar th {border: solid 1px gray;}
- * table.calendar td.today {font-weight: bold; background: silver;}
- * table.calendar td.active {font-weight: bold; background: blue; color: white;}
- * table.calendar td.disabled {color: gray;}
- * table.calendar th.prev,
- * table.calendar th.next {cursor: pointer;}
- * &lt;/style>
- * &lt;script src="../../bin/jscb.js">&lt;/script>
- * &lt;div id="calendar-container">&lt;/div>
- * &lt;script>controls.Calendar.draw('calendar-container')&lt;/script>
+ * &lt;/script>
  */
 controls.Calendar = function(container, opt_options) {
   dom.EventDispatcher.apply(this, arguments);
@@ -171,7 +156,9 @@ controls.Calendar = function(container, opt_options) {
   this.each = function(callback) {
     /** @type {Array|NodeList} */
     var cells = dom.getElementsByTagName(getTable_(), 'TD') || [];
-    for (/** @type {number} */ var i = 0; i &lt; cells.length;) {
+    /** @type {number} */ var i = 0;
+
+    for (; i &lt; cells.length;) {
       callback(cells[i++]);
     }
   };
@@ -183,6 +170,7 @@ controls.Calendar = function(container, opt_options) {
     selected_ = [];
     var cellDate;
     var now = formatter_.format(new Date(), 'YYYY-MM-dd');
+
     self_.each(function(cell) {
       cellDate = cell.getAttribute('value');
       dom.css.setClass(cell, cellDate > now ? 'disabled' : cellDate == now ?
@@ -206,7 +194,9 @@ controls.Calendar = function(container, opt_options) {
     /** @type {HTMLCollection} */ var rows = table.rows;
     /** @type {HTMLTableRowElement} */ var row = rows[rows.length - 1];
     /** @type {number} */ var content = 0;
-    for (/** @type {number} */ var i = 0; i &lt; row.cells.length;) {
+    /** @type {number} */ var i = 0;
+
+    for (; i &lt; row.cells.length;) {
       content += +row.cells[i++].innerHTML || 0;
     }
 
@@ -244,10 +234,11 @@ controls.Calendar = function(container, opt_options) {
       headers[0],
       headers[headers.length - 1]
     ];
-    for (/** @type {number} */ var i = 0; i &lt; cells.length; i++) {
+    /** @type {number} */ var i = 0;
+
+    for (; i &lt; cells.length; i++) {
       dom.events.addEventListener(cells[i], dom.events.TYPE.CLICK, function(e) {
-        e = e || window.event;
-        self_.dispatchEvent((e.target || e.srcElement).cellIndex ?
+        self_.dispatchEvent((dom.events.getEventTarget(e)).cellIndex ?
             self_.events.NEXT_MONTH : self_.events.PREV_MONTH);
       });
     }
@@ -264,8 +255,7 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function clickHandler_(e) {
-    e = e || window.event;
-    /** @type {Element} */ var target = e.target || e.srcElement;
+    /** @type {EventTarget} */ var target = dom.events.getEventTarget(e);
     if (!isNaN(+target.innerHTML)) {
       /** @type {Date} */ var selected = formatter_.parse(
           target.getAttribute('value'), opt_options['format']);
@@ -287,7 +277,7 @@ controls.Calendar = function(container, opt_options) {
         self_.draw(selected_);
       } else {
         self_.clear();
-        dom.css.setClass(target, 'active');
+        dom.css.setClass(/** @type {Node} */ (target), 'active');
         selected_[0] = selected;
       }
       first_ = !first_;
@@ -367,9 +357,11 @@ controls.Calendar = function(container, opt_options) {
     /** @type {number} */
     var today = (year == now.getFullYear() &amp;&amp;
                  month == now.getMonth()) ? now.getDate() : 0;
+    /** @type {number} */ var i = 0;
+    /** @type {Date} */ var selected;
 
-    for (/** @type {number} */ var i = 0; i &lt; selected_.length; i++) {
-      /** @type {Date} */ var selected = selected_[i];
+    for (; i &lt; selected_.length; i++) {
+      selected = selected_[i];
       if (year == selected.getFullYear() &amp;&amp;
           month == selected.getMonth() &amp;&amp;
           day == selected.getDate()) {
@@ -473,13 +465,13 @@ controls['Calendar'] = controls.Calendar;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="Miscellaneous%2520String%2520utility%2520methods..html">Miscellaneous String utility methods.</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jun 10 2015 10:52:06 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jun 10 2015 12:48:28 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>
