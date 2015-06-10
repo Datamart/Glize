@@ -2,6 +2,11 @@
 .dtm-header #dtmLogo {display: none !important}
 .dtm-header .dtm-ext-logo {background: url(/Glize/images/glize-logo.png) no-repeat left center/48px}
 
+a {color: #b20000}
+h2 {color: #333 !important;}
+.dtm-nav-main-current a {color: #b20000 !important}
+.dtm-header .dtm-nav li.dtm-nav-main-current {border-top: 2px solid #b20000 !important}
+
 body {
   background-attachment: fixed;
   background-color: white;
@@ -17,3 +22,15 @@ body {
 
 .dtm-dtv-dwn {line-height: 2.5em;}
 .dtm-dtv-dwn .dtm-button {line-height: 1em;}
+
+.dtm-button.clr-red {
+  background: #b20000;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,#ff9326 0%,#b20000 100%);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ff9326),color-stop(100%,#b20000));
+  background: -webkit-linear-gradient(top,#ff9326 0%,#b20000 100%);
+  background: -o-linear-gradient(top,#ff9326 0%,#b20000 100%);
+  background: -ms-linear-gradient(top,#ff9326 0%,#b20000 100%);
+  background: linear-gradient(to bottom,#ff9326 0%,#b20000 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e44c4c',endColorstr='#d90000',GradientType=0);
+}
