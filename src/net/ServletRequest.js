@@ -1,9 +1,11 @@
 
 /**
- * @fileoverview Simple implementation of javax.servlet.ServletRequest.
- * @see http://docs.oracle.com/javaee/5/api/javax/servlet/ServletRequest.html
- * @see http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @fileoverview Simple implementation of
+ *               <code>javax.servlet.ServletRequest.</code>
+ *
+ * @see {@link //docs.oracle.com/javaee/5/api/javax/servlet/ServletRequest.html}
+ * @see {@link //google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link //developers.google.com/closure/compiler/docs/js-for-compiler}
  */
 
 
@@ -41,8 +43,9 @@ net.ServletRequest = function() {
    */
   this.getParameterMap = function(opt_location) {
     /** @type {!Object.<string, string>} */ var map = {};
-    /** @type {!Array.<string>} */ var pairs = parseLocation_(opt_location);
+    /** @type {!Array.<string>} */ var pairs = getParameterList_(opt_location);
     /** @type {number} */ var index = pairs.length >>> 0;
+
     while (index--) {
       /** @type {!Array.<string>} */ var pair = pairs[index].split('=');
       /** @type {string} */ var key = pair[0];
@@ -57,14 +60,15 @@ net.ServletRequest = function() {
    * @return {!Array.<string>} Returns list of parameters pairs.
    * @private
    */
-  function parseLocation_(opt_location) {
+  function getParameterList_(opt_location) {
     opt_location = opt_location || location;
+    /** @type {boolean} */ var isURL = 'string' == typeof opt_location;
 
-    /** @type {string} */ var hash = 'string' == typeof opt_location ?
+    /** @type {string} */ var hash = isURL ?
         (opt_location.split('#')[1] || '') :
         opt_location.hash.substr(1);
 
-    /** @type {string} */ var query = 'string' == typeof opt_location ?
+    /** @type {string} */ var query = isURL ?
         (opt_location.split('?')[1] || '').split('#')[0] :
         opt_location.search.substr(1);
 
