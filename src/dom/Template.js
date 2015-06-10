@@ -20,15 +20,15 @@ dom.Template = function() {
    * @param {!function(string)} callback The callback function.
    * @param {!Object} values The template values as dict.
    * @example
-   * <b>var</b> values = {
+   * var values = {
    *   'date': '2013-07-18',
    *   'user': {'name': 'John'},
-   *   'func': <b>function</b>() {<b>return</b> 'Hello World.';}
+   *   'func': function() {return 'Hello World.';}
    * };
-   * <b>var</b> callback = <b>function</b>(content) {
+   * var callback = function(content) {
    *   document.getElementById('div').innerHTML = content;
    * };
-   * <b>var</b> template = <b>new</b> dom.Template();
+   * var template = <b>new</b> dom.Template();
    * template.load('template.html', callback, values);
    */
   this.load = function(url, callback, values) {
@@ -49,13 +49,13 @@ dom.Template = function() {
    * @param {string=} opt_prefix The optional var name prefix.
    * @return {string} Returns parsed template text content.
    * @example
-   * <b>var</b> values = {
+   * var values = {
    *   'date': '2013-07-18',
    *   'user': {'name': 'John'},
-   *   'func': <b>function</b>() {<b>return</b> 'Hello World.';}
+   *   'func': function() {return 'Hello World.';}
    * };
-   * <b>var</b> content = '{{ date }} {{ user.name }} {{ func }}';
-   * <b>var</b> template = <b>new</b> dom.Template();
+   * var content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
+   * var template = new dom.Template();
    * document.getElementById('div').innerHTML = template.parse(content, values);
    */
   this.parse = function(content, values, opt_prefix) {

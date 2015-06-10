@@ -335,6 +335,7 @@ util.StringUtils.toByteArray = function(str) {
 /**
  * LZW compression utility.
  * @link http://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch
+ * @namespace
  */
 util.StringUtils.LZW = {};
 

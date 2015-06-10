@@ -42,10 +42,15 @@ util.Object.extend = function(target, source) {
  * @return {!Array.<string>} List of target object keys.
  * @static
  */
-util.Object.keys = Object.keys || function(obj) {
-  /** @type {!Array} */ var keys = [];
+util.Object.keys = function(obj) {
+  if (Object.keys)
+    return Object.keys(obj);
+
+  /** @type {!Array.<string>} */ var keys = [];
   /** @type {number} */ var i = 0;
-  for (/** @type {string|number} */ var key in obj) {
+  /** @type {string|number} */ var key;
+
+  for (key in obj) {
     keys[i++] = key;
   }
   return keys;
@@ -61,7 +66,9 @@ util.Object.keys = Object.keys || function(obj) {
  */
 util.Object.filter = function(obj, func) {
   /** @type {!Object} */ var result = {};
-  for (/** @type {string|number} */ var key in obj) {
+  /** @type {string|number} */ var key;
+
+  for (key in obj) {
     if (func(obj[key])) {
       result[key] = obj[key];
     }
