@@ -1,7 +1,7 @@
 
 /**
  * @fileoverview Number format library.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+ * @link https://google.github.io/styleguide/javascriptguide.xml
  * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
@@ -23,14 +23,14 @@ formatters.NumberFormatter = function(opt_options) {
    * @param {number} number The Number to be formatted.
    * @return {string} The formatted number string.
    * @example
-   * <b>var</b> formatter = <b>new</b> formatters.NumberFormatter();
+   * var formatter = new formatters.NumberFormatter();
    * formatter.format(100);   // 100
    * formatter.format(1000);  // 1,000
    * formatter.format(1500);  // 1,500
    * formatter.format(10000); // 10,000
    * formatter.format(1e6);   // 1,000,000
-   * <b>var</b> options = {'prefix': '$'};
-   * <b>var</b> formatter = <b>new</b> formatters.NumberFormatter(options);
+   * var options = {'prefix': '$'};
+   * var formatter = new formatters.NumberFormatter(options);
    * formatter.format(100);   // $100
    * formatter.format(1e6);   // $1,000,000
    */
@@ -53,14 +53,14 @@ formatters.NumberFormatter = function(opt_options) {
    * @param {number} number The Number to be rounded.
    * @return {string} The rounded number string.
    * @example
-   * <b>var</b> formatter = <b>new</b> formatters.NumberFormatter();
+   * var formatter = new formatters.NumberFormatter();
    * formatter.round(100);   // 100
    * formatter.round(1000);  // 1k
    * formatter.round(1500);  // 1.5k
    * formatter.round(10000); // 10k
    * formatter.round(1e6);   // 10m
-   * <b>var</b> options = {'prefix': '$'};
-   * <b>var</b> formatter = <b>new</b> formatters.NumberFormatter(options);
+   * var options = {'prefix': '$'};
+   * var formatter = new formatters.NumberFormatter(options);
    * formatter.round(100);   // $100
    * formatter.round(1e6);   // $10m
    */
@@ -71,7 +71,8 @@ formatters.NumberFormatter = function(opt_options) {
     var base = (~~number + '').length - (number < 0 ? 2 : 1);
     /** @type {number} */ var divider = 1;
     /** @type {number} */ var length = ~~(base / 3) * 3;
-    for (/** @type {number} */ var i = 0; i < length; i++)
+    /** @type {number} */ var i = 0;
+    for (; i < length; i++)
       divider *= 10;
 
     /** @type {number} */ var delta = number / divider;
