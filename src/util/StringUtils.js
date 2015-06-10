@@ -7,7 +7,7 @@
 
 
 /**
- * @namespace Miscellaneous String utility methods.
+ * Miscellaneous String utility methods.
  * @link http://static.springsource.org/spring/docs/2.5.x/api/org/
  *     springframework/util/StringUtils.html
  */
@@ -97,8 +97,10 @@ util.StringUtils = {
     /** @type {number} */ var result = 0;
     /** @type {number} */ var length = str.length;
     /** @type {number} */ var j = 0;
-    for (/** @type {number} */ var i = 0; i < length; i++) {
-      result ^= str.charCodeAt(i) << j;
+    /** @type {number} */ var i = 0;
+
+    for (; i < length;) {
+      result ^= str.charCodeAt(i++) << j;
       j += 8;
       j %= 24;
     }
@@ -194,7 +196,6 @@ util.StringUtils.BASE64_CHARACTER_TABLE =
 /**
  * Base64 utils.
  * @type {!Object.<string, function(string):string>}
- * @namespace
  */
 util.StringUtils.Base64 = {
 
@@ -235,8 +236,9 @@ util.StringUtils.Base64 = {
       /** @type {number} */ var counter = 0;
       /** @type {number} */ var index = 0;
       /** @type {string} */ var character = '';
+      /** @type {number} */ var i = 0;
 
-      for (/** @type {number} */ var i = 0; character = buffer[i++];) {
+      for (; character = buffer[i++];) {
         index = util.StringUtils.BASE64_CHARACTER_TABLE.indexOf(character);
         if (~index) {
           bit = counter % 4 ? bit * 64 + index : index;
@@ -253,7 +255,7 @@ util.StringUtils.Base64 = {
 
 /**
  * Simple implementation of JSON methods.
- * @namespace
+ * @type {!Object.<string, function(string):string>}
  */
 util.StringUtils.JSON = {
   /**
@@ -333,7 +335,6 @@ util.StringUtils.toByteArray = function(str) {
 /**
  * LZW compression utility.
  * @link http://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch
- * @namespace
  */
 util.StringUtils.LZW = {};
 

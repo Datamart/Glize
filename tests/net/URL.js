@@ -9,7 +9,7 @@
 
 net.URLTestCase = TestCase('URLTestCase');
 
-net.URLTestCase.prototype.testGetParameter = function() {
+net.URLTestCase.prototype.testURL = function() {
   var str = 'http://www.example.com:80/dir/file.html?a=b&c=d#e=f';
   var url = new net.URL(str);
   assertEquals('http:', url.protocol);

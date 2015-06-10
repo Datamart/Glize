@@ -27,6 +27,7 @@ net.URL = window['URL'] || window['webkitURL'] || function(url) {
     self_['pathname'] = match_[5] || '';
     self_['search'] = match_[7] ? ('?' + match_[7]) : '';
     self_['hash'] = match_[9] ? ('#' + match_[9]) : '';
+    self_['origin'] = self_['protocol'] + '//' + self_['host'];
 
     self_['toString'] = function() {
       return self_['protocol'] + '//' + self_['host'] +

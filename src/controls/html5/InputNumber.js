@@ -63,7 +63,7 @@ controls.html5.InputNumber = function(input) {
    * @private
    */
   function keydown_(e) {
-    e = e || window.event;
+    e = dom.events.getEvent(e);
     if (isNaN(input_.value)) {
       input_.focus();
     } else {
@@ -77,7 +77,7 @@ controls.html5.InputNumber = function(input) {
    * @private
    */
   function mousedown_(e) {
-    e = e || window.event;
+    e = dom.events.getEvent(e);
     /** @type {Object} */ var rect = dom.getBoundingClientRect(input_);
     /** @type {number} */ var x = e.clientX;
     /** @type {number} */ var y = e.clientY;
@@ -97,7 +97,7 @@ controls.html5.InputNumber = function(input) {
    * @private
    */
   function mousemove_(e) {
-    e = e || window.event;
+    e = dom.events.getEvent(e);
     /** @type {Object} */ var rect = dom.getBoundingClientRect(input_);
     /** @type {number} */ var x = e.clientX;
     if (x && x > rect['right'] - padding_) {

@@ -14,28 +14,14 @@
  * @requires formatters.DateFormatter
  * @requires controls.Calendar
  * @example
- * &lt;input onclick="controls.DatePicker.show(this)"
+ * <input onclick="controls.DatePicker.show(this)"
  *        data-format="YYYY/MM/dd"
  *        value="2013/06/20"
- *        readonly&gt;
- * &lt;input onclick="controls.DatePicker.show(this)"
+ *        readonly>
+ * <input onclick="controls.DatePicker.show(this)"
  *        data-format="MMM dd YYYY"
  *        value="May 20 2013"
- *        readonly&gt;
- * <style>
- * table.calendar {border: solid 1px gray; border-collapse: collapse;
- *                 background: white; font-family: Arial; font-size: 13px;}
- * table.calendar thead {background: silver;}
- * table.calendar td,
- * table.calendar th {border: solid 1px gray;}
- * table.calendar td.today {font-weight: bold; background: silver;}
- * table.calendar td.active {font-weight: bold; background: blue; color: white;}
- * table.calendar th.prev,
- * table.calendar th.next {cursor: pointer;}
- * </style>
- * <script src="../../bin/jscb.js"></script>
- * <input onclick="controls.DatePicker.show(this)"
- *        data-format="YYYY/MM/dd" value="2013/06/20" readonly>
+ *        readonly>
  */
 controls.DatePicker = function(opt_options) {
 
@@ -77,14 +63,14 @@ controls.DatePicker = function(opt_options) {
    * Shows date picker control.
    * @param {Node|Element} element The related element.
    * @example
-   * &lt;input onclick="controls.DatePicker.show(this)"
+   * <input onclick="controls.DatePicker.show(this)"
    *        data-format="YYYY/MM/dd"
    *        value="2013/06/20"
-   *        readonly&gt;
+   *        readonly>
    */
   this.show = function(element) {
     /** @type {Node} */ var picker = controls.DatePicker.control_;
-    if (picker.style.display == 'block') {
+    if ('block' === picker.style.display) {
       self_.hide();
     } else {
       element_ = element;
@@ -116,8 +102,8 @@ controls.DatePicker = function(opt_options) {
       controls.DatePicker.control_.style.display = 'none';
     dom.events.removeEventListener(
         dom.document, dom.events.TYPE.KEYDOWN, keydown_);
-    dom.events.removeEventListener(dom.document,
-        dom.events.TYPE.MOUSEDOWN, mousedown_);
+    dom.events.removeEventListener(
+        dom.document, dom.events.TYPE.MOUSEDOWN, mousedown_);
   };
 
   // Export for closure compiler.
@@ -133,6 +119,7 @@ controls.DatePicker = function(opt_options) {
   this.setValue = function(value) {
     if ('value' in element_) element_.value = value;
     else element_.innerHTML = value;
+
     dom.events.dispatchEvent(element_, dom.events.TYPE.CHANGE);
   };
 
@@ -194,11 +181,8 @@ controls.DatePicker = function(opt_options) {
    * @private
    */
   function keydown_(e) {
-    e = e || window.event;
-    /** @type {number} */ var code = e.keyCode || e.which;
-    if (27 == code) {
-      self_.hide();
-    }
+    e = dom.events.getEvent(e);
+    27 == (e.keyCode || e.which) && self_.hide();
   }
 
   /**
@@ -206,18 +190,18 @@ controls.DatePicker = function(opt_options) {
    * @private
    */
   function mousedown_(e) {
-    e = e || window.event;
     /** @type {boolean} */ var hide = true;
-    /** @type {Node|Element} */ var target = e.target || e.srcElement;
+    /** @type {EventTarget} */ var target = dom.events.getEventTarget(e);
+
     if (target) {
-      while (target && target.tagName != 'BODY') {
+      for (; target && 'BODY' != target.tagName;) {
         if (target == controls.DatePicker.control_) {
           hide = false;
           break;
         }
         target = target.parentNode;
       }
-      if (hide) self_.hide();
+      hide && self_.hide();
     }
   }
 

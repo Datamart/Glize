@@ -384,11 +384,36 @@ dom.events.dispatchEvent = function(element, type) {
  * @static
  */
 dom.events.preventDefault = function(e) {
-  e = e || window.event;
+  e = dom.events.getEvent(e);
   e.stopPropagation && e.stopPropagation();
   e.preventDefault && e.preventDefault();
   e.returnValue = false;
   e.cancelBubble = true;
+};
+
+
+/**
+ * Gets event object.
+ * Used to reduce size after compilation.
+ * @param {Event} e The event to stop.
+ * @return {Event} Returns event object.
+ * @static
+ */
+dom.events.getEvent = function(e) {
+  return e || window.event;
+};
+
+
+/**
+ * Gets event target object.
+ * Used to reduce size after compilation.
+ * @param {Event} e The event to stop.
+ * @return {EventTarget} Returns event target object.
+ * @static
+ */
+dom.events.getEventTarget = function(e) {
+  e = dom.events.getEvent(e);
+  return e.target || e.srcElement;
 };
 
 

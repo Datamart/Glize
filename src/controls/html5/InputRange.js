@@ -94,8 +94,7 @@ controls.html5.InputRange = function(input, opt_options) {
    * @private
    */
   function mousedown_(e) {
-    e = e || window.event;
-    if ((e.target || e.srcElement) == point_) {
+    if (dom.events.getEventTarget(e) == point_) {
       dom.events.addEventListener(
           dom.document, dom.events.TYPE.MOUSEMOVE, mousemove_);
       dom.events.addEventListener(
@@ -120,7 +119,7 @@ controls.html5.InputRange = function(input, opt_options) {
    * @private
    */
   function mousemove_(e) {
-    e = e || window.event;
+    e = dom.events.getEvent(e);
     /** @type {Object} */ var rect = dom.getBoundingClientRect(input_);
     /** @type {number} */ var x = e.clientX;
     if (x && x >= rect['left'] && x <= rect['right']) {

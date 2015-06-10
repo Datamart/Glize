@@ -16,7 +16,7 @@
  * @requires formatters.DateFormatter
  * @requires locale.Calendar
  * @example
- * &lt;style>
+ * <style>
  * table.calendar {border: solid 1px gray; border-collapse: collapse;}
  * table.calendar thead {background: silver;}
  * table.calendar td,
@@ -26,10 +26,10 @@
  * table.calendar td.disabled {color: gray;}
  * table.calendar th.prev,
  * table.calendar th.next {cursor: pointer;}
- * &lt;/style>
- * &lt;div id="calendar-container">&lt;/div>
- * &lt;script>controls.Calendar.draw('calendar-container');&lt;/script>
- * &lt;script>
+ * </style>
+ * <div id="calendar-container"></div>
+ * <script>controls.Calendar.draw('calendar-container');</script>
+ * <script>
  * var cal = new controls.Calendar('calendar-container', {
  *   'format': 'YYYY-MM-dd', // Default date format.
  *   'selectable': false,    // Specifies if date is selectable.
@@ -37,22 +37,7 @@
  *   'empty-row': false      // Display an empty row for short month.
  * });
  * cal.draw();
- * &lt;/script>
- * <style>
- * table.calendar {border: solid 1px gray; border-collapse: collapse;
- *                 background: white; font-family: Arial; font-size: 13px;}
- * table.calendar thead {background: silver;}
- * table.calendar td,
- * table.calendar th {border: solid 1px gray;}
- * table.calendar td.today {font-weight: bold; background: silver;}
- * table.calendar td.active {font-weight: bold; background: blue; color: white;}
- * table.calendar td.disabled {color: gray;}
- * table.calendar th.prev,
- * table.calendar th.next {cursor: pointer;}
- * </style>
- * <script src="../../bin/jscb.js"></script>
- * <div id="calendar-container"></div>
- * <script>controls.Calendar.draw('calendar-container')</script>
+ * </script>
  */
 controls.Calendar = function(container, opt_options) {
   dom.EventDispatcher.apply(this, arguments);
@@ -143,7 +128,9 @@ controls.Calendar = function(container, opt_options) {
   this.each = function(callback) {
     /** @type {Array|NodeList} */
     var cells = dom.getElementsByTagName(getTable_(), 'TD') || [];
-    for (/** @type {number} */ var i = 0; i < cells.length;) {
+    /** @type {number} */ var i = 0;
+
+    for (; i < cells.length;) {
       callback(cells[i++]);
     }
   };
@@ -155,6 +142,7 @@ controls.Calendar = function(container, opt_options) {
     selected_ = [];
     var cellDate;
     var now = formatter_.format(new Date(), 'YYYY-MM-dd');
+
     self_.each(function(cell) {
       cellDate = cell.getAttribute('value');
       dom.css.setClass(cell, cellDate > now ? 'disabled' : cellDate == now ?
@@ -178,7 +166,9 @@ controls.Calendar = function(container, opt_options) {
     /** @type {HTMLCollection} */ var rows = table.rows;
     /** @type {HTMLTableRowElement} */ var row = rows[rows.length - 1];
     /** @type {number} */ var content = 0;
-    for (/** @type {number} */ var i = 0; i < row.cells.length;) {
+    /** @type {number} */ var i = 0;
+
+    for (; i < row.cells.length;) {
       content += +row.cells[i++].innerHTML || 0;
     }
 
@@ -216,10 +206,11 @@ controls.Calendar = function(container, opt_options) {
       headers[0],
       headers[headers.length - 1]
     ];
-    for (/** @type {number} */ var i = 0; i < cells.length; i++) {
+    /** @type {number} */ var i = 0;
+
+    for (; i < cells.length; i++) {
       dom.events.addEventListener(cells[i], dom.events.TYPE.CLICK, function(e) {
-        e = e || window.event;
-        self_.dispatchEvent((e.target || e.srcElement).cellIndex ?
+        self_.dispatchEvent((dom.events.getEventTarget(e)).cellIndex ?
             self_.events.NEXT_MONTH : self_.events.PREV_MONTH);
       });
     }
@@ -236,8 +227,7 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function clickHandler_(e) {
-    e = e || window.event;
-    /** @type {Element} */ var target = e.target || e.srcElement;
+    /** @type {EventTarget} */ var target = dom.events.getEventTarget(e);
     if (!isNaN(+target.innerHTML)) {
       /** @type {Date} */ var selected = formatter_.parse(
           target.getAttribute('value'), opt_options['format']);
@@ -259,7 +249,7 @@ controls.Calendar = function(container, opt_options) {
         self_.draw(selected_);
       } else {
         self_.clear();
-        dom.css.setClass(target, 'active');
+        dom.css.setClass(/** @type {Node} */ (target), 'active');
         selected_[0] = selected;
       }
       first_ = !first_;
@@ -339,9 +329,11 @@ controls.Calendar = function(container, opt_options) {
     /** @type {number} */
     var today = (year == now.getFullYear() &&
                  month == now.getMonth()) ? now.getDate() : 0;
+    /** @type {number} */ var i = 0;
+    /** @type {Date} */ var selected;
 
-    for (/** @type {number} */ var i = 0; i < selected_.length; i++) {
-      /** @type {Date} */ var selected = selected_[i];
+    for (; i < selected_.length; i++) {
+      selected = selected_[i];
       if (year == selected.getFullYear() &&
           month == selected.getMonth() &&
           day == selected.getDate()) {

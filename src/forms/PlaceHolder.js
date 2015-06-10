@@ -52,16 +52,19 @@ forms.PlaceHolder = function() {
    * @private
    */
   function handleEvent_(e) {
-    e = e || window.event;
-    /** @type {Element} */ var element = e.srcElement || e.target;
+    e = dom.events.getEvent(/** @type {Event} */ (e));
+    /** @type {EventTarget} */ var element = dom.events.getEventTarget(e);
+    /** @type {string} */ var type = e.type;
+    /** @type {string} */ var value = element.value;
+
     if (element) {
-      dom.css.removeClass(element, attribute_);
+      dom.css.removeClass(/** @type {Node} */ (element), attribute_);
       /** @type {string} */ var placeholder = element.getAttribute(attribute_);
-      if (dom.events.TYPE.FOCUS == e.type && placeholder == element.value) {
+      if (dom.events.TYPE.FOCUS == type && placeholder == value) {
         element.value = '';
-      } else if (dom.events.TYPE.BLUR == e.type && '' == element.value) {
+      } else if (dom.events.TYPE.BLUR == type && '' == value) {
         element.value = placeholder;
-        dom.css.addClass(element, attribute_);
+        dom.css.addClass(/** @type {Node} */ (element), attribute_);
       }
     }
   }
