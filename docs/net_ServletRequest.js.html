@@ -39,8 +39,9 @@
 
 
 /**
- * Simple implementation of javax.servlet.ServletRequest.
+ * Simple implementation of &lt;code>javax.servlet.ServletRequest&lt;/code>.
  * @requires util.StringUtils.URI
+ * @requires net.URL
  * @constructor
  * @see http://docs.oracle.com/javaee/5/api/javax/servlet/ServletRequest.html
  */
@@ -51,21 +52,20 @@ net.ServletRequest = function() {
    * the parameter does not exist.
    * @param {string} name A &lt;code>string&lt;/code> specifying the name of the
    *     parameter.
-   * @param {Element|Location|string=} opt_location Optional location.
+   * @param {Element|Location|string=} opt_location Optional location object.
    * @return {string} Returns a &lt;code>string&lt;/code> representing the single
    *     value of the parameter.
-   * @this {net.ServletRequest}
    */
   this.getParameter = function(name, opt_location) {
     /** @type {!Object.&lt;string, string>} */
-    var map = this.getParameterMap(opt_location);
+    var map = self_.getParameterMap(opt_location);
     return map[/** @type {string} */ (name)] || '';
   };
 
   /**
    * Returns a map of the parameters of this request including parameters from
    * parsed from query string and hash.
-   * @param {Element|Location|string=} opt_location Optional location.
+   * @param {Element|Location|string=} opt_location Optional location object.
    * @return {!Object.&lt;string, string>} Map containing parameter names as keys
    *     and parameter values as map values.
    */
@@ -84,24 +84,27 @@ net.ServletRequest = function() {
 
   /**
    * Gets list of parameters pairs parsed form &lt;code>opt_location&lt;/code>.
-   * @param {Element|Location|string=} opt_location Optional location.
+   * @param {Element|Location|net.URL|string=} opt_location Optional location.
    * @return {!Array.&lt;string>} Returns list of parameters pairs.
    * @private
    */
   function getParameterList_(opt_location) {
     opt_location = opt_location || location;
-    /** @type {boolean} */ var isURL = 'string' == typeof opt_location;
+    if ('string' == typeof opt_location) {
+      opt_location = new net.URL(opt_location);
+    }
 
-    /** @type {string} */ var hash = isURL ?
-        (opt_location.split('#')[1] || '') :
-        opt_location.hash.substr(1);
-
-    /** @type {string} */ var query = isURL ?
-        (opt_location.split('?')[1] || '').split('#')[0] :
-        opt_location.search.substr(1);
-
-    return query.split('&amp;').concat(hash.split('&amp;'));
+    return opt_location.search.substr(1).split('&amp;').concat(
+        opt_location.hash.substr(1).split('&amp;'));
   }
+
+  /**
+   * The reference to current class instance.
+   * Used in private methods and for preventing jslint errors.
+   * @type {!net.ServletRequest}
+   * @private
+   */
+  var self_ = this;
 };
 </code></pre>
         </article>
@@ -113,13 +116,13 @@ net.ServletRequest = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jun 10 2015 14:43:57 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Thu Jun 11 2015 12:35:37 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>
