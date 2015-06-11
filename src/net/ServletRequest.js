@@ -11,8 +11,9 @@
 
 
 /**
- * Simple implementation of javax.servlet.ServletRequest.
+ * Simple implementation of <code>javax.servlet.ServletRequest</code>.
  * @requires util.StringUtils.URI
+ * @requires net.URL
  * @constructor
  * @see http://docs.oracle.com/javaee/5/api/javax/servlet/ServletRequest.html
  */
@@ -23,21 +24,20 @@ net.ServletRequest = function() {
    * the parameter does not exist.
    * @param {string} name A <code>string</code> specifying the name of the
    *     parameter.
-   * @param {Element|Location|string=} opt_location Optional location.
+   * @param {Element|Location|string=} opt_location Optional location object.
    * @return {string} Returns a <code>string</code> representing the single
    *     value of the parameter.
-   * @this {net.ServletRequest}
    */
   this.getParameter = function(name, opt_location) {
     /** @type {!Object.<string, string>} */
-    var map = this.getParameterMap(opt_location);
+    var map = self_.getParameterMap(opt_location);
     return map[/** @type {string} */ (name)] || '';
   };
 
   /**
    * Returns a map of the parameters of this request including parameters from
    * parsed from query string and hash.
-   * @param {Element|Location|string=} opt_location Optional location.
+   * @param {Element|Location|string=} opt_location Optional location object.
    * @return {!Object.<string, string>} Map containing parameter names as keys
    *     and parameter values as map values.
    */
@@ -56,22 +56,25 @@ net.ServletRequest = function() {
 
   /**
    * Gets list of parameters pairs parsed form <code>opt_location</code>.
-   * @param {Element|Location|string=} opt_location Optional location.
+   * @param {Element|Location|net.URL|string=} opt_location Optional location.
    * @return {!Array.<string>} Returns list of parameters pairs.
    * @private
    */
   function getParameterList_(opt_location) {
     opt_location = opt_location || location;
-    /** @type {boolean} */ var isURL = 'string' == typeof opt_location;
+    if ('string' == typeof opt_location) {
+      opt_location = new net.URL(opt_location);
+    }
 
-    /** @type {string} */ var hash = isURL ?
-        (opt_location.split('#')[1] || '') :
-        opt_location.hash.substr(1);
-
-    /** @type {string} */ var query = isURL ?
-        (opt_location.split('?')[1] || '').split('#')[0] :
-        opt_location.search.substr(1);
-
-    return query.split('&').concat(hash.split('&'));
+    return opt_location.search.substr(1).split('&').concat(
+        opt_location.hash.substr(1).split('&'));
   }
+
+  /**
+   * The reference to current class instance.
+   * Used in private methods and for preventing jslint errors.
+   * @type {!net.ServletRequest}
+   * @private
+   */
+  var self_ = this;
 };

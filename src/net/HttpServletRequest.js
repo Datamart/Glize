@@ -1,14 +1,16 @@
 
 /**
- * @fileoverview Simple implementation of javax.servlet.http.HttpServletRequest.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @fileoverview Simple implementation of
+ *               <code>javax.servlet.http.HttpServletRequest</code>.
+ *
+ * @see {@link //google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link //developers.google.com/closure/compiler/docs/js-for-compiler}
  */
 
 
 
 /**
- * Simple implementation of javax.servlet.http.HttpServletRequest.
+ * Simple implementation of <code>javax.servlet.http.HttpServletRequest<code>.
  * @constructor
  * @extends {net.ServletRequest} net.ServletRequest
  * @requires dom.scripts

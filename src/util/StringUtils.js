@@ -10,6 +10,7 @@
  * Miscellaneous String utility methods.
  * @link http://static.springsource.org/spring/docs/2.5.x/api/org/
  *     springframework/util/StringUtils.html
+ * @namespace
  */
 util.StringUtils = {
   /**
@@ -196,6 +197,7 @@ util.StringUtils.BASE64_CHARACTER_TABLE =
 /**
  * Base64 utils.
  * @type {!Object.<string, function(string):string>}
+ * @namespace
  */
 util.StringUtils.Base64 = {
 
@@ -256,6 +258,7 @@ util.StringUtils.Base64 = {
 /**
  * Simple implementation of JSON methods.
  * @type {!Object.<string, function(string):string>}
+ * @namespace
  */
 util.StringUtils.JSON = {
   /**
@@ -334,7 +337,7 @@ util.StringUtils.toByteArray = function(str) {
 
 /**
  * LZW compression utility.
- * @see http://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch
+ * @see http://en.wikipedia.org/wiki/Lempel–Ziv–Welch
  * @namespace
  */
 util.StringUtils.LZW = {};
