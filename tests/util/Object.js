@@ -33,3 +33,10 @@ util.ObjectUtilsTestCase.prototype.testExtend = function() {
   assertNotNull(target['options']);
   assertEquals(target['options']['key'], target['options']['key']);
 };
+
+
+util.ObjectUtilsTestCase.prototype.testKeys = function() {
+  var obj = {'key1': 1, 'key2': 2};
+  var keys = util.Object.keys(obj);
+  assertEquals(2, keys.length);
+};

@@ -18,6 +18,16 @@ net.ServletRequestTestCase.prototype.testGetParameter = function() {
   assertEquals('4', request.getParameter('d', url));
 };
 
+
+net.ServletRequestTestCase.prototype.testGetParameterNames = function() {
+  var request = new net.ServletRequest;
+  var url = 'http://localhost?a=1&b=2#c=3&d=4';
+  var names = request.getParameterNames(url);
+  assertNotNull(names);
+  assertEquals(4, names.length);
+};
+
+
 net.ServletRequestTestCase.prototype.testGetParameterMap = function() {
   var request = new net.ServletRequest;
   var url = 'http://localhost?a=1&b=2#c=3&d=4';

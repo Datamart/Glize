@@ -14,40 +14,35 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
  * @constructor
  */
-net.URL = window['URL'] || window['webkitURL'] || function(url) {
+net.URL = function(url) {
+
+  /**
+   * @return {string} Returns URL string representation.
+   */
+  this.toString = function() {
+    return self_['protocol'] + '//' + self_['host'] +
+           self_['pathname'] + self_['search'] + self_['hash'];
+  };
+
+  // Export for closure compiler.
+  this['toString'] = this.toString;
 
   /**
    * @private
    */
   function init_() {
-    self_['protocol'] = match_[2] ? match_[2] + ':' : '';
-    self_['host'] = match_[4] || '';
+    /** @type {!RegExp} */ var regexp =
+        /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
+    /** @type {!Array.<string>} */ var match = (url || '').match(regexp) || [];
+    self_['protocol'] = match[2] ? match[2] + ':' : '';
+    self_['host'] = match[4] || '';
     self_['hostname'] = self_['host'].split(':')[0];
     self_['port'] = +(self_['host'].split(':')[1]) || '';
-    self_['pathname'] = match_[5] || '';
-    self_['search'] = match_[7] ? ('?' + match_[7]) : '';
-    self_['hash'] = match_[9] ? ('#' + match_[9]) : '';
+    self_['pathname'] = match[5] || '';
+    self_['search'] = match[7] ? ('?' + match[7]) : '';
+    self_['hash'] = match[9] ? ('#' + match[9]) : '';
     self_['origin'] = self_['protocol'] + '//' + self_['host'];
-
-    self_['toString'] = function() {
-      return self_['protocol'] + '//' + self_['host'] +
-             self_['pathname'] + self_['search'] + self_['hash'];
-    };
   }
-
-  /**
-   * The regular expression for matching URL parts from <code>url</code> string.
-   * @type {!RegExp}
-   * @private
-   */
-  var regexp_ = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
-
-  /**
-   * The list of matched URL parts.
-   * @type {!Array.<string>}
-   * @private
-   */
-  var match_ = (url || '').match(regexp_) || [];
 
   /**
    * The reference to current class instance.
@@ -58,6 +53,4 @@ net.URL = window['URL'] || window['webkitURL'] || function(url) {
   var self_ = this;
 
   init_();
-
-  return self_;
 };

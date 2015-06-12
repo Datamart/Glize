@@ -14,6 +14,7 @@
  * @constructor
  * @extends {net.ServletRequest} net.ServletRequest
  * @requires dom.scripts
+ * @requires dom.Cookies
  */
 net.HttpServletRequest = function() {
   net.ServletRequest.apply(this, arguments);
@@ -26,6 +27,26 @@ net.HttpServletRequest = function() {
    */
   this.getQueryString = function() {
     return location.search && location.search.substr(1);
+  };
+
+  /**
+   * Returns an <code>Array</code> of all the cookies included
+   * with this request.
+   * @return {!Array.<Object>} Returns an <code>Array</code> of all the cookies
+   * included with this request.
+   */
+  this.getCookies = function() {
+    /** @type {!Array.<string>} */ var keys = dom.Cookies.keys();
+    /** @type {number} */ var length = keys.length;
+    /** @type {number} */ var i = 0;
+    /** @type {!Array.<Object>} */ var cookies = [];
+    /** @type {string} */ var name;
+
+    for (; i < length;) {
+      name = keys[i++];
+      cookies[i] = {'name': name, 'value': dom.Cookies.get(name)};
+    }
+    return cookies;
   };
 
   /**

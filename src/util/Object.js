@@ -43,17 +43,15 @@ util.Object.extend = function(target, source) {
  * @static
  */
 util.Object.keys = function(obj) {
-  if (Object.keys)
-    return Object.keys(obj);
-
-  /** @type {!Array.<string>} */ var keys = [];
-  /** @type {number} */ var i = 0;
+  /** @type {Function} */ var fn = Object.keys;
+  /** @type {!Array.<string>} */ var keys = fn ? fn(obj) : [];
   /** @type {string|number} */ var key;
 
-  for (key in obj) {
-    keys[i++] = key;
-  }
-  return keys;
+  if (!fn)
+    for (key in obj)
+      keys.push(key);
+
+    return keys;
 };
 
 
