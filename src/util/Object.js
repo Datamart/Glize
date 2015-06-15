@@ -14,21 +14,30 @@
  */
 util.Object = {
   /**
-   * Extends <code>target</code> with <code>source</code> properties.
+   * Extends <code>target</code> with another object's properties.
    * @param {!Object} target The target object.
-   * @param {!Object} source The source object.
+   * @param {...Object} var_args The sources which properties will be copied.
    * @return {!Object} Returns reference to updated <code>target</code> object.
    */
-  extend: function(target, source) {
-    for (/** @type {string} */ var key in source) {
-      if (source[key] instanceof Array) {
-        target[key] = [].concat(source[key]);
-      } else if ('object' == typeof source[key]) {
-        target[key] = util.Object.extend(
-            /** @type {!Object} */ (target[key] || {}),
-            /** @type {!Object} */ (source[key]));
-      } else {
-        target[key] = source[key];
+  extend: function(target, var_args) {
+    /** @type {number} */ var i = 1;
+    /** @type {Object} */ var source;
+    /** @type {string} */ var key;
+    /** @type {*} */ var value;
+
+    for (; i < arguments.length;) {
+      source = arguments[i++];
+      for (key in source) {
+        value = source[key];
+        if (value instanceof Array) {
+          target[key] = [].concat(value);
+        } else if ('object' === typeof value) {
+          target[key] = util.Object.extend(
+              /** @type {!Object} */ (target[key] || {}),
+              /** @type {!Object} */ (value));
+        } else {
+          target[key] = value;
+        }
       }
     }
     return /** @type {!Object} */ (target);

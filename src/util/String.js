@@ -39,5 +39,28 @@ util.String = {
    */
   trimRight: function(str) {
     return str.trimRight ? str.trimRight() : str.replace(/[\s\xa0]+$/, '');
+  },
+
+  /**
+   * Checks whether {@code str} starts with {@code prefix}.
+   * @param {string} str The string to be checked.
+   * @param {string} prefix A string to look for at the start of {@code str}.
+   * @return {boolean} Returns {@code true} if string {@code str} starts with
+   * the {@code prefix}.
+   */
+  startsWith: function(str, prefix) {
+    return 0 === str.lastIndexOf(prefix, 0);
+  },
+
+  /**
+   * Checks whether {@code str} ends with {@code suffix}.
+   * @param {string} str The string to be checked.
+   * @param {string} suffix A string to look for at the end of {@code str}.
+   * @return {boolean} Returns {@code true} if string {@code str} ends with
+   * the {@code suffix}.
+   */
+  endsWith: function(str, suffix) {
+    /** @type {number} */ var index = str.lastIndexOf(suffix);
+    return index >= 0 && index === str.length - suffix.length;
   }
 };

@@ -16,3 +16,10 @@ util.StringTestCase.prototype.testTrim = function() {
   assertEquals('test string', util.String.trimLeft('  test string'));
   assertEquals('test string', util.String.trimRight('test string  '));
 };
+
+util.StringTestCase.prototype.testPositions = function() {
+  assertEquals(true, util.String.startsWith('test string', 'test'));
+  assertEquals(false, util.String.startsWith('est string', 'test'));
+  assertEquals(true, util.String.endsWith('test string', 'string'));
+  assertEquals(false, util.String.endsWith('test strin', 'string'));
+};
