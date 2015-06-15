@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: util/PropertyReader.js</title>
+    <title>JSDoc: Source: util/String.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: util/PropertyReader.js</h1>
+    <h1 class="page-title">Source: util/String.js</h1>
 
     
 
@@ -28,90 +28,46 @@
         <article>
             <pre class="prettyprint source linenums"><code>
 /**
- * @fileoverview PropertyReader utils.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @fileoverview String utility methods.
+ *
+ * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
  */
-
 
 
 /**
- * Constructor of PropertyReader.
- * @constructor
+ * String utility methods.
+ * @namespace
  */
-util.PropertyReader = function() {
+util.String = {
+  /**
+   * Trims leading and trailing whitespace from the given string.
+   * @param {string} str The string to trim.
+   * @return {string} Returns the string stripped of whitespace.
+   * @see {@link http://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.20}
+   */
+  trim: function(str) {
+    return str.trim ? str.trim() : util.String.trimRight(
+        util.String.trimLeft(str));
+  },
 
   /**
-   * Gets attribute' values of "tagName" founded in "context".
-   * @param {Document|Node} context The DOM context.
-   * @param {string} tagName The element tag name.
-   * @param {string} attribute The name of attribute.
-   * @param {string} value The name of value attribute.
+   * Removes whitespace from the left end of the string.
+   * @param {string} str The string to trim.
+   * @return {string} Returns the string stripped of whitespace from left end.
    */
-  this.read = function(context, tagName, attribute, value) {
-    if (context) {
-      /** @type {NodeList} */
-      var nodes = dom.getElementsByTagName(context, tagName);
-      for (/** @type {number} */ var i = 0; i &lt; nodes.length;) {
-        /** @type {!Node} */ var node = nodes[i++];
-        /** @type {string} */ var name = node.getAttribute(attribute);
-        if (name) {
-          /** @type {string} */ var result = node.getAttribute(value);
-          cache_[name] = result;
-          values_.push(result);
-          names_.push(name);
-        }
-      }
-    }
-  };
+  trimLeft: function(str) {
+    return str.trimLeft ? str.trimLeft() : str.replace(/^[\s\xa0]+/, '');
+  },
 
   /**
-   * TODO: rename to 'getValues'
-   * @return {!Array.&lt;string>} Returns object.
+   * Removes whitespace from the right end of the string.
+   * @param {string} str The string to trim.
+   * @return {string} Returns the string stripped of whitespace from right end.
    */
-  this.getListOfValues = function() {
-    return values_;
-  };
-
-  /**
-   * @return {!Array.&lt;string>} Returns object.
-   */
-  this.getNames = function() {
-    return names_;
-  };
-
-  /**
-   * @return {Object.&lt;string, string>} Returns object.
-   */
-  this.getData = function() {
-    return cache_;
-  };
-
-  /**
-   * @param {string} key The property key.
-   * @return {?string} Returns property value.
-   */
-  this.getValue = function(key) {
-    return cache_[key];
-  };
-
-  /**
-   * @dict
-   * @private
-   */
-  var cache_ = {};
-
-  /**
-   * @type {!Array.&lt;string>}
-   * @private
-   */
-  var values_ = [];
-
-  /**
-   * @type {!Array.&lt;string>}
-   * @private
-   */
-  var names_ = [];
+  trimRight: function(str) {
+    return str.trimRight ? str.trimRight() : str.replace(/[\s\xa0]+$/, '');
+  }
 };
 </code></pre>
         </article>

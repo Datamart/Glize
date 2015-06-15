@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: NumberFormatter</title>
+    <title>JSDoc: Namespace: String</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: NumberFormatter</h1>
+    <h1 class="page-title">Namespace: String</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-        NumberFormatter
+        String
         </h2>
         
     
@@ -39,90 +39,10 @@
     <div class="container-overview">
     
         
-
-    
-
-    <h4 class="name" id="NumberFormatter"><span class="type-signature"></span>new NumberFormatter<span class="signature">(opt_options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Constructor of NumberFormatter.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
+            <div class="description">String utility methods.</div>
         
 
         
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>opt_options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object.&lt;string, *></span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">Formatter options.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
 
 
 <dl class="details">
@@ -154,7 +74,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="formatters_NumberFormatter.js.html">formatters/NumberFormatter.js</a>, <a href="formatters_NumberFormatter.js.html#line19">line 19</a>
+        <a href="util_String.js.html">util/String.js</a>, <a href="util_String.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -166,27 +86,7 @@
 </dl>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>options: {
-  'decimal': '.', 'grouping': ',', 'fraction': 0, 'prefix': '', 'suffix': ''
-}</code></pre>
-
-
-
+        
     
     </div>
 
@@ -210,14 +110,14 @@
 
     
 
-    <h4 class="name" id="format"><span class="type-signature"></span>format<span class="signature">(number)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".trim"><span class="type-signature">(static) </span>trim<span class="signature">(str)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    Formats given number according to given options.
+    Trims leading and trailing whitespace from the given string.
 </div>
 
 
@@ -253,13 +153,13 @@
 
         <tr>
             
-                <td class="name"><code>number</code></td>
+                <td class="name"><code>str</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -269,7 +169,7 @@
 
             
 
-            <td class="description last">The Number to be formatted.</td>
+            <td class="description last">The string to trim.</td>
         </tr>
 
     
@@ -310,12 +210,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="formatters_NumberFormatter.js.html">formatters/NumberFormatter.js</a>, <a href="formatters_NumberFormatter.js.html#line37">line 37</a>
+        <a href="util_String.js.html">util/String.js</a>, <a href="util_String.js.html#line21">line 21</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.20">http://www.ecma-international.org/ecma-262/5.1/#sec-15.5.4.20</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -337,7 +244,7 @@
 
         
 <div class="param-desc">
-    The formatted number string.
+    Returns the string stripped of whitespace.
 </div>
 
 
@@ -357,34 +264,20 @@
     
 
 
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>var formatter = new formatters.NumberFormatter();
-formatter.format(100);   // 100
-formatter.format(1000);  // 1,000
-formatter.format(1500);  // 1,500
-formatter.format(10000); // 10,000
-formatter.format(1e6);   // 1,000,000
-var options = {'prefix': '$'};
-var formatter = new formatters.NumberFormatter(options);
-formatter.format(100);   // $100
-formatter.format(1e6);   // $1,000,000</code></pre>
-
-
 
         
             
 
     
 
-    <h4 class="name" id="round"><span class="type-signature"></span>round<span class="signature">(number)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".trimLeft"><span class="type-signature">(static) </span>trimLeft<span class="signature">(str)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    Rounds given number.
+    Removes whitespace from the left end of the string.
 </div>
 
 
@@ -420,13 +313,13 @@ formatter.format(1e6);   // $1,000,000</code></pre>
 
         <tr>
             
-                <td class="name"><code>number</code></td>
+                <td class="name"><code>str</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">string</span>
 
 
             
@@ -436,7 +329,7 @@ formatter.format(1e6);   // $1,000,000</code></pre>
 
             
 
-            <td class="description last">The Number to be rounded.</td>
+            <td class="description last">The string to trim.</td>
         </tr>
 
     
@@ -477,7 +370,7 @@ formatter.format(1e6);   // $1,000,000</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="formatters_NumberFormatter.js.html">formatters/NumberFormatter.js</a>, <a href="formatters_NumberFormatter.js.html#line67">line 67</a>
+        <a href="util_String.js.html">util/String.js</a>, <a href="util_String.js.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -504,7 +397,7 @@ formatter.format(1e6);   // $1,000,000</code></pre>
 
         
 <div class="param-desc">
-    The rounded number string.
+    Returns the string stripped of whitespace from left end.
 </div>
 
 
@@ -524,18 +417,157 @@ formatter.format(1e6);   // $1,000,000</code></pre>
     
 
 
-    <h5>Example</h5>
+
+        
+            
+
     
-    <pre class="prettyprint"><code>var formatter = new formatters.NumberFormatter();
-formatter.round(100);   // 100
-formatter.round(1000);  // 1k
-formatter.round(1500);  // 1.5k
-formatter.round(10000); // 10k
-formatter.round(1e6);   // 10m
-var options = {'prefix': '$'};
-var formatter = new formatters.NumberFormatter(options);
-formatter.round(100);   // $100
-formatter.round(1e6);   // $10m</code></pre>
+
+    <h4 class="name" id=".trimRight"><span class="type-signature">(static) </span>trimRight<span class="signature">(str)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Removes whitespace from the right end of the string.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The string to trim.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="util_String.js.html">util/String.js</a>, <a href="util_String.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Returns the string stripped of whitespace from right end.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -561,7 +593,7 @@ formatter.round(1e6);   // $10m</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jun 15 2015 13:49:05 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jun 15 2015 13:49:07 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>
