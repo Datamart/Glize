@@ -39,7 +39,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Miscellaneous Object utility methods.</div>
+            <div class="description">Object utility methods.</div>
         
 
         
@@ -74,7 +74,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_Object.js.html">util/Object.js</a>, <a href="util_Object.js.html#line14">line 14</a>
+        <a href="util_Object.js.html">util/Object.js</a>, <a href="util_Object.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -92,6 +92,12 @@
 
     
 
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:util.StringUtils.JSON</li>
+        </ul>
     
 
     
@@ -117,7 +123,7 @@
 
 
 <div class="description">
-    Extends source with target options.
+    Extends <code>target</code> with <code>source</code> properties.
 </div>
 
 
@@ -169,7 +175,7 @@
 
             
 
-            <td class="description last">Options map.</td>
+            <td class="description last">The target object.</td>
         </tr>
 
     
@@ -192,7 +198,7 @@
 
             
 
-            <td class="description last">Options map.</td>
+            <td class="description last">The source object.</td>
         </tr>
 
     
@@ -233,7 +239,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_Object.js.html">util/Object.js</a>, <a href="util_Object.js.html#line21">line 21</a>
+        <a href="util_Object.js.html">util/Object.js</a>, <a href="util_Object.js.html#line22">line 22</a>
     </li></ul></dd>
     
 
@@ -260,7 +266,7 @@
 
         
 <div class="param-desc">
-    A map of key/value pairs of options.
+    Returns reference to updated <code>target</code> object.
 </div>
 
 
@@ -409,7 +415,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_Object.js.html">util/Object.js</a>, <a href="util_Object.js.html#line59">line 59</a>
+        <a href="util_Object.js.html">util/Object.js</a>, <a href="util_Object.js.html#line63">line 63</a>
     </li></ul></dd>
     
 
@@ -436,7 +442,7 @@
 
         
 <div class="param-desc">
-    Return filtered object.
+    Returns filtered object.
 </div>
 
 
@@ -562,12 +568,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_Object.js.html">util/Object.js</a>, <a href="util_Object.js.html#line41">line 41</a>
+        <a href="util_Object.js.html">util/Object.js</a>, <a href="util_Object.js.html#line43">line 43</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.2.3.14">http://www.ecma-international.org/ecma-262/5.1/#sec-15.2.3.14</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -611,6 +624,166 @@
 
 
         
+            
+
+    
+
+    <h4 class="name" id=".toString"><span class="type-signature">(static) </span>toString<span class="signature">(obj<span class="signature-attributes">non-null</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns a string representation of <code>obj</code> object.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The representing object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="util_Object.js.html">util/Object.js</a>, <a href="util_Object.js.html#line81">line 81</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="util.StringUtils.JSON.html#.stringify">util.StringUtils.JSON.stringify</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Returns a string representing object.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
     
 
     
@@ -632,7 +805,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jun 15 2015 12:30:17 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jun 15 2015 12:52:12 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>
