@@ -11,12 +11,6 @@
 util.StringUtilsTestCase = TestCase('StringUtilsTestCase');
 
 
-util.StringUtilsTestCase.prototype.testTrimWhitespace = function() {
-  assertEquals('test string', util.StringUtils.trimWhitespace('  test string  '));
-  assertEquals('test string', util.StringUtils.trimLeadingWhitespace('  test string'));
-  assertEquals('test string', util.StringUtils.trimTrailingWhitespace('test string  '));
-};
-
 util.StringUtilsTestCase.prototype.testToPlainText = function() {
   assertEquals('&lt;b&gt;test&lt;b&gt;', util.StringUtils.toPlainText('<b>test<b>'));
 };

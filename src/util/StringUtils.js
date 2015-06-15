@@ -18,32 +18,25 @@ util.StringUtils = {
    * Trims leading and trailing whitespace from the given String.
    * @param {string} str The String to check.
    * @return {string} Returns the trimmed String.
-   * @static
+   * @deprecated Use {@link util.String.trim} instead.
    */
-  trim: function(str) {
-    return str.trim ? str.trim() : util.StringUtils.trimRight(
-        util.StringUtils.trimLeft(str));
-  },
+  trim: util.String.trim,
 
   /**
    * Trims leading whitespace from the given String.
    * @param {string} str The String to check.
    * @return {string} Returns the trimmed String.
-   * @static
+   * @deprecated Use {@link util.String.trimLeft} instead.
    */
-  trimLeft: function(str) {
-    return str.trimLeft ? str.trimLeft() : str.replace(/^[\s\xa0]+/, '');
-  },
+  trimLeft: util.String.trimLeft,
 
   /**
    * Trims trailing whitespace from the given String.
    * @param {string} str The String to check.
    * @return {string} Returns the trimmed String.
-   * @static
+   * @deprecated Use {@link util.String.trimRight} instead.
    */
-  trimRight: function(str) {
-    return str.trimRight ? str.trimRight() : str.replace(/[\s\xa0]+$/, '');
-  },
+  trimRight: util.String.trimRight,
 
   /**
    * Converts HTML to plain text.
@@ -161,30 +154,30 @@ util.StringUtils = {
  * Trims leading and trailing whitespace from the given String.
  * @param {string} str The String to check.
  * @return {string} Returns the trimmed String.
- * @deprecated Use "util.StringUtils.trim" instead.
+ * @deprecated Use {@link util.String.trim} instead.
  * @static
  */
-util.StringUtils.trimWhitespace = util.StringUtils.trim;
+util.StringUtils.trimWhitespace = util.String.trim;
 
 
 /**
  * Trims leading whitespace from the given String.
  * @param {string} str The String to check.
  * @return {string} Returns the trimmed String.
- * @deprecated Use "util.StringUtils.trimLeft" instead.
+ * @deprecated Use {@link util.String.trimLeft} instead.
  * @static
  */
-util.StringUtils.trimLeadingWhitespace = util.StringUtils.trimLeft;
+util.StringUtils.trimLeadingWhitespace = util.String.trimLeft;
 
 
 /**
  * Trims trailing whitespace from the given String.
  * @param {string} str The String to check.
  * @return {string} Returns the trimmed String.
- * @deprecated Use "util.StringUtils.trimRight" instead.
+ * @deprecated Use {@link util.String.trimRight} instead.
  * @static
  */
-util.StringUtils.trimTrailingWhitespace = util.StringUtils.trimRight;
+util.StringUtils.trimTrailingWhitespace = util.String.trimRight;
 
 
 /**
