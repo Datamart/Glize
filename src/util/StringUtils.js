@@ -1,8 +1,9 @@
 
 /**
  * @fileoverview Miscellaneous String utility methods.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
  */
 
 
@@ -189,7 +190,7 @@ util.StringUtils.trimTrailingWhitespace = util.StringUtils.trimRight;
 /**
  * @type {string}
  * @const
- * @deprecated Use util.Base64.BASE64_CHARACTER_TABLE
+ * @deprecated Use {@link util.Base64.BASE64_CHARACTER_TABLE} instead.
  */
 util.StringUtils.BASE64_CHARACTER_TABLE =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -199,7 +200,7 @@ util.StringUtils.BASE64_CHARACTER_TABLE =
  * Base64 utils.
  * @type {!Object.<string, function(string):string>}
  * @namespace
- * @deprecated Use util.Base64 instead.
+ * @deprecated Use {@link util.Base64} instead.
  */
 util.StringUtils.Base64 = {
 
@@ -207,7 +208,7 @@ util.StringUtils.Base64 = {
    * Encodes string to base64.
    * @param {string} str String to encode.
    * @return {string} Returns encoded string.
-   * @deprecated Use util.Base64.encode instead.
+   * @deprecated Use {@link util.Base64.encode} instead.
    */
   encode: util.Base64.encode,
 
@@ -215,7 +216,7 @@ util.StringUtils.Base64 = {
    * Decodes base64-encoded string.
    * @param {string} str Encoded string.
    * @return {string} Returns decoded string.
-   * @deprecated Use util.Base64.decode instead.
+   * @deprecated Use {@link util.Base64.decode} instead.
    */
   decode: util.Base64.decode
 };
