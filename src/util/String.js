@@ -42,22 +42,23 @@ util.String = {
   },
 
   /**
-   * Checks whether {@code str} starts with {@code prefix}.
+   * Checks whether <code>str</code> starts with <code>prefix</code>.
    * @param {string} str The string to be checked.
-   * @param {string} prefix A string to look for at the start of {@code str}.
-   * @return {boolean} Returns {@code true} if string {@code str} starts with
-   * the {@code prefix}.
+   * @param {string} prefix A string to look for at the start of
+   *     <code>str</code>.
+   * @return {boolean} Returns <code>true</code> if string <code>str</code>
+   *     starts with the <code>prefix</code>.
    */
   startsWith: function(str, prefix) {
     return 0 === str.lastIndexOf(prefix, 0);
   },
 
   /**
-   * Checks whether {@code str} ends with {@code suffix}.
+   * Checks whether <code>str</code> ends with <code>suffix</code>.
    * @param {string} str The string to be checked.
-   * @param {string} suffix A string to look for at the end of {@code str}.
-   * @return {boolean} Returns {@code true} if string {@code str} ends with
-   * the {@code suffix}.
+   * @param {string} suffix A string to look for at the end of <code>str</code>.
+   * @return {boolean} Returns <code>true</code> if string <code>str</code>
+   *     ends with the <code>suffix</code>.
    */
   endsWith: function(str, suffix) {
     /** @type {number} */ var index = str.lastIndexOf(suffix);
