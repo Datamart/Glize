@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: PropertyReader</title>
+    <title>JSDoc: Class: Cookies</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: PropertyReader</h1>
+    <h1 class="page-title">Class: Cookies</h1>
 
     
 
@@ -29,7 +29,7 @@
 <header>
     
         <h2>
-        PropertyReader
+        Cookies
         </h2>
         
     
@@ -42,14 +42,14 @@
 
     
 
-    <h4 class="name" id="PropertyReader"><span class="type-signature"></span>new PropertyReader<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Cookies"><span class="type-signature">(non-null) </span>new Cookies<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Constructor of PropertyReader.
+    Miscellaneous Cookies utility methods.
 </div>
 
 
@@ -93,7 +93,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_PropertyReader.js.html">util/PropertyReader.js</a>, <a href="util_PropertyReader.js.html#line14">line 14</a>
+        <a href="dom_Cookies.js.html">dom/Cookies.js</a>, <a href="dom_Cookies.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -142,114 +142,14 @@
 
     
 
-    <h4 class="name" id="getData"><span class="type-signature"></span>getData<span class="signature">()</span><span class="type-signature"> &rarr; {Object.&lt;string, string>}</span></h4>
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_PropertyReader.js.html">util/PropertyReader.js</a>, <a href="util_PropertyReader.js.html#line58">line 58</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    Returns object.
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object.&lt;string, string></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getListOfValues"><span class="type-signature"></span>getListOfValues<span class="signature">()</span><span class="type-signature"> &rarr; (non-null) {Array.&lt;string>}</span></h4>
+    <h4 class="name" id=".clear"><span class="type-signature">(static) </span>clear<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    TODO: rename to 'getValues'
+    Removes and expires all cookie.
 </div>
 
 
@@ -293,7 +193,181 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_PropertyReader.js.html">util/PropertyReader.js</a>, <a href="util_PropertyReader.js.html#line44">line 44</a>
+        <a href="dom_Cookies.js.html">dom/Cookies.js</a>, <a href="dom_Cookies.js.html#line57">line 57</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".get"><span class="type-signature">(static) </span>get<span class="signature">(key, opt_default<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the value for the first cookie with the given name.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The name of the cookie to get.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_default</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The optional default value.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="dom_Cookies.js.html">dom/Cookies.js</a>, <a href="dom_Cookies.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
@@ -320,7 +394,8 @@
 
         
 <div class="param-desc">
-    Returns object.
+    The value of the cookie. If no cookie is set this
+    returns opt_default or undefined if opt_default is not provided.
 </div>
 
 
@@ -331,7 +406,7 @@
     </dt>
     <dd>
         
-<span class="param-type">Array.&lt;string></span>
+<span class="param-type">string</span>
 
 
     </dd>
@@ -346,11 +421,15 @@
 
     
 
-    <h4 class="name" id="getNames"><span class="type-signature"></span>getNames<span class="signature">()</span><span class="type-signature"> &rarr; (non-null) {Array.&lt;string>}</span></h4>
+    <h4 class="name" id=".keys"><span class="type-signature">(static) </span>keys<span class="signature">()</span><span class="type-signature"> &rarr; (non-null) {Array.&lt;string>}</span></h4>
 
     
 
 
+
+<div class="description">
+    Gets list of stored keys.
+</div>
 
 
 
@@ -393,7 +472,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_PropertyReader.js.html">util/PropertyReader.js</a>, <a href="util_PropertyReader.js.html#line51">line 51</a>
+        <a href="dom_Cookies.js.html">dom/Cookies.js</a>, <a href="dom_Cookies.js.html#line68">line 68</a>
     </li></ul></dd>
     
 
@@ -420,7 +499,7 @@
 
         
 <div class="param-desc">
-    Returns object.
+    Returns list of stored keys.
 </div>
 
 
@@ -446,11 +525,15 @@
 
     
 
-    <h4 class="name" id="getValue"><span class="type-signature"></span>getValue<span class="signature">(key)</span><span class="type-signature"> &rarr; (nullable) {string}</span></h4>
+    <h4 class="name" id=".remove"><span class="type-signature">(static) </span>remove<span class="signature">(key)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
 
+
+<div class="description">
+    Removes and expires a cookie.
+</div>
 
 
 
@@ -501,7 +584,7 @@
 
             
 
-            <td class="description last">The property key.</td>
+            <td class="description last">The cookie name.</td>
         </tr>
 
     
@@ -542,7 +625,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_PropertyReader.js.html">util/PropertyReader.js</a>, <a href="util_PropertyReader.js.html#line66">line 66</a>
+        <a href="dom_Cookies.js.html">dom/Cookies.js</a>, <a href="dom_Cookies.js.html#line48">line 48</a>
     </li></ul></dd>
     
 
@@ -569,7 +652,7 @@
 
         
 <div class="param-desc">
-    Returns property value.
+    Whether the cookie existed before it was removed.
 </div>
 
 
@@ -580,7 +663,7 @@
     </dt>
     <dd>
         
-<span class="param-type">string</span>
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -595,14 +678,14 @@
 
     
 
-    <h4 class="name" id="read"><span class="type-signature"></span>read<span class="signature">(context, tagName, attribute, value)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".set"><span class="type-signature">(static) </span>set<span class="signature">(key, value, expires, opt_domain<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Gets attribute' values of "tagName" founded in "context".
+    Sets a cookie.
 </div>
 
 
@@ -626,6 +709,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
 
@@ -638,33 +723,7 @@
 
         <tr>
             
-                <td class="name"><code>context</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Document</span>
-|
-
-<span class="param-type">Node</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The DOM context.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tagName</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
@@ -677,33 +736,18 @@
             </td>
 
             
-
-            
-
-            <td class="description last">The element tag name.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>attribute</code></td>
-            
-
-            <td class="type">
-            
+                <td class="attributes">
                 
-<span class="param-type">string</span>
 
+                
 
-            
-            </td>
-
-            
-
+                
+                </td>
             
 
-            <td class="description last">The name of attribute.</td>
+            
+
+            <td class="description last">The name of the cookie.</td>
         </tr>
 
     
@@ -723,10 +767,83 @@
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
-            <td class="description last">The name of value attribute.</td>
+            <td class="description last">The value of the cookie.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>expires</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The days after the cookie expires.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_domain</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Optional, domain that the cookie is
+    available to.</td>
         </tr>
 
     
@@ -767,7 +884,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_PropertyReader.js.html">util/PropertyReader.js</a>, <a href="util_PropertyReader.js.html#line23">line 23</a>
+        <a href="dom_Cookies.js.html">dom/Cookies.js</a>, <a href="dom_Cookies.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -815,7 +932,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jun 15 2015 12:18:30 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jun 15 2015 12:18:29 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

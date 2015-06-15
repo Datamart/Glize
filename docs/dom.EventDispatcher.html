@@ -94,12 +94,19 @@ interfaces.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom_EventDispatcher.js.html">dom/EventDispatcher.js</a>, <a href="dom_EventDispatcher.js.html#line34">line 34</a>
+        <a href="dom_EventDispatcher.js.html">dom/EventDispatcher.js</a>, <a href="dom_EventDispatcher.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.w3.org/TR/domcore/#interface-eventtarget">http://www.w3.org/TR/domcore/#interface-eventtarget</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -117,27 +124,6 @@ interfaces.
 
 
 
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>&lt;b>function&lt;/b> UserMenu() {
-   dom.EventDispatcher.call(&lt;b>this&lt;/b>);
-
-  &lt;b>this&lt;/b>.onClick = &lt;b>function&lt;/b>() {
-    &lt;b>this&lt;/b>.dispatchEvent('menu.clicked');
-  };
-}
-
-&lt;b>function&lt;/b> ContentArea() {
-   dom.EventDispatcher.call(&lt;b>this&lt;/b>);
-
-   &lt;b>function&lt;/b> update_(menu) {
-     console.log(menu);
-   }
-
-   &lt;b>this&lt;/b>.addEventListener('menu.clicked', update_);
-}</code></pre>
 
 
 
@@ -171,7 +157,7 @@ interfaces.
 
 
 <div class="description">
-    Registrates event listener on the event target.
+    Registers an event listener.
 </div>
 
 
@@ -289,12 +275,19 @@ interfaces.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom_EventDispatcher.js.html">dom/EventDispatcher.js</a>, <a href="dom_EventDispatcher.js.html#line43">line 43</a>
+        <a href="dom_EventDispatcher.js.html">dom/EventDispatcher.js</a>, <a href="dom_EventDispatcher.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.w3.org/TR/domcore/#dom-eventtarget-addeventlistener">http://www.w3.org/TR/domcore/#dom-eventtarget-addeventlistener</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -320,14 +313,14 @@ interfaces.
 
     
 
-    <h4 class="name" id="dispatchEvent"><span class="type-signature"></span>dispatchEvent<span class="signature">(type)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="dispatchEvent"><span class="type-signature"></span>dispatchEvent<span class="signature">(evt)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Dispatches events into the implementations event model.
+    Dispatches an event into the implementation's event model.
 </div>
 
 
@@ -363,12 +356,18 @@ interfaces.
 
         <tr>
             
-                <td class="name"><code>type</code></td>
+                <td class="name"><code>evt</code></td>
             
 
             <td class="type">
             
                 
+<span class="param-type">Event</span>
+|
+
+<span class="param-type">Object</span>
+|
+
 <span class="param-type">string</span>
 
 
@@ -379,7 +378,8 @@ interfaces.
 
             
 
-            <td class="description last">The event type to be used in processing the event.</td>
+            <td class="description last">The event object or event type to be
+dispatched.</td>
         </tr>
 
     
@@ -420,12 +420,19 @@ interfaces.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom_EventDispatcher.js.html">dom/EventDispatcher.js</a>, <a href="dom_EventDispatcher.js.html#line72">line 72</a>
+        <a href="dom_EventDispatcher.js.html">dom/EventDispatcher.js</a>, <a href="dom_EventDispatcher.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.w3.org/TR/domcore/#dom-eventtarget-dispatchevent">http://www.w3.org/TR/domcore/#dom-eventtarget-dispatchevent</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -458,7 +465,7 @@ interfaces.
 
 
 <div class="description">
-    Removes event listeners from the event target.
+    Removes an event listener.
 </div>
 
 
@@ -575,12 +582,19 @@ interfaces.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom_EventDispatcher.js.html">dom/EventDispatcher.js</a>, <a href="dom_EventDispatcher.js.html#line54">line 54</a>
+        <a href="dom_EventDispatcher.js.html">dom/EventDispatcher.js</a>, <a href="dom_EventDispatcher.js.html#line41">line 41</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.w3.org/TR/domcore/#dom-eventtarget-removeeventlistener">http://www.w3.org/TR/domcore/#dom-eventtarget-removeeventlistener</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -639,13 +653,13 @@ interfaces.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Fri Jun 12 2015 15:18:45 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jun 15 2015 12:18:29 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

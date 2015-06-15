@@ -30,8 +30,10 @@
 /**
  * @fileoverview Event-driven implementation is based on W3C DOM Level 3
  * Events Specification.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see {@link http://www.w3.org/TR/domcore/#interface-eventtarget}
+ * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
  */
 
 
@@ -39,71 +41,58 @@
 /**
  * The EventDispatcher class implements W3C EventTarget and EventListener
  * interfaces.
+ * @see {@link http://www.w3.org/TR/domcore/#interface-eventtarget}
  * @constructor
- * @example
- * &lt;b>function&lt;/b> UserMenu() {
- *    dom.EventDispatcher.call(&lt;b>this&lt;/b>);
- *
- *   &lt;b>this&lt;/b>.onClick = &lt;b>function&lt;/b>() {
- *     &lt;b>this&lt;/b>.dispatchEvent('menu.clicked');
- *   };
- * }
- *
- * &lt;b>function&lt;/b> ContentArea() {
- *    dom.EventDispatcher.call(&lt;b>this&lt;/b>);
- *
- *    &lt;b>function&lt;/b> update_(menu) {
- *      console.log(menu);
- *    }
- *
- *    &lt;b>this&lt;/b>.addEventListener('menu.clicked', update_);
- * }
  */
 dom.EventDispatcher = function() {
 
   /**
-   * Registrates event listener on the event target.
+   * Registers an event listener.
    * @param {string} type The event type for which the user is registering.
    * @param {function(dom.EventDispatcher)} listener The listener parameter
    *     takes an interface implemented by the user which contains the
    *     methods to be called when the event occurs.
+   * @see http://www.w3.org/TR/domcore/#dom-eventtarget-addeventlistener
    */
   this.addEventListener = function(type, listener) {
     events_[type] = (events_[type] || []).concat([listener]);
   };
 
   /**
-   * Removes event listeners from the event target.
+   * Removes an event listener.
    * @param {string} type The event type of the listener being removed.
    * @param {function(dom.EventDispatcher)} listener Reference to the event
    *     listener to be removed.
    * @return {boolean} Returns true if listener was removed.
+   * @see http://www.w3.org/TR/domcore/#dom-eventtarget-removeeventlistener
    */
   this.removeEventListener = function(type, listener) {
     /** @type {Array} */ var listeners = events_[type];
-    if (listeners) {
-      /** @type {number} */ var index = listeners.length >>> 0;
-      while (index--) {
-        if (listeners[index] === listener) {
-          listeners.splice(index, 1);
-          return true;
-        }
+    /** @type {number} */ var length = listeners ? listeners.length : 0;
+
+    while (length--) {
+      if (listeners[length] === listener) {
+        listeners.splice(length, 1);
+        return true;
       }
     }
     return false;
   };
 
   /**
-   * Dispatches events into the implementations event model.
-   * @param {string} type The event type to be used in processing the event.
+   * Dispatches an event into the implementation's event model.
+   * @param {Event|Object|string} evt The event object or event type to be
+   * dispatched.
+   * @see http://www.w3.org/TR/domcore/#dom-eventtarget-dispatchevent
    */
-  this.dispatchEvent = function(type) {
+  this.dispatchEvent = function(evt) {
+    /** @type {string} */ var type = 'string' == typeof evt ? evt : evt['type'];
     /** @type {Array} */ var listeners = events_[type];
-    if (listeners) {
-      /** @type {number} */ var index = 0;
-      while (index &lt; listeners.length) {
-        listeners[index++](self_);
-      }
+    /** @type {number} */ var length = listeners ? listeners.length : 0;
+    /** @type {number} */ var index = 0;
+
+    while (index &lt; length) {
+      listeners[index++](self_);
     }
   };
 
@@ -132,13 +121,13 @@ dom.EventDispatcher = function() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Fri Jun 12 2015 15:18:43 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jun 15 2015 12:18:27 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>
