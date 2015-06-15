@@ -15,6 +15,7 @@
  * @extends {net.ServletRequest} net.ServletRequest
  * @requires dom.scripts
  * @requires dom.Cookies
+ * @see docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServletRequest.html
  */
 net.HttpServletRequest = function() {
   net.ServletRequest.apply(this, arguments);

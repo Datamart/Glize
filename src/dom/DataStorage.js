@@ -1,10 +1,10 @@
 
 /**
- * @fileoverview Provides data persistence using HTML5 local storage
- * mechanism. Local storage must be available under window.localStorage,
- * see: http://www.w3.org/TR/webstorage/#the-localstorage-attribute.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @fileoverview Provides data persistence using HTML5 local storage mechanism.
+ *
+ * @see: {@link http://www.w3.org/TR/webstorage/#the-localstorage-attribute}
+ * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
  */
 
 
@@ -20,7 +20,7 @@
  * @example
  * options: {
  *   'type': 'local' // Storage types: local, session, cookie.
- *   'compress': <b>false</b>, // Enables LZW compression.
+ *   'compress': false, // Enables LZW compression.
  *   'session': {
  *     'key': 'ds-sid', // Session cookie key.
  *     'ttl': 30 // Time to live.
@@ -96,16 +96,19 @@ dom.DataStorage = function(opt_options) {
    * Removes all key-value pairs.
    */
   this.clear = function() {
+    /** @type {number} */ var i = 0;
+    /** @type {string} */ var key;
+
     if ('cookie' == options_['type']) {
       dom.Cookies.clear();
     } else if (nativeStorage_) {
       nativeStorage_.clear();
     } else if (globalStorage_) {
-      for (/** @type {string} */ var key in globalStorage_) {
+      for (key in globalStorage_) {
         self_.remove(key);
       }
     } else if (userData_) {
-      for (/** @type {number} */ var i = 0; i < userData_.attributes.length;) {
+      for (; i < userData_.attributes.length;) {
         userData_.removeAttribute(userData_.attributes[i++].nodeName);
       }
       userData_['save'](userData_.tagName);
@@ -120,16 +123,21 @@ dom.DataStorage = function(opt_options) {
    */
   this.keys = function() {
     /** @type {!Array.<string>} */ var keys = [];
-    if ('cookie' == options_['type']) {
+    /** @type {number} */ var i = 0;
+    /** @type {NamedNodeMap} */ var attributes =
+        userData_ && userData_.attributes;
+    /** @type {?Object} */ var storage =
+        nativeStorage_ || globalStorage_ || data_;
+    /** @type {string} */ var key;
+
+    if ('cookie' === options_['type']) {
       keys = dom.Cookies.keys();
-    } else if (userData_) {
-      for (/** @type {number} */ var i = 0; i < userData_.attributes.length;) {
-        keys.push(userData_.attributes[i++].nodeName);
+    } else if (attributes) {
+      for (; i < attributes.length;) {
+        keys.push(attributes[i++].nodeName);
       }
     } else {
-      /** @type {?Object} */
-      var storage = nativeStorage_ || globalStorage_ || data_;
-      for (/** @type {string} */ var key in storage) {
+      for (key in storage) {
         keys.push(key);
       }
     }
@@ -172,7 +180,7 @@ dom.DataStorage = function(opt_options) {
    * @private
    */
   function checkSession_() {
-    if ('session' == options_['type'] && !nativeStorage_) {
+    if ('session' === options_['type'] && !nativeStorage_) {
       /** @type {!Object} */ var session = options_['session'];
       /** @type {string} */ var timestamp = dom.Cookies.get(session['key']);
       if (timestamp && +timestamp + session['ttl'] * 6e4 < +new Date) {
@@ -223,7 +231,8 @@ dom.DataStorage = function(opt_options) {
   }
 
   /**
-   * The reference to current class instance. Used in private methods.
+   * The reference to current class instance.
+   * Used in private methods and for preventing jslint errors.
    * @type {!dom.DataStorage}
    * @private
    */

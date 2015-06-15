@@ -1,14 +1,16 @@
 
 /**
  * @fileoverview Miscellaneous Cookies utility methods.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
  */
 
 
 /**
  * Miscellaneous Cookies utility methods.
  * @type {!Object.<string, Function>}
+ * @class
  */
 dom.Cookies = {
   /**
@@ -67,6 +69,7 @@ dom.Cookies = {
     /** @type {!Array.<string>} */ var keys = [];
     /** @type {!RegExp} */ var re = /;\s*/;
     /** @type {!Array.<string>} */ var parts = dom.document.cookie.split(re);
+
     while (parts.length) {
       keys.push(parts.pop().split('=')[0]);
     }

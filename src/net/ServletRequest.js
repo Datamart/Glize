@@ -16,7 +16,7 @@
  * @requires util.Object
  * @requires net.URL
  * @constructor
- * @see http://docs.oracle.com/javaee/5/api/javax/servlet/ServletRequest.html
+ * @see http://docs.oracle.com/javaee/7/api/javax/servlet/ServletRequest.html
  */
 net.ServletRequest = function() {
 

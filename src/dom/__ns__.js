@@ -135,7 +135,7 @@ dom.getElementsByClassName = function(element, className) {
  * @return {Object} Returns dict {top, left, width, height, right, bottom}.
  */
 dom.getBoundingClientRect = function(element) {
-  /** @type {Object} */
+  /** @type {Object|ClientRect} */
   var rect = element.getBoundingClientRect && element.getBoundingClientRect();
   if (!rect) {
     rect = {'top': 0, 'left': 0, 'width': element.offsetWidth,

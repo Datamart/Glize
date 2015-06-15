@@ -1,8 +1,9 @@
 
 /**
  * @fileoverview Simple logic-less template engine.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
  */
 
 
@@ -113,7 +114,8 @@ dom.Template = function() {
   var request_ = new net.HttpRequest;
 
   /**
-   * The reference to current class instance. Used in private methods.
+   * The reference to current class instance.
+   * Used in private methods and for preventing jslint errors.
    * @type {!dom.Template}
    * @private
    */

@@ -2,8 +2,10 @@
 /**
  * @fileoverview Event-driven implementation is based on W3C DOM Level 3
  * Events Specification.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see {@link http://www.w3.org/TR/domcore/#interface-eventtarget}
+ * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
  */
 
 
@@ -11,71 +13,58 @@
 /**
  * The EventDispatcher class implements W3C EventTarget and EventListener
  * interfaces.
+ * @see {@link http://www.w3.org/TR/domcore/#interface-eventtarget}
  * @constructor
- * @example
- * <b>function</b> UserMenu() {
- *    dom.EventDispatcher.call(<b>this</b>);
- *
- *   <b>this</b>.onClick = <b>function</b>() {
- *     <b>this</b>.dispatchEvent('menu.clicked');
- *   };
- * }
- *
- * <b>function</b> ContentArea() {
- *    dom.EventDispatcher.call(<b>this</b>);
- *
- *    <b>function</b> update_(menu) {
- *      console.log(menu);
- *    }
- *
- *    <b>this</b>.addEventListener('menu.clicked', update_);
- * }
  */
 dom.EventDispatcher = function() {
 
   /**
-   * Registrates event listener on the event target.
+   * Registers an event listener.
    * @param {string} type The event type for which the user is registering.
    * @param {function(dom.EventDispatcher)} listener The listener parameter
    *     takes an interface implemented by the user which contains the
    *     methods to be called when the event occurs.
+   * @see http://www.w3.org/TR/domcore/#dom-eventtarget-addeventlistener
    */
   this.addEventListener = function(type, listener) {
     events_[type] = (events_[type] || []).concat([listener]);
   };
 
   /**
-   * Removes event listeners from the event target.
+   * Removes an event listener.
    * @param {string} type The event type of the listener being removed.
    * @param {function(dom.EventDispatcher)} listener Reference to the event
    *     listener to be removed.
    * @return {boolean} Returns true if listener was removed.
+   * @see http://www.w3.org/TR/domcore/#dom-eventtarget-removeeventlistener
    */
   this.removeEventListener = function(type, listener) {
     /** @type {Array} */ var listeners = events_[type];
-    if (listeners) {
-      /** @type {number} */ var index = listeners.length >>> 0;
-      while (index--) {
-        if (listeners[index] === listener) {
-          listeners.splice(index, 1);
-          return true;
-        }
+    /** @type {number} */ var length = listeners ? listeners.length : 0;
+
+    while (length--) {
+      if (listeners[length] === listener) {
+        listeners.splice(length, 1);
+        return true;
       }
     }
     return false;
   };
 
   /**
-   * Dispatches events into the implementations event model.
-   * @param {string} type The event type to be used in processing the event.
+   * Dispatches an event into the implementation's event model.
+   * @param {Event|Object|string} evt The event object or event type to be
+   * dispatched.
+   * @see http://www.w3.org/TR/domcore/#dom-eventtarget-dispatchevent
    */
-  this.dispatchEvent = function(type) {
+  this.dispatchEvent = function(evt) {
+    /** @type {string} */ var type = 'string' == typeof evt ? evt : evt['type'];
     /** @type {Array} */ var listeners = events_[type];
-    if (listeners) {
-      /** @type {number} */ var index = 0;
-      while (index < listeners.length) {
-        listeners[index++](self_);
-      }
+    /** @type {number} */ var length = listeners ? listeners.length : 0;
+    /** @type {number} */ var index = 0;
+
+    while (index < length) {
+      listeners[index++](self_);
     }
   };
 
