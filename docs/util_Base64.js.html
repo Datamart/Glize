@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: net/HttpServletRequest.js</title>
+    <title>JSDoc: Source: util/Base64.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: net/HttpServletRequest.js</h1>
+    <h1 class="page-title">Source: util/Base64.js</h1>
 
     
 
@@ -28,76 +28,76 @@
         <article>
             <pre class="prettyprint source linenums"><code>
 /**
- * @fileoverview Simple implementation of
- *               &lt;code>javax.servlet.http.HttpServletRequest&lt;/code>.
+ * @fileoverview Base64 utility methods.
  *
- * @see {@link //google.github.io/styleguide/javascriptguide.xml}
- * @see {@link //developers.google.com/closure/compiler/docs/js-for-compiler}
+ * @see {@link https://en.wikipedia.org/wiki/Base64}
+ * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
  */
-
 
 
 /**
- * Simple implementation of &lt;code>javax.servlet.http.HttpServletRequest&lt;code>.
- * @constructor
- * @extends {net.ServletRequest} net.ServletRequest
- * @requires dom.scripts
- * @requires dom.Cookies
- * @see docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServletRequest.html
+ * Base64 utility methods.
+ * @namespace
+ * @see {@link https://en.wikipedia.org/wiki/Base64}
  */
-net.HttpServletRequest = function() {
-  net.ServletRequest.apply(this, arguments);
+util.Base64 = {
+  /**
+   * @type {string}
+   * @const
+   */
+  BASE64_CHARACTER_TABLE:
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
 
   /**
-   * Returns the query string that is contained in the request URL after the
-   *     path.
-   * @return {string} Returns the query string that is contained in the request
-   *     URL after the path.
+   * Encodes string to base64.
+   * @param {string} str String to encode.
+   * @return {string} Returns encoded string.
    */
-  this.getQueryString = function() {
-    return location.search &amp;&amp; location.search.substr(1);
-  };
+  encode: function(str) {
+    /** @type {string} */ var result = window.btoa ? window.btoa(str) : '';
+    if (!result) {
+      /** @type {!Array.&lt;string>} */
+      var table = util.Base64.BASE64_CHARACTER_TABLE.split('');
+      /** @type {!Array.&lt;string>} */ var buffer = str.split('');
+      /** @type {number} */ var block = 0;
+      /** @type {number} */ var index = 0;
 
-  /**
-   * Returns an &lt;code>Array&lt;/code> of all the cookies included
-   * with this request.
-   * @return {!Array.&lt;Object>} Returns an &lt;code>Array&lt;/code> of all the cookies
-   * included with this request.
-   */
-  this.getCookies = function() {
-    /** @type {!Array.&lt;string>} */ var keys = dom.Cookies.keys();
-    /** @type {number} */ var length = keys.length;
-    /** @type {number} */ var i = 0;
-    /** @type {!Array.&lt;Object>} */ var cookies = [];
-    /** @type {string} */ var name;
-
-    for (; i &lt; length;) {
-      name = keys[i++];
-      cookies[i] = {'name': name, 'value': dom.Cookies.get(name)};
-    }
-    return cookies;
-  };
-
-  /**
-   * Returns the portion of the request URI that indicates the context of the
-   * request.
-   * @return {string} Returns current context path.
-   */
-  this.getContextPath = function() {
-    if (!net.HttpServletRequest.contextPath_) {
-      /** @type {Element} */ var script = dom.scripts.getCurrent();
-      if (script) {
-        /** @type {string} */ var path = script.getAttribute('src');
-        /** @type {Element} */ var a = dom.createElement('A');
-        a['href'] = path;
-
-        // Replace all relatives.
-        path = path.replace(/(\.+\/)+/, '');
-        net.HttpServletRequest.contextPath_ = a['pathname'].replace(path, '');
+      for (; buffer[index | 0] || (table = ['='], index % 1);
+           result += table[63 &amp; block >> 8 - index % 1 * 8]) {
+        block = block &lt;&lt; 8 | str.charCodeAt(index -= -3 / 4);
       }
     }
-    return net.HttpServletRequest.contextPath_ || '';
-  };
+    return result;
+  },
+
+  /**
+   * Decodes base64-encoded string.
+   * @param {string} str Encoded string.
+   * @return {string} Returns decoded string.
+   */
+  decode: function(str) {
+    /** @type {string} */ var result = window.atob ? window.atob(str) : '';
+    if (!result) {
+      /** @type {!Array.&lt;string>} */ var buffer = str.split('');
+      /** @type {number} */ var bit = 0;
+      /** @type {number} */ var counter = 0;
+      /** @type {number} */ var index = 0;
+      /** @type {string} */ var character = '';
+      /** @type {number} */ var i = 0;
+
+      for (; character = buffer[i++];) {
+        index = util.Base64.BASE64_CHARACTER_TABLE.indexOf(character);
+        if (~index) {
+          bit = counter % 4 ? bit * 64 + index : index;
+          if (counter++ % 4) {
+            result += String.fromCharCode(255 &amp; bit >> (-2 * counter &amp; 6));
+          }
+        }
+      }
+    }
+    return result;
+  }
 };
 </code></pre>
         </article>

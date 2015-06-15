@@ -29,8 +29,6 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="util.StringUtils.html">.StringUtils</a>.</span>
-        
         Base64
         </h2>
         
@@ -41,7 +39,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Base64 utils.</div>
+            <div class="description">Base64 utility methods.</div>
         
 
         
@@ -64,8 +62,6 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use util.Base64 instead.</li></ul></dd>
-    
 
     
 
@@ -78,12 +74,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_StringUtils.js.html">util/StringUtils.js</a>, <a href="util_StringUtils.js.html#line204">line 204</a>
+        <a href="util_Base64.js.html">util/Base64.js</a>, <a href="util_Base64.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://en.wikipedia.org/wiki/Base64">https://en.wikipedia.org/wiki/Base64</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -109,8 +112,86 @@
 
         
             
-<h4 class="name" id=".decode"><span class="type-signature">(static) </span>decode<span class="type-signature"></span></h4>
+<h4 class="name" id=".BASE64_CHARACTER_TABLE"><span class="type-signature">(static, constant) </span>BASE64_CHARACTER_TABLE<span class="type-signature"> :string</span></h4>
 
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="util_Base64.js.html">util/Base64.js</a>, <a href="util_Base64.js.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".decode"><span class="type-signature">(static) </span>decode<span class="signature">(str)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
 
 
 
@@ -124,6 +205,61 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Encoded string.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -141,8 +277,6 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use util.Base64.decode instead.</li></ul></dd>
-    
 
     
 
@@ -155,7 +289,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_StringUtils.js.html">util/StringUtils.js</a>, <a href="util_StringUtils.js.html#line220">line 220</a>
+        <a href="util_Base64.js.html">util/Base64.js</a>, <a href="util_Base64.js.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -171,10 +305,46 @@
 
 
 
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Returns decoded string.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
         
             
-<h4 class="name" id=".encode"><span class="type-signature">(static) </span>encode<span class="type-signature"></span></h4>
 
+    
+
+    <h4 class="name" id=".encode"><span class="type-signature">(static) </span>encode<span class="signature">(str)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
 
 
 
@@ -188,6 +358,61 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">String to encode.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
 <dl class="details">
 
     
@@ -205,8 +430,6 @@
     
 
     
-        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use util.Base64.encode instead.</li></ul></dd>
-    
 
     
 
@@ -219,7 +442,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_StringUtils.js.html">util/StringUtils.js</a>, <a href="util_StringUtils.js.html#line212">line 212</a>
+        <a href="util_Base64.js.html">util/Base64.js</a>, <a href="util_Base64.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -235,9 +458,39 @@
 
 
 
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
         
+<div class="param-desc">
+    Returns encoded string.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
     
 
+
+
+        
     
 
     
