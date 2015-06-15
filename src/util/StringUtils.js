@@ -189,6 +189,7 @@ util.StringUtils.trimTrailingWhitespace = util.StringUtils.trimRight;
 /**
  * @type {string}
  * @const
+ * @deprecated Use util.Base64.BASE64_CHARACTER_TABLE
  */
 util.StringUtils.BASE64_CHARACTER_TABLE =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -198,6 +199,7 @@ util.StringUtils.BASE64_CHARACTER_TABLE =
  * Base64 utils.
  * @type {!Object.<string, function(string):string>}
  * @namespace
+ * @deprecated Use util.Base64 instead.
  */
 util.StringUtils.Base64 = {
 
@@ -205,53 +207,17 @@ util.StringUtils.Base64 = {
    * Encodes string to base64.
    * @param {string} str String to encode.
    * @return {string} Returns encoded string.
-   * @static
+   * @deprecated Use util.Base64.encode instead.
    */
-  encode: function(str) {
-    /** @type {string} */ var result = window.btoa ? window.btoa(str) : '';
-    if (!result) {
-      /** @type {!Array.<string>} */
-      var table = util.StringUtils.BASE64_CHARACTER_TABLE.split('');
-      /** @type {!Array.<string>} */ var buffer = str.split('');
-      /** @type {number} */ var block = 0;
-      /** @type {number} */ var index = 0;
-
-      for (; buffer[index | 0] || (table = ['='], index % 1);
-           result += table[63 & block >> 8 - index % 1 * 8]) {
-        block = block << 8 | str.charCodeAt(index -= -3 / 4);
-      }
-    }
-    return result;
-  },
+  encode: util.Base64.encode,
 
   /**
    * Decodes base64-encoded string.
    * @param {string} str Encoded string.
    * @return {string} Returns decoded string.
-   * @static
+   * @deprecated Use util.Base64.decode instead.
    */
-  decode: function(str) {
-    /** @type {string} */ var result = window.atob ? window.atob(str) : '';
-    if (!result) {
-      /** @type {!Array.<string>} */ var buffer = str.split('');
-      /** @type {number} */ var bit = 0;
-      /** @type {number} */ var counter = 0;
-      /** @type {number} */ var index = 0;
-      /** @type {string} */ var character = '';
-      /** @type {number} */ var i = 0;
-
-      for (; character = buffer[i++];) {
-        index = util.StringUtils.BASE64_CHARACTER_TABLE.indexOf(character);
-        if (~index) {
-          bit = counter % 4 ? bit * 64 + index : index;
-          if (counter++ % 4) {
-            result += String.fromCharCode(255 & bit >> (-2 * counter & 6));
-          }
-        }
-      }
-    }
-    return result;
-  }
+  decode: util.Base64.decode
 };
 
 
