@@ -10,7 +10,7 @@
 /**
  * Miscellaneous Cookies utility methods.
  * @type {!Object.<string, Function>}
- * @class
+ * @namespace
  */
 dom.Cookies = {
   /**
