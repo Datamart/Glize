@@ -1,19 +1,21 @@
 
 /**
  * @fileoverview Event-driven implementation is based on W3C DOM Level 3
- * Events Specification.
+ *     {@link http://www.w3.org/TR/domcore/#events|Events} Specification.
  *
- * @see {@link http://www.w3.org/TR/domcore/#interface-eventtarget}
- * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
- * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
+ * @see http://www.w3.org/TR/domcore/#interface-eventtarget
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
 
 /**
- * The EventDispatcher class implements W3C EventTarget and EventListener
- * interfaces.
- * @see {@link http://www.w3.org/TR/domcore/#interface-eventtarget}
+ * The <code>EventDispatcher<code> class implements W3C
+ * {@link http://www.w3.org/TR/domcore/#interface-eventtarget|EventTarget| and
+ * {@link http://www.w3.org/TR/domcore/#eventlistener|EventListener} interfaces.
+ * @see http://www.w3.org/TR/domcore/#interface-eventtarget
+ * @see http://www.w3.org/TR/domcore/#eventlistener
  * @constructor
  */
 dom.EventDispatcher = function() {
@@ -21,7 +23,7 @@ dom.EventDispatcher = function() {
   /**
    * Registers an event listener.
    * @param {string} type The event type for which the user is registering.
-   * @param {function(dom.EventDispatcher)} listener The listener parameter
+   * @param {function(Event)} listener The listener parameter
    *     takes an interface implemented by the user which contains the
    *     methods to be called when the event occurs.
    * @see http://www.w3.org/TR/domcore/#dom-eventtarget-addeventlistener
@@ -33,7 +35,7 @@ dom.EventDispatcher = function() {
   /**
    * Removes an event listener.
    * @param {string} type The event type of the listener being removed.
-   * @param {function(dom.EventDispatcher)} listener Reference to the event
+   * @param {function(Event)} listener Reference to the event
    *     listener to be removed.
    * @return {boolean} Returns true if listener was removed.
    * @see http://www.w3.org/TR/domcore/#dom-eventtarget-removeeventlistener
@@ -54,7 +56,7 @@ dom.EventDispatcher = function() {
   /**
    * Dispatches an event into the implementation's event model.
    * @param {Event|Object|string} evt The event object or event type to be
-   * dispatched.
+   *     dispatched.
    * @see http://www.w3.org/TR/domcore/#dom-eventtarget-dispatchevent
    */
   this.dispatchEvent = function(evt) {
@@ -64,12 +66,12 @@ dom.EventDispatcher = function() {
     /** @type {number} */ var index = 0;
 
     while (index < length) {
-      listeners[index++](self_);
+      listeners[index++](/** @type {Event} */({'target': self_, 'type': type}));
     }
   };
 
   /**
-   * Event storage.
+   * Events storage.
    * @type {!Object.<string, Array>}
    * @private
    */
