@@ -12,7 +12,7 @@
 
 /**
  * The <code>EventDispatcher<code> class implements W3C
- * {@link http://www.w3.org/TR/domcore/#interface-eventtarget|EventTarget| and
+ * {@link http://www.w3.org/TR/domcore/#interface-eventtarget|EventTarget} and
  * {@link http://www.w3.org/TR/domcore/#eventlistener|EventListener} interfaces.
  * @see http://www.w3.org/TR/domcore/#interface-eventtarget
  * @see http://www.w3.org/TR/domcore/#eventlistener
