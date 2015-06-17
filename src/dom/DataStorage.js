@@ -2,9 +2,9 @@
 /**
  * @fileoverview Provides data persistence using HTML5 local storage mechanism.
  *
- * @see: {@link http://www.w3.org/TR/webstorage/#the-localstorage-attribute}
- * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
- * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
+ * @see http://www.w3.org/TR/webstorage/
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
@@ -19,11 +19,11 @@
  * @param {Object.<string, *>=} opt_options Optional configuration options.
  * @example
  * options: {
- *   'type': 'local' // Storage types: local, session, cookie.
+ *   'type': 'local'    // Storage types: local, session, cookie.
  *   'compress': false, // Enables LZW compression.
  *   'session': {
  *     'key': 'ds-sid', // Session cookie key.
- *     'ttl': 30 // Time to live.
+ *     'ttl': 30        // Time to live.
  *   }
  * }
  */
@@ -36,7 +36,7 @@ dom.DataStorage = function(opt_options) {
    */
   this.set = function(key, value) {
     /** @type {string} */ var result = stringify_(value);
-    if ('cookie' == options_['type']) {
+    if ('cookie' === options_['type']) {
       dom.Cookies.set(key, result, 365);
     } else if (nativeStorage_) {
       nativeStorage_.setItem(key, result);
@@ -49,7 +49,7 @@ dom.DataStorage = function(opt_options) {
       data_[key] = result;
     }
 
-    if ('session' == options_['type'] && !nativeStorage_) {
+    if ('session' === options_['type'] && !nativeStorage_) {
       dom.Cookies.set(options_['session']['key'], +new Date + '', 1);
     }
   };
@@ -61,7 +61,7 @@ dom.DataStorage = function(opt_options) {
    */
   this.get = function(key) {
     /** @type {?string} */ var value = data_[key];
-    if ('cookie' == options_['type']) {
+    if ('cookie' === options_['type']) {
       value = dom.Cookies.get(key);
     } else if (nativeStorage_) {
       value = nativeStorage_.getItem(key);
@@ -78,7 +78,7 @@ dom.DataStorage = function(opt_options) {
    * @param {string} key The key to remove.
    */
   this.remove = function(key) {
-    if ('cookie' == options_['type']) {
+    if ('cookie' === options_['type']) {
       dom.Cookies.remove(key);
     } else if (nativeStorage_) {
       nativeStorage_.removeItem(key);
@@ -99,7 +99,7 @@ dom.DataStorage = function(opt_options) {
     /** @type {number} */ var i = 0;
     /** @type {string} */ var key;
 
-    if ('cookie' == options_['type']) {
+    if ('cookie' === options_['type']) {
       dom.Cookies.clear();
     } else if (nativeStorage_) {
       nativeStorage_.clear();
@@ -157,20 +157,24 @@ dom.DataStorage = function(opt_options) {
       nativeStorage_ = key in window && window[key];
     } catch (e) {}
 
-    key = 'globalStorage';
-    /** @preserveTry */
-    try {
-      globalStorage_ = key in window && window[key] &&
-          window[key][location.hostname];
-    } catch (e) {}
+    if (!nativeStorage_) {
+      key = 'globalStorage';
+      /** @preserveTry */
+      try {
+        globalStorage_ = key in window && window[key] &&
+            window[key][location.hostname];
+      } catch (e) {}
+    }
 
-    /** @preserveTry */
-    try {
-      userData_ = dom.createElement('userdata');
-      userData_['addBehavior']('#default#userData');
-      dom.document.body.appendChild(userData_);
-      userData_['load'](userData_.tagName);
-    } catch (e) {}
+    if (!globalStorage_) {
+      /** @preserveTry */
+      try {
+        userData_ = dom.createElement('userdata');
+        userData_['addBehavior']('#default#userData');
+        dom.document.body.appendChild(userData_);
+        userData_['load'](userData_.tagName);
+      } catch (e) {}
+    }
 
     checkSession_();
   }
@@ -183,6 +187,7 @@ dom.DataStorage = function(opt_options) {
     if ('session' === options_['type'] && !nativeStorage_) {
       /** @type {!Object} */ var session = options_['session'];
       /** @type {string} */ var timestamp = dom.Cookies.get(session['key']);
+
       if (timestamp && +timestamp + session['ttl'] * 6e4 < +new Date) {
         self_.clear();
       }

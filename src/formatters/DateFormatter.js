@@ -1,6 +1,7 @@
 
 /**
  * @fileoverview Date format library.
+ *
  * @link https://google.github.io/styleguide/javascriptguide.xml
  * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
  */

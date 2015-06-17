@@ -1,14 +1,15 @@
 
 /**
  * @fileoverview Calendar control.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
 
 /**
- * Constructor of Calendar.
+ * Constructor of Calendar control.
  * @param {string|Node} container The HTML container or its ID.
  * @param {Object=} opt_options Optional options.
  * @extends {dom.EventDispatcher} dom.EventDispatcher
@@ -137,8 +138,8 @@ controls.Calendar = function(container, opt_options) {
    */
   this.clear = function() {
     selected_ = [];
-    var cellDate;
-    var now = formatter_.format(new Date(), 'YYYY-MM-dd');
+    /** @type {string} */ var now = formatter_.format(new Date(), 'YYYY-MM-dd');
+    /** @type {string} */ var cellDate;
 
     self_.each(function(cell) {
       cellDate = cell.getAttribute('value');
@@ -164,8 +165,9 @@ controls.Calendar = function(container, opt_options) {
     /** @type {HTMLTableRowElement} */ var row = rows[rows.length - 1];
     /** @type {number} */ var content = 0;
     /** @type {number} */ var i = 0;
+    /** @type {number} */ var length = row.cells.length;
 
-    for (; i < row.cells.length;) {
+    for (; i < length;) {
       content += +row.cells[i++].innerHTML || 0;
     }
 
@@ -204,8 +206,9 @@ controls.Calendar = function(container, opt_options) {
       headers[headers.length - 1]
     ];
     /** @type {number} */ var i = 0;
+    /** @type {number} */ var length = cells.length;
 
-    for (; i < cells.length; i++) {
+    for (; i < length; i++) {
       dom.events.addEventListener(cells[i], dom.events.TYPE.CLICK, function(e) {
         self_.dispatchEvent((dom.events.getEventTarget(e)).cellIndex ?
             self_.events.NEXT_MONTH : self_.events.PREV_MONTH);
@@ -225,19 +228,24 @@ controls.Calendar = function(container, opt_options) {
    */
   function clickHandler_(e) {
     /** @type {EventTarget} */ var target = dom.events.getEventTarget(e);
+
+
     if (!isNaN(+target.innerHTML)) {
       /** @type {Date} */ var selected = formatter_.parse(
           target.getAttribute('value'), opt_options['format']);
+      /** @type {number} */ var index;
+      /** @type {Date} */ var start;
+      /** @type {Date} */ var end;
 
       if (opt_options['multiple'] && !first_) {
         selected_.push(selected);
-        /** @type {number} */ var index = selected_.length - 1;
+        index = selected_.length - 1;
         if (selected_[0] > selected_[index]) {
           selected_.reverse();
         }
 
-        /** @type {Date} */ var start = selected_[0];
-        /** @type {Date} */ var end = new Date(selected_[index]);
+        start = selected_[0];
+        end = new Date(selected_[index]);
         while (end > start) {
           end.setDate(end.getDate() - 1);
           selected_.splice(1, 0, new Date(end.getTime()));

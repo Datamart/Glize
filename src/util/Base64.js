@@ -2,16 +2,16 @@
 /**
  * @fileoverview Base64 utility methods.
  *
- * @see {@link https://en.wikipedia.org/wiki/Base64}
- * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
- * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
+ * @see https://en.wikipedia.org/wiki/Base64
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
 /**
  * Base64 utility methods.
  * @namespace
- * @see {@link https://en.wikipedia.org/wiki/Base64}
+ * @see https://en.wikipedia.org/wiki/Base64
  */
 util.Base64 = {
   /**
