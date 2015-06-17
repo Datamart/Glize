@@ -1,14 +1,14 @@
 
 /**
- * @fileoverview Miscellaneous Cookies utility methods.
+ * @fileoverview Cookies utility methods.
  *
- * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
- * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
 /**
- * Miscellaneous Cookies utility methods.
+ * Cookies utility methods.
  * @type {!Object.<string, Function>}
  * @namespace
  */
@@ -47,6 +47,7 @@ dom.Cookies = {
    */
   remove: function(key) {
     /** @type {string} */ var value = dom.Cookies.get(key);
+
     dom.Cookies.set(key, '', 0);
     return !!value;
   },
@@ -56,8 +57,10 @@ dom.Cookies = {
    */
   clear: function() {
     /** @type {!Array.<string>} */ var keys = dom.Cookies.keys();
-    while (keys.length) {
-      dom.Cookies.remove(keys.pop());
+    /** @type {number} */ var length = keys.length;
+
+    while (length--) {
+      dom.Cookies.remove(keys[length]);
     }
   },
 
@@ -66,12 +69,13 @@ dom.Cookies = {
    * @return {!Array.<string>} Returns list of stored keys.
    */
   keys: function() {
-    /** @type {!Array.<string>} */ var keys = [];
     /** @type {!RegExp} */ var re = /;\s*/;
     /** @type {!Array.<string>} */ var parts = dom.document.cookie.split(re);
+    /** @type {number} */ var length = parts.length;
+    /** @type {!Array.<string>} */ var keys = new Array(length - 1);
 
-    while (parts.length) {
-      keys.push(parts.pop().split('=')[0]);
+    while (length--) {
+      keys[length] = (parts[length].split('=')[0]);
     }
     return keys;
   }
