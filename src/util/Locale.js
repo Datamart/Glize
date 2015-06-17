@@ -1,9 +1,10 @@
 
 /**
  * @fileoverview Simple implementation of </code>java.util.Locale</code>.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
- * @link http://docs.oracle.com/javase/1.5.0/docs/api/java/util/Locale.html
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @see http://docs.oracle.com/javase/8/docs/api/java/util/Locale.html
  */
 
 
@@ -14,7 +15,7 @@
  * @param {string=} opt_country The uppercase two-letter ISO-3166 code.
  * @param {string=} opt_variant The vendor and browser specific code.
  * @constructor
- * @link http://docs.oracle.com/javase/1.5.0/docs/api/java/util/Locale.html
+ * @see http://docs.oracle.com/javase/8/docs/api/java/util/Locale.html
  */
 util.Locale = function(language, opt_country, opt_variant) {
 
@@ -50,7 +51,6 @@ util.Locale = function(language, opt_country, opt_variant) {
  * Gets the current value of the default locale.
  * @return {!util.Locale} Returns the default locale.
  * @static
- * @see docs.oracle.com/javase/1.5.0/docs/api/java/util/Locale.html#getDefault()
  */
 util.Locale.getDefault = function() {
   /** @type {string} */
@@ -66,6 +66,6 @@ util.Locale.getDefault = function() {
  * Useful constant for language.
  * @type {!util.Locale}
  * @static
- * @see docs.oracle.com/javase/1.5.0/docs/api/java/util/Locale.html#ENGLISH
+ * @see http://docs.oracle.com/javase/8/docs/api/java/util/Locale.html#ENGLISH
  */
 util.Locale.ENGLISH = new util.Locale('en');

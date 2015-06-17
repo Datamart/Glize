@@ -1,8 +1,9 @@
 
 /**
- * @fileoverview MetaData localization utils.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @fileoverview MetaData utils.
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
@@ -26,7 +27,7 @@ util.MetaData = function() {
    * @param {Document|Node=} opt_context The optional DOM context.
    * @return {Object.<string, string>} Returns meta data.
    */
-  this.getValues = function(opt_context) {
+  this.getMetaData = function(opt_context) {
     self_.read(opt_context || dom.document, 'meta', 'name', 'content');
     return self_.getData();
   };

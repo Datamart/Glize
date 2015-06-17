@@ -2,14 +2,14 @@
 /**
  * @fileoverview Miscellaneous String utility methods.
  *
- * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
- * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
 /**
  * Miscellaneous String utility methods.
- * @link http://static.springsource.org/spring/docs/2.5.x/api/org/
+ * @see http://static.springsource.org/spring/docs/2.5.x/api/org/
  *     springframework/util/StringUtils.html
  * @namespace
  */

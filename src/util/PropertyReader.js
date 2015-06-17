@@ -1,8 +1,9 @@
 
 /**
  * @fileoverview PropertyReader utils.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
@@ -14,21 +15,28 @@
 util.PropertyReader = function() {
 
   /**
-   * Gets attribute' values of "tagName" founded in "context".
+   * Gets attribute' values of <code>tagName</code> founded in
+   *     <code>context</code>.
    * @param {Document|Node} context The DOM context.
    * @param {string} tagName The element tag name.
    * @param {string} attribute The name of attribute.
    * @param {string} value The name of value attribute.
+   * @see util.MetaData
    */
   this.read = function(context, tagName, attribute, value) {
     if (context) {
       /** @type {NodeList} */
       var nodes = dom.getElementsByTagName(context, tagName);
-      for (/** @type {number} */ var i = 0; i < nodes.length;) {
-        /** @type {!Node} */ var node = nodes[i++];
-        /** @type {string} */ var name = node.getAttribute(attribute);
+      /** @type {number} */ var i = 0;
+      /** @type {!Node} */ var node;
+      /** @type {string} */ var name;
+      /** @type {string} */ var result;
+
+      for (; i < nodes.length;) {
+        node = nodes[i++];
+        name = node.getAttribute(attribute);
         if (name) {
-          /** @type {string} */ var result = node.getAttribute(value);
+          result = node.getAttribute(value);
           cache_[name] = result;
           values_.push(result);
           names_.push(name);
@@ -38,22 +46,21 @@ util.PropertyReader = function() {
   };
 
   /**
-   * TODO: rename to 'getValues'
-   * @return {!Array.<string>} Returns object.
+   * @return {!Array.<string>} Returns list of values.
    */
-  this.getListOfValues = function() {
+  this.getValues = function() {
     return values_;
   };
 
   /**
-   * @return {!Array.<string>} Returns object.
+   * @return {!Array.<string>} Returns list of names.
    */
   this.getNames = function() {
     return names_;
   };
 
   /**
-   * @return {Object.<string, string>} Returns object.
+   * @return {Object.<string, string>} Returns data object.
    */
   this.getData = function() {
     return cache_;
