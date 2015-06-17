@@ -10,68 +10,39 @@
 /**
  * Constructor of InputRange.
  * @param {string|Element} input The input element or its ID attribute.
- * @param {Object=} opt_options A optional control's configuration options.
  * @constructor
  * @link http://www.w3.org/TR/html-markup/input.range.html
  */
-controls.html5.InputRange = function(input, opt_options) {
-
-  /**
-   * Defaults control options.
-   * @dict
-   * @see controls.html5.InputRange#getOptions_
-   * @private
-   */
-  var defaults_ = {
-    'input': {
-      'border': 'inset 1px #ddd',
-      'height': 1,
-      'color': '#fff'
-    },
-    'point': {
-      'border': 'solid 1px #333',
-      'size' : 10,
-      'color': '#eee'
-    }
-  };
+controls.html5.InputRange = function(input) {
 
   /**
    * @private
    */
   function init_() {
-    if ('range' != input_.type) {
-      options_ = getOptions_(opt_options);
+    if ('range' !== input_.type) {
 
-      input_.style.border = options_['input']['border'];
-      input_.style.height = options_['input']['height'] + 'px';
-      input_.style.backgroundColor =
-          input_.style.color = options_['input']['color'];
-      getWrapper_().appendChild(getPoint_());
+      track_ = dom.createElement('DIV');
+      // input[type=range]::-webkit-slider-runnable-track {}
+      // input[type=range]::-moz-range-track {}
+      // input[type=range]::-ms-track {}
+      dom.css.setClass(track_, 'range-track');
+      getWrapper_().appendChild(track_);
+
+      thumb_ = dom.createElement('DIV');
+      // input[type=range]::-webkit-slider-thumb {}
+      // input[type=range]::-moz-range-thumb {}
+      // input[type=range]::-ms-thumb {}
+      dom.css.setClass(thumb_, 'range-thumb');
+      track_.appendChild(thumb_);
+
+      // TODO: Calculate left position depending on input value, min and max.
+      thumb_.style.left = (track_.offsetWidth - thumb_.offsetWidth) / 2 + 'px';
 
       dom.events.addEventListener(
-          input_, dom.events.TYPE.MOUSEDOWN, mousedown_);
+          track_, dom.events.TYPE.MOUSEDOWN, mousedown_);
       dom.events.addEventListener(
-          point_, dom.events.TYPE.MOUSEDOWN, mousedown_);
+          thumb_, dom.events.TYPE.MOUSEDOWN, mousedown_);
     }
-  }
-
-  /**
-   * @return {Element} Returns reference to draggable element.
-   * @private
-   */
-  function getPoint_() {
-    if (!point_) {
-      point_ = dom.createElement('DIV');
-      point_.style.border = options_['point']['border'];
-      point_.style.height = options_['point']['size'] + 'px';
-      point_.style.width = options_['point']['size'] + 'px';
-      point_.style.backgroundColor = options_['point']['color'];
-      point_.style.position = 'absolute';
-      point_.style.borderRadius = '50%';
-      point_.style.top = '2px';
-      point_.style.left = (input_.offsetWidth / 2) + 2 + 'px';
-    }
-    return point_;
   }
 
   /**
@@ -81,8 +52,7 @@ controls.html5.InputRange = function(input, opt_options) {
   function getWrapper_() {
     if (!wrapper_) {
       wrapper_ = dom.createElement('SPAN');
-      wrapper_.style.position = 'relative';
-      dom.css.setClass(wrapper_, 'input-range-wrapper');
+      dom.css.setClass(wrapper_, 'range-wrapper');
       input_.parentNode.insertBefore(wrapper_, input_);
       wrapper_.appendChild(input_);
     }
@@ -94,11 +64,12 @@ controls.html5.InputRange = function(input, opt_options) {
    * @private
    */
   function mousedown_(e) {
-    if (dom.events.getEventTarget(e) == point_) {
+    if (dom.events.getEventTarget(e) == thumb_) {
       dom.events.addEventListener(
           dom.document, dom.events.TYPE.MOUSEMOVE, mousemove_);
       dom.events.addEventListener(
           dom.document, dom.events.TYPE.MOUSEUP, mouseup_);
+      dom.css.addClass(track_, 'range-track-focus');
     }
     mousemove_(e);
   }
@@ -112,6 +83,7 @@ controls.html5.InputRange = function(input, opt_options) {
         dom.document, dom.events.TYPE.MOUSEMOVE, mousemove_);
     dom.events.removeEventListener(
         dom.document, dom.events.TYPE.MOUSEUP, mouseup_);
+    dom.css.removeClass(track_, 'range-track-focus');
   }
 
   /**
@@ -120,14 +92,17 @@ controls.html5.InputRange = function(input, opt_options) {
    */
   function mousemove_(e) {
     e = dom.events.getEvent(e);
-    /** @type {Object} */ var rect = dom.getBoundingClientRect(input_);
+    /** @type {Object} */ var rect = dom.getBoundingClientRect(track_);
+    /** @type {number} */ var margin = thumb_.offsetWidth / 2;
     /** @type {number} */ var x = e.clientX;
-    if (x && x >= rect['left'] && x <= rect['right']) {
-      point_.style.left = x - rect['left'] + 'px';
-      /** @type {number} */ var value = +(input_.value || 0);
+    /** @type {number} */ var value;
+
+    if (x >= rect['left'] + margin && x <= rect['right'] - margin) {
+      thumb_.style.left = x - margin - rect['left'] + 'px';
+      // TODO: Increment / decrement value.
+      // TODO: Use step attribute.
+      value = +(input_.value || 0);
       if (value >= min_ && value <= max_) {
-        // TODO: Increment / decrement value.
-        // TODO: Use step attribute.
         input_.value = value;
         dispatchEvents_();
       }
@@ -150,57 +125,32 @@ controls.html5.InputRange = function(input, opt_options) {
   }
 
   /**
-   * Gets control's options merged with defaults control's options.
-   * @param {Object=} opt_options A optional control's configuration options.
-   * @return {!Object.<string, *>} A map of name/value pairs.
-   * @private
-   */
-  function getOptions_(opt_options) {
-    return mergeOptions_(defaults_, opt_options || {});
-  }
-
-  /**
-   * Merges control options with defaults options.
-   * @param {!Object.<string, *>} defaults Options map.
-   * @param {!Object.<string, *>} options Options map.
-   * @return {!Object.<string, *>} A map of key/value pairs of options.
-   * @private
-   */
-  function mergeOptions_(defaults, options) {
-    for (/** @type {string} */ var key in options) {
-      if (options[key] instanceof Array) {
-        defaults[key] = [].concat(options[key]);
-      } else if (typeof options[key] == 'object') {
-        defaults[key] = mergeOptions_(
-            /** @type {!Object.<string, *>} */ (defaults[key] || {}),
-            /** @type {!Object.<string, *>} */ (options[key]));
-      } else {
-        defaults[key] = options[key];
-      }
-    }
-    return /** @type {!Object.<string, *>} */ (defaults);
-  };
-
-  /**
    * The reference to wrapper element.
    * @type {Element}
    * @private
    */
-  var wrapper_ = null;
+  var wrapper_ = dom.NULL;
 
   /**
-   * The reference to draggable element.
+   * The reference to slider thumb element.
    * @type {Element}
    * @private
    */
-  var point_ = null;
+  var thumb_ = dom.NULL;
+
+  /**
+   * The reference to slider track element.
+   * @type {Element}
+   * @private
+   */
+  var track_ = dom.NULL;
 
   /**
    * The reference to input element.
    * @type {Element}
    * @private
    */
-  var input_ = typeof input == 'string' ? dom.getElementById(input) : input;
+  var input_ = 'string' === typeof input ? dom.getElementById(input) : input;
 
   /**
    * The expected lower bound for the input value.
@@ -223,13 +173,5 @@ controls.html5.InputRange = function(input, opt_options) {
    */
   var step_ = +(input_.getAttribute('step') || 1);
 
-  /**
-   * Storage for configuration options.
-   * @dict
-   * @private
-   */
-  var options_ = null;
-
   init_();
 };
-
