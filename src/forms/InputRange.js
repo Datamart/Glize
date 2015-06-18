@@ -79,7 +79,9 @@ forms.InputRange = function(input) {
    * @private
    */
   function init_() {
+    /** @type {number} */ var value;
     if (RANGE_TYPE !== input_.type) {
+      value = +(input_.value || 0);
 
       track_ = dom.createElement('DIV');
       dom.css.setClass(track_, RANGE_TRACK_CLASS);
@@ -89,8 +91,10 @@ forms.InputRange = function(input) {
       dom.css.setClass(thumb_, RANGE_THUMB_CLASS);
       track_.appendChild(thumb_);
 
-      // TODO: Calculate left position based on input value, step, min and max.
-      thumb_.style.left = (track_.offsetWidth - thumb_.offsetWidth) / 2 + 'px';
+      stepWidth_ = (track_.offsetWidth - thumb_.offsetWidth) /
+          (max_ - min_) * step_;
+
+      setPosition_(value > max_ ? max_ : value < min_ ? 0 : value, true);
 
       if (maxTouchPoints_) {
         dom.events.addEventListener(
@@ -174,18 +178,25 @@ forms.InputRange = function(input) {
     /** @type {number} */ var value;
 
     if (x >= rect['left'] + margin && x <= rect['right'] - margin) {
-      // TODO: Calculate left position based on input value, step, min and max.
-      thumb_.style.left = x - margin - rect['left'] + 'px';
-      // TODO: Increment / decrement value.
-      // TODO: Use step attribute.
-      value = +(input_.value || 0);
-      if (value >= min_ && value <= max_) {
-        input_.value = '' + value;
-        dispatchEvents_();
-      }
+      setPosition_((x - margin - rect['left']) / stepWidth_);
     }
+    lastX_ = x;
     // Prevent text selection.
     dom.events.preventDefault(e);
+  }
+
+  /**
+   * Set thumb position and track value.
+   * @param {number} x Thumb position.
+   * @param {boolean=} opt_init Optional flag of initialization.
+   */
+  function setPosition_(x, opt_init) {
+    if (opt_init || Math.abs(lastX_ - x) > stepWidth_) {
+      x = ~~(x + 0.5); // Math.ceil
+      input_.value = '' + x;
+      thumb_.style.left = stepWidth_ * x + 'px';
+      dispatchEvents_();
+    }
   }
 
   /**
@@ -249,6 +260,20 @@ forms.InputRange = function(input) {
    * @private
    */
   var step_ = +(input_.getAttribute('step') || 1);
+
+  /**
+   * Width of one step in pixels.
+   * @type {number}
+   * @private
+   */
+  var stepWidth_;
+
+  /**
+   * Previous cursor position.
+   * @type {number}
+   * @private
+   */
+  var lastX_;
 
   /**
    * Detects touch screen.
