@@ -21,11 +21,11 @@
 forms.InputNumber = function(input) {
 
   /**
+   * @bug 344616 https://bugzilla.mozilla.org/show_bug.cgi?id=344616
    * @private
    */
   function init_() {
-    // @bug: https://bugzilla.mozilla.org/show_bug.cgi?id=344616
-    if ('number' !== input_.type) {
+    if (!forms.hasFeature(forms.FEATURES.TYPE_NUMBER)) {
       dom.events.addEventListener(input_, dom.events.TYPE.KEYDOWN, keydown_);
       dom.events.addEventListener(
           input_, dom.events.TYPE.MOUSEDOWN, mousedown_);
@@ -35,6 +35,7 @@ forms.InputNumber = function(input) {
       if (!input_.getAttribute('pattern')) {
         input_.setAttribute('pattern', '^\-?[0-9]+$');
       }
+
       if (!input_.getAttribute('maxlength')) {
         input_.setAttribute('maxlength', ('' + max_).length);
       }
@@ -54,8 +55,7 @@ forms.InputNumber = function(input) {
    */
   function increment_() {
     /**@type {number} */ var value = parseInt(input_.value, 10) || 0;
-    input_.value = '' + Math.min(value + step_, max_);
-    dispatchEvents_();
+    dispatchEvents_('' + Math.min(max_, value + step_));
   }
 
   /**
@@ -63,8 +63,7 @@ forms.InputNumber = function(input) {
    */
   function decrement_() {
     /**@type {number} */ var value = parseInt(input_.value, 10) || 0;
-    input_.value = '' + Math.max(value - step_, min_);
-    dispatchEvents_();
+    dispatchEvents_('' + Math.max(min_, value - step_));
   }
 
   /**
@@ -113,14 +112,15 @@ forms.InputNumber = function(input) {
 
   /**
    * Dispatches input events.
-   * @return {boolean} Returns <code>true</code> if all events are
-   * dispatched successfully.
+   * @param {string} value The new value.
    * @private
    */
-  function dispatchEvents_() {
-    /** @type {boolean} */
-    var result = dom.events.dispatchEvent(input_, dom.events.TYPE.INPUT);
-    return dom.events.dispatchEvent(input_, dom.events.TYPE.CHANGE) && result;
+  function dispatchEvents_(value) {
+    if (value != input_.value) {
+      input_.value = value;
+      dom.events.dispatchEvent(input_, dom.events.TYPE.INPUT);
+      dom.events.dispatchEvent(input_, dom.events.TYPE.CHANGE);
+    }
   }
 
   /**
@@ -170,6 +170,9 @@ forms.InputNumber = function(input) {
    * @private
    */
   var padding_ = 16;
+
+  // var img = new Image();img.src = 'data:image/png;base64,' + img_ + '';
+  // console.log(padding_ == img.width + 1)
 
   init_();
 };

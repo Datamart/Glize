@@ -21,7 +21,7 @@ forms.PlaceHolder = function() {
    * @param {Node} container The HTML container which contains form elements.
    */
   this.init = function(container) {
-    if (!forms.isSupported(forms.FEATURES.PLACEHOLDER)) {
+    if (!forms.hasFeature(forms.FEATURES.PLACEHOLDER)) {
       for (/** @type {number} */ var i = 0; i < forms.TAGS.length;) {
         initPlaceHolder_(dom.getElementsByTagName(container, forms.TAGS[i++]));
       }

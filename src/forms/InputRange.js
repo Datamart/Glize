@@ -21,13 +21,6 @@
 forms.InputRange = function(input) {
 
   /**
-   * Range type constant.
-   * @type {string}
-   * @const
-   */
-  var RANGE_TYPE = 'range';
-
-  /**
    * The "<code>.range-track</code>" css class should emulate
    * following pseudo-classes:<pre>
    *     input[type=range]::-webkit-slider-runnable-track {}
@@ -36,7 +29,7 @@ forms.InputRange = function(input) {
    * @type {string}
    * @const
    */
-  var RANGE_TRACK_CLASS = RANGE_TYPE + '-track';
+  var RANGE_TRACK_CLASS = forms.FEATURES.TYPE_RANGE + '-track';
 
   /**
    * The "<code>.range-thumb</code>" css class should emulate
@@ -47,7 +40,7 @@ forms.InputRange = function(input) {
    * @type {string}
    * @const
    */
-  var RANGE_THUMB_CLASS = RANGE_TYPE + '-thumb';
+  var RANGE_THUMB_CLASS = forms.FEATURES.TYPE_RANGE + '-thumb';
 
   /**
    * The "<code>.range-track-focus</code>" css class should emulate
@@ -73,14 +66,13 @@ forms.InputRange = function(input) {
    *   </div>
    * </span>
    */
-  var RANGE_CONTROL_CLASS = RANGE_TYPE + '-control';
+  var RANGE_CONTROL_CLASS = forms.FEATURES.TYPE_RANGE + '-control';
 
   /**
    * @private
    */
   function init_() {
-    if (RANGE_TYPE !== input_.type) {
-
+    if (!forms.hasFeature(forms.FEATURES.TYPE_RANGE)) {
       track_ = dom.createElement('DIV');
       dom.css.setClass(track_, RANGE_TRACK_CLASS);
       getControl_().appendChild(track_);
