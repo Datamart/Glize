@@ -180,6 +180,7 @@ forms.InputRange = function(input) {
     if (x >= rect['left'] + margin && x <= rect['right'] - margin) {
       setPosition_((x - margin - rect['left']) / stepWidth_);
     }
+    lastX_ = x;
     // Prevent text selection.
     dom.events.preventDefault(e);
   }
@@ -190,7 +191,7 @@ forms.InputRange = function(input) {
    * @param {boolean=} opt_init Optional flag of initialization.
    */
   function setPosition_(x, opt_init) {
-    if (opt_init || (x % step_ > 0.9 || x < 0.1)) {
+    if (opt_init || Math.abs(lastX_ - x) > stepWidth_) {
       x = ~~(x + 0.5); // Math.ceil
       input_.value = '' + x;
       thumb_.style.left = stepWidth_ * x + 'px';
@@ -266,6 +267,13 @@ forms.InputRange = function(input) {
    * @private
    */
   var stepWidth_;
+
+  /**
+   * Previous cursor position.
+   * @type {number}
+   * @private
+   */
+  var lastX_;
 
   /**
    * Detects touch screen.
