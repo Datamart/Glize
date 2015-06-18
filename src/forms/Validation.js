@@ -1,7 +1,8 @@
 /**
  * @fileoverview Simple implementation of HTML5 Validation.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
@@ -12,7 +13,7 @@
  * @requires dom.events
  * @requires locale.Validation
  * @example
- * (<b>new</b> forms.Validation).init(document.forms[0]);
+ * (new forms.Validation).init(document.forms[0]);
  */
 forms.Validation = function() {
 
