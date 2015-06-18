@@ -1,6 +1,7 @@
 
 /**
- * @fileoverview Simple implementation of HTML5 input type="range" control.
+ * @fileoverview Simple implementation of HTML5 input
+ *               <code>type="range"</code> control.
  *
  * @see http://www.w3.org/TR/html-markup/input.range.html
  * @see http://google.github.io/styleguide/javascriptguide.xml
@@ -10,7 +11,7 @@
 
 
 /**
- * Simple implementation of HTML5 input type="range" control.
+ * Simple implementation of HTML5 input <code>type="range"</code> control.
  * @param {string|HTMLInputElement} input The input element or its ID attribute.
  * @constructor
  * @requires dom.events
