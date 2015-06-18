@@ -79,6 +79,7 @@ forms.InputRange = function(input) {
    * @private
    */
   function init_() {
+    var width;
     if (RANGE_TYPE !== input_.type) {
 
       track_ = dom.createElement('DIV');
@@ -90,10 +91,11 @@ forms.InputRange = function(input) {
       track_.appendChild(thumb_);
       thumb_.style['webkitTransition'] = 'all 150ms ease-in-out';
 
-      stepWidth_ = (track_.offsetWidth - thumb_.offsetWidth) /
-          (input_.max - input_.min) * step_;
+      width = track_.offsetWidth - thumb_.offsetWidth;
 
-      setPosition_((track_.offsetWidth - thumb_.offsetWidth) / 2, true);
+      stepWidth_ = width / (max_ - min_) * step_;
+
+      setPosition_(width / 2, true);
 
       if (maxTouchPoints_) {
         dom.events.addEventListener(
