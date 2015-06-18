@@ -26,7 +26,8 @@ forms.InputRange = function(input) {
   var RANGE_TYPE = 'range';
 
   /**
-   * This css class should emulate following pseudo-classes:<pre>
+   * The "<code>.range-track</code>" css class should emulate
+   * following pseudo-classes:<pre>
    *     input[type=range]::-webkit-slider-runnable-track {}
    *     input[type=range]::-moz-range-track {}
    *     input[type=range]::-ms-track {}</pre>
@@ -36,7 +37,8 @@ forms.InputRange = function(input) {
   var RANGE_TRACK_CLASS = RANGE_TYPE + '-track';
 
   /**
-   * This css class should emulate following pseudo-classes:<pre>
+   * The "<code>.range-thumb</code>" css class should emulate
+   * following pseudo-classes:<pre>
    *     input[type=range]::-webkit-slider-thumb {}
    *     input[type=range]::-moz-range-thumb {}
    *     input[type=range]::-ms-thumb {}</pre>
@@ -46,7 +48,8 @@ forms.InputRange = function(input) {
   var RANGE_THUMB_CLASS = RANGE_TYPE + '-thumb';
 
   /**
-   * This css class should emulate following pseudo-classes:<pre>
+   * The "<code>.range-track-focus</code>" css class should emulate
+   * following pseudo-classes:<pre>
    *     input[type=range]:focus::-webkit-slider-runnable-track {}
    *     input[type=range]:focus::-webkit-slider-thumb {}
    *     input[type=range]:focus::-moz-range-track {}
@@ -57,7 +60,8 @@ forms.InputRange = function(input) {
   var RANGE_TRACK_FOCUS_CLASS = RANGE_TRACK_CLASS + '-focus';
 
   /**
-   * Css class for common implementation wrapper.
+   * The "<code>.range-wrapper</code>" css class is common implementation
+   * wrapper.
    * @type {string}
    * @const
    * @example

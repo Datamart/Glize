@@ -12,8 +12,11 @@
 /**
  * Constructor of InputRange.
  * @param {string|HTMLInputElement} input The input element or its ID attribute.
+ * @extends {forms.InputRange} forms.InputRange
  * @constructor
  * @see http://www.w3.org/TR/html-markup/input.range.html
  * @deprecated Use {@link forms.InputRange} instead.
  */
-controls.html5.InputRange = forms.InputRange;
+controls.html5.InputRange = function(input) {
+  forms.InputRange.apply(this, arguments);
+};
