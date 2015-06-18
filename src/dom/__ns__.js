@@ -160,13 +160,15 @@ dom.getBoundingClientRect = function(element) {
  * @return {string|number} Returns element style value.
  */
 dom.getComputedStyle = function(element, prop) {
-  /** @type {string} */ var value = element.style[prop];
-  if (element.currentStyle)
-    value = element.currentStyle[prop];
-  else if (window.getComputedStyle)
-    value = dom.document.defaultView.getComputedStyle(
-        element, dom.NULL).getPropertyValue(prop);
-  return value;
+  if (window['getComputedStyle']) {
+    return window['getComputedStyle'](element, dom.NULL).getPropertyValue(prop);
+  }
+
+  // Converting 'css-property-name' to 'cssPropertyName'.
+  prop = prop.replace(/\-\w/g, function(match) {
+    return match.toUpperCase().slice(1);
+  });
+  return (element.currentStyle || element.style)[prop];
 };
 
 

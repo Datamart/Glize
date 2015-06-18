@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
+<title>HTML5 InputNumber Control</title>
+<style>
+input {border: solid 1px #666; margin: .5em; padding: 5px 6px; width: 12em;}
+.input-number {width: 10.6em}
+</style>
+</head>
+<body>
+<form>
+  <div style="border:solid 0px #fff;margin-left:100px">
+    <input min="0" step="1" value="2" max="3" id="number1" type="number"
+           oninput="console.log(this.value)">
+  </div>
+
+  <div style="border:solid 0px #fff;margin-left:100px">
+    <input min="0" step="1" value="2" max="3" id="number2" type="text"
+           oninput="console.log(this.value)">
+  </div>
+</form>
+
+<script src="../dom/__ns__.js"></script>
+<script src="__ns__.js"></script>
+<script src="InputNumber.js"></script>
+
+<script>
+new forms.InputNumber('number1');
+new forms.InputNumber('number2');
+</script>
+
+</body>
+</html>
