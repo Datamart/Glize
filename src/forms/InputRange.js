@@ -106,7 +106,6 @@ forms.InputRange = function(input) {
         dom.events.addEventListener(
             thumb_, dom.events.TYPE.MOUSEDOWN, mousedown_);
       }
-      inited_ = true;
     }
   }
 
