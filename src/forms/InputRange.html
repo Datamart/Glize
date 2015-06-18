@@ -8,8 +8,9 @@
 
 <style>
 
-body {background: #0EB0D2;}
+body {background: #0EB0D2;color:#fff;font-family: arial;font-size: 1em}
 
+label {display: inline-block;width: 2em;}
 input {
   margin: 0;
   padding: 0;
@@ -23,7 +24,6 @@ input {
 }
 
 .range-control input {
-  background: red;
   border: 0;
   height: 1px;
   visibility: hidden;
@@ -105,17 +105,18 @@ input[type=range]:focus::-moz-range-thumb {
 .range-track-focus .range-thumb {
   background: #b6e7f1;
 }
-
 </style>
 </head>
 <body>
 <form>
   <div style="border:solid 0px #fff;margin-left:100px">
-    <input id="range1" type="range">
+    <input min="0" step="1" value="2" max="3" id="range1" type="range"
+           oninput="console.log(this.value)">
   </div>
-  
+
   <div style="border:solid 0px #fff;margin-left:100px">
-    <input id="range2" type="text">
+    <input min="0" step="1" value="2" max="3" id="range2" type="text"
+           oninput="console.log(this.value)">
   </div>
 </form>
 

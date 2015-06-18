@@ -88,7 +88,7 @@ forms.InputRange = function(input) {
       dom.css.setClass(thumb_, RANGE_THUMB_CLASS);
       track_.appendChild(thumb_);
 
-      // TODO: Calculate left position depending on input value, min and max.
+      // TODO: Calculate left position based on input value, step, min and max.
       thumb_.style.left = (track_.offsetWidth - thumb_.offsetWidth) / 2 + 'px';
 
       if (maxTouchPoints_) {
@@ -173,6 +173,7 @@ forms.InputRange = function(input) {
     /** @type {number} */ var value;
 
     if (x >= rect['left'] + margin && x <= rect['right'] - margin) {
+      // TODO: Calculate left position based on input value, step, min and max.
       thumb_.style.left = x - margin - rect['left'] + 'px';
       // TODO: Increment / decrement value.
       // TODO: Use step attribute.
