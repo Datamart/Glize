@@ -60,19 +60,18 @@ forms.InputRange = function(input) {
   var RANGE_TRACK_FOCUS_CLASS = RANGE_TRACK_CLASS + '-focus';
 
   /**
-   * The "<code>.range-wrapper</code>" css class is common implementation
-   * wrapper.
+   * The "<code>.range-control</code>" css class for control container.
    * @type {string}
    * @const
    * @example
-   * <span class="range-wrapper">
+   * <span class="range-control">
    *   <input />
    *   <div class="range-track">
    *     <div class="range-thumb"></div>
    *   </div>
    * </span>
    */
-  var RANGE_WRAPPER_CLASS = RANGE_TYPE + '-wrapper';
+  var RANGE_CONTROL_CLASS = RANGE_TYPE + '-control';
 
   /**
    * @private
@@ -82,7 +81,7 @@ forms.InputRange = function(input) {
 
       track_ = dom.createElement('DIV');
       dom.css.setClass(track_, RANGE_TRACK_CLASS);
-      getWrapper_().appendChild(track_);
+      getControl_().appendChild(track_);
 
       thumb_ = dom.createElement('DIV');
       dom.css.setClass(thumb_, RANGE_THUMB_CLASS);
@@ -106,17 +105,17 @@ forms.InputRange = function(input) {
   }
 
   /**
-   * @return {Element} Returns reference to wrapper element.
+   * @return {Element} Returns reference to control element.
    * @private
    */
-  function getWrapper_() {
-    if (!wrapper_) {
-      wrapper_ = dom.createElement('SPAN');
-      dom.css.setClass(wrapper_, RANGE_WRAPPER_CLASS);
-      input_.parentNode.insertBefore(wrapper_, input_);
-      wrapper_.appendChild(input_);
+  function getControl_() {
+    if (!control_) {
+      control_ = dom.createElement('SPAN');
+      dom.css.setClass(control_, RANGE_CONTROL_CLASS);
+      input_.parentNode.insertBefore(control_, input_);
+      control_.appendChild(input_);
     }
-    return wrapper_;
+    return control_;
   }
 
   /**
@@ -199,11 +198,11 @@ forms.InputRange = function(input) {
   }
 
   /**
-   * The reference to wrapper element.
+   * The reference to control element.
    * @type {Element}
    * @private
    */
-  var wrapper_ = dom.NULL;
+  var control_ = dom.NULL;
 
   /**
    * The reference to slider thumb element.
