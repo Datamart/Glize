@@ -19,52 +19,54 @@
 forms.InputRange = function(input) {
 
   /**
+   * Range type constant.
    * @type {string}
    * @const
    */
   var RANGE_TYPE = 'range';
 
   /**
-   * This css class should emulate following pseudo-classes:
+   * This css class should emulate following pseudo-classes:<pre>
    *     input[type=range]::-webkit-slider-runnable-track {}
    *     input[type=range]::-moz-range-track {}
-   *     input[type=range]::-ms-track {}
+   *     input[type=range]::-ms-track {}</pre>
    * @type {string}
    * @const
    */
   var RANGE_TRACK_CLASS = RANGE_TYPE + '-track';
 
   /**
-   * This css class should emulate following pseudo-classes:
+   * This css class should emulate following pseudo-classes:<pre>
    *     input[type=range]::-webkit-slider-thumb {}
    *     input[type=range]::-moz-range-thumb {}
-   *     input[type=range]::-ms-thumb {}
+   *     input[type=range]::-ms-thumb {}</pre>
    * @type {string}
    * @const
    */
   var RANGE_THUMB_CLASS = RANGE_TYPE + '-thumb';
 
   /**
-   * This css class should emulate following pseudo-classes:
+   * This css class should emulate following pseudo-classes:<pre>
    *     input[type=range]:focus::-webkit-slider-runnable-track {}
    *     input[type=range]:focus::-webkit-slider-thumb {}
    *     input[type=range]:focus::-moz-range-track {}
-   *     input[type=range]:focus::-moz-range-thumb {}
+   *     input[type=range]:focus::-moz-range-thumb {}</pre>
    * @type {string}
    * @const
    */
   var RANGE_TRACK_FOCUS_CLASS = RANGE_TRACK_CLASS + '-focus';
 
   /**
-   * Css class for common implementation wrapper:
-   *     <span class="range-wrapper">
-   *       <input />
-   *       <div class="range-track">
-   *         <div class="range-thumb"></div>
-   *       </div>
-   *     </span>
+   * Css class for common implementation wrapper.
    * @type {string}
    * @const
+   * @example
+   * <span class="range-wrapper">
+   *   <input />
+   *   <div class="range-track">
+   *     <div class="range-thumb"></div>
+   *   </div>
+   * </span>
    */
   var RANGE_WRAPPER_CLASS = RANGE_TYPE + '-wrapper';
 
