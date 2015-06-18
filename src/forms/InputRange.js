@@ -79,8 +79,9 @@ forms.InputRange = function(input) {
    * @private
    */
   function init_() {
-    var width;
+    /** @type {number} */ var value;
     if (RANGE_TYPE !== input_.type) {
+      value = +(input_.value || 0);
 
       track_ = dom.createElement('DIV');
       dom.css.setClass(track_, RANGE_TRACK_CLASS);
@@ -89,13 +90,11 @@ forms.InputRange = function(input) {
       thumb_ = dom.createElement('DIV');
       dom.css.setClass(thumb_, RANGE_THUMB_CLASS);
       track_.appendChild(thumb_);
-      thumb_.style['webkitTransition'] = 'all 150ms ease-in-out';
 
-      width = track_.offsetWidth - thumb_.offsetWidth;
+      stepWidth_ = (track_.offsetWidth - thumb_.offsetWidth) /
+          (max_ - min_) * step_;
 
-      stepWidth_ = width / (max_ - min_) * step_;
-
-      setPosition_(width / 2, true);
+      setPosition_(value > max_ ? max_ : value < min_ ? 0 : value, true);
 
       if (maxTouchPoints_) {
         dom.events.addEventListener(
@@ -191,9 +190,9 @@ forms.InputRange = function(input) {
    * @param {boolean=} opt_init Optional flag of initialization.
    */
   function setPosition_(x, opt_init) {
-    /** @type {number} */ var value = x / stepWidth_;
+    /** @type {number} */ var value = +(opt_init ? x : x / stepWidth_);
     if (opt_init || (value % step_ > 0.9 || value < 0.1)) {
-      value = ~~(value + 0.5);
+      value = ~~(value + 0.5); // Math.ceil
       input_.value = '' + value;
       thumb_.style.left = stepWidth_ * value + 'px';
       dispatchEvents_();
