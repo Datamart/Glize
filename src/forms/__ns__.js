@@ -1,8 +1,9 @@
 
 /**
  * @fileoverview Defines 'forms' namespace.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
@@ -34,23 +35,23 @@ var forms = {
   /**
    * Returns a boolean flag indicating if a given feature is supported.
    * @param {string} feature Is a string representing the feature name.
+   * @param {Element=} opt_element Optional element to test.
    * @return {boolean} Returns true if a given feature is supported.
    * @see http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7
    * @see forms.FEATURES
    */
-  hasFeature: function(feature) {
-    forms.features_ = forms.features_ || {};
-    if (!(feature in forms.features_)) {
-      /** @type {HTMLInputElement} */ var input =
-          /** @type {HTMLInputElement} */ (dom.createElement('INPUT'));
-      if (forms.FEATURES.PLACEHOLDER === feature ||
-          forms.FEATURES.VALIDATION === feature)
-        forms.features_[feature] = feature in input;
-      else if (forms.FEATURES.TYPE_RANGE === feature ||
-               forms.FEATURES.TYPE_NUMBER === feature)
-        forms.features_[feature] = feature === input.type;
+  hasFeature: function(feature, opt_element) {
+    opt_element = opt_element || dom.createElement('INPUT');
+    /** @type {boolean} */ var result = false;
+
+    if (forms.FEATURES.PLACEHOLDER === feature ||
+        forms.FEATURES.VALIDATION === feature) {
+      result = feature in opt_element;
+    } else if (forms.FEATURES.TYPE_RANGE === feature ||
+               forms.FEATURES.TYPE_NUMBER === feature) {
+      result = feature === opt_element.type;
     }
-    return forms.features_[feature];
+    return result;
   },
 
   /**
@@ -81,7 +82,6 @@ var forms = {
   /**
    * Initializes HTML5 form features: placeholder, validation, etc.
    * @param {Node} container The HTML container which contains form elements.
-   * @static
    * @example
    * forms.init(document.forms[0]);
    */

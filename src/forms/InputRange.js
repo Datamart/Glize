@@ -72,7 +72,7 @@ forms.InputRange = function(input) {
    * @private
    */
   function init_() {
-    if (!forms.hasFeature(forms.FEATURES.TYPE_RANGE)) {
+    if (!forms.hasFeature(forms.FEATURES.TYPE_RANGE, input_)) {
       track_ = dom.createElement('DIV');
       dom.css.setClass(track_, RANGE_TRACK_CLASS);
       getControl_().appendChild(track_);

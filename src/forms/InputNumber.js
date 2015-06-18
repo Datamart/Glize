@@ -19,13 +19,19 @@
  * @see http://www.w3.org/TR/html-markup/input.number.html
  */
 forms.InputNumber = function(input) {
+  /**
+   * The "<code>.number-control</code>" css class for input control.
+   * @type {string}
+   * @const
+   */
+  var CONTROL_CLASS = forms.FEATURES.TYPE_NUMBER + '-control';
 
   /**
    * @bug 344616 https://bugzilla.mozilla.org/show_bug.cgi?id=344616
    * @private
    */
   function init_() {
-    if (!forms.hasFeature(forms.FEATURES.TYPE_NUMBER)) {
+    if (!forms.hasFeature(forms.FEATURES.TYPE_NUMBER, input_)) {
       dom.events.addEventListener(input_, dom.events.TYPE.KEYDOWN, keydown_);
       dom.events.addEventListener(
           input_, dom.events.TYPE.MOUSEDOWN, mousedown_);
@@ -46,7 +52,7 @@ forms.InputNumber = function(input) {
       input_.style.paddingRight =
           (parseInt(dom.getComputedStyle(input_, 'padding-right'), 10) || 0) +
           padding_ + 'px';
-      dom.css.addClass(input_, 'input-number');
+      dom.css.addClass(input_, CONTROL_CLASS);
     }
   }
 
