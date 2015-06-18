@@ -88,9 +88,12 @@ forms.InputRange = function(input) {
       thumb_ = dom.createElement('DIV');
       dom.css.setClass(thumb_, RANGE_THUMB_CLASS);
       track_.appendChild(thumb_);
+      thumb_.style['webkitTransition'] = 'all 150ms ease-in-out';
 
-      // TODO: Calculate left position based on input value, step, min and max.
-      thumb_.style.left = (track_.offsetWidth - thumb_.offsetWidth) / 2 + 'px';
+      stepWidth_ = (track_.offsetWidth - thumb_.offsetWidth) /
+          (input_.max - input_.min) * step_;
+
+      setPosition_((track_.offsetWidth - thumb_.offsetWidth) / 2, true);
 
       if (maxTouchPoints_) {
         dom.events.addEventListener(
@@ -103,6 +106,7 @@ forms.InputRange = function(input) {
         dom.events.addEventListener(
             thumb_, dom.events.TYPE.MOUSEDOWN, mousedown_);
       }
+      inited_ = true;
     }
   }
 
@@ -174,18 +178,25 @@ forms.InputRange = function(input) {
     /** @type {number} */ var value;
 
     if (x >= rect['left'] + margin && x <= rect['right'] - margin) {
-      // TODO: Calculate left position based on input value, step, min and max.
-      thumb_.style.left = x - margin - rect['left'] + 'px';
-      // TODO: Increment / decrement value.
-      // TODO: Use step attribute.
-      value = +(input_.value || 0);
-      if (value >= min_ && value <= max_) {
-        input_.value = '' + value;
-        dispatchEvents_();
-      }
+      setPosition_(x - margin - rect['left']);
     }
     // Prevent text selection.
     dom.events.preventDefault(e);
+  }
+
+  /**
+   * Set thumb position and track value.
+   * @param {number} x Thumb position.
+   * @param {boolean=} opt_init Optional flag of initialization.
+   */
+  function setPosition_(x, opt_init) {
+    /** @type {number} */ var value = x / stepWidth_;
+    if (opt_init || (value % step_ > 0.9 || value < 0.1)) {
+      value = ~~(value + 0.5);
+      input_.value = '' + value;
+      thumb_.style.left = stepWidth_ * value + 'px';
+      dispatchEvents_();
+    }
   }
 
   /**
@@ -249,6 +260,13 @@ forms.InputRange = function(input) {
    * @private
    */
   var step_ = +(input_.getAttribute('step') || 1);
+
+  /**
+   * Width of one step in pixels.
+   * @type {number}
+   * @private
+   */
+  var stepWidth_;
 
   /**
    * Detects touch screen.
