@@ -178,7 +178,7 @@ forms.InputRange = function(input) {
     /** @type {number} */ var value;
 
     if (x >= rect['left'] + margin && x <= rect['right'] - margin) {
-      setPosition_(x - margin - rect['left']);
+      setPosition_((x - margin - rect['left']) / stepWidth_);
     }
     // Prevent text selection.
     dom.events.preventDefault(e);
@@ -190,11 +190,10 @@ forms.InputRange = function(input) {
    * @param {boolean=} opt_init Optional flag of initialization.
    */
   function setPosition_(x, opt_init) {
-    /** @type {number} */ var value = +(opt_init ? x : x / stepWidth_);
-    if (opt_init || (value % step_ > 0.9 || value < 0.1)) {
-      value = ~~(value + 0.5); // Math.ceil
-      input_.value = '' + value;
-      thumb_.style.left = stepWidth_ * value + 'px';
+    if (opt_init || (x % step_ > 0.9 || x < 0.1)) {
+      x = ~~(x + 0.5); // Math.ceil
+      input_.value = '' + x;
+      thumb_.style.left = stepWidth_ * x + 'px';
       dispatchEvents_();
     }
   }
