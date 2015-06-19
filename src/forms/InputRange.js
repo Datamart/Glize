@@ -86,7 +86,7 @@ forms.InputRange = function(input) {
 
       interval_ = (track_.offsetWidth - thumb_.offsetWidth) /
           (max_ - min_) * step_;
-      setValue_(value > max_ ? max_ : value < min_ ? 0 : value);
+      setValue_(value > max_ ? max_ : value < min_ ? min_ : value);
 
       if (maxTouchPoints_) {
         dom.events.addEventListener(
@@ -183,7 +183,7 @@ forms.InputRange = function(input) {
    */
   function setValue_(value) {
     value = ~~(value + 0.5); // value = Math.ceil(value);
-    if (value != input_.value && value >= min_ && value <= max_) {
+    if (value != input_.value && value + min_ >= min_ && value + min_ <= max_) {
       input_.value = '' + value;
       thumb_.style.left = value * interval_ + 'px';
       dispatchEvents_();
