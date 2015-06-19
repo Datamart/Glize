@@ -46,13 +46,16 @@ forms.InputNumber = function(input) {
         input_.setAttribute('maxlength', ('' + max_).length);
       }
 
-      input_.style.backgroundImage = 'url(data:image/png;base64,' + img_ + ')';
-      input_.style.backgroundPosition = 'right center';
-      input_.style.backgroundRepeat = 'no-repeat';
+      dom.css.addClass(input_, CONTROL_CLASS);
+      if (dom.getComputedStyle(input_, 'background-image')) {
+        input_.style.backgroundImage =
+            'url(data:image/png;base64,' + img_ + ')';
+        input_.style.backgroundPosition = 'right center';
+        input_.style.backgroundRepeat = 'no-repeat';
+      }
       input_.style.paddingRight =
           (parseInt(dom.getComputedStyle(input_, 'padding-right'), 10) || 0) +
           padding_ + 'px';
-      dom.css.addClass(input_, CONTROL_CLASS);
     }
   }
 

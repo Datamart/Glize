@@ -73,6 +73,9 @@ forms.InputRange = function(input) {
    */
   function init_() {
     if (!forms.hasFeature(forms.FEATURES.TYPE_RANGE, input_)) {
+      /** @type {number} */ var value = +(input_.value || 0);
+      input_.value = '0';
+
       track_ = dom.createElement('DIV');
       dom.css.setClass(track_, RANGE_TRACK_CLASS);
       getControl_().appendChild(track_);
@@ -81,8 +84,9 @@ forms.InputRange = function(input) {
       dom.css.setClass(thumb_, RANGE_THUMB_CLASS);
       track_.appendChild(thumb_);
 
-      // TODO: Calculate left position based on input value, step, min and max.
-      thumb_.style.left = (track_.offsetWidth - thumb_.offsetWidth) / 2 + 'px';
+      interval_ = (track_.offsetWidth - thumb_.offsetWidth) /
+          (max_ - min_) * step_;
+      setValue_(value > max_ ? max_ : value < min_ ? 0 : value);
 
       if (maxTouchPoints_) {
         dom.events.addEventListener(
@@ -163,33 +167,36 @@ forms.InputRange = function(input) {
     /** @type {number} */ var margin = thumb_.offsetWidth / 2;
     /** @type {number} */ var x = e['changedTouches'] ?
         e['changedTouches'][0].clientX : e.clientX;
-    /** @type {number} */ var value;
 
     if (x >= rect['left'] + margin && x <= rect['right'] - margin) {
-      // TODO: Calculate left position based on input value, step, min and max.
-      thumb_.style.left = x - margin - rect['left'] + 'px';
-      // TODO: Increment / decrement value.
-      // TODO: Use step attribute.
-      value = +(input_.value || 0);
-      if (value >= min_ && value <= max_) {
-        input_.value = '' + value;
-        dispatchEvents_();
-      }
+      setValue_((x - margin - rect['left']) / interval_);
     }
+
     // Prevent text selection.
     dom.events.preventDefault(e);
   }
 
   /**
+   * Sets new input's value.
+   * @param {number} value The new value to set.
+   * @private
+   */
+  function setValue_(value) {
+    value = ~~(value + 0.5); // value = Math.ceil(value);
+    if (value != input_.value && value >= min_ && value <= max_) {
+      input_.value = '' + value;
+      thumb_.style.left = value * interval_ + 'px';
+      dispatchEvents_();
+    }
+  }
+
+  /**
    * Dispatches input events.
-   * @return {boolean} Returns <code>true</code> if all events are
-   *     dispatched successfully.
    * @private
    */
   function dispatchEvents_() {
-    /** @type {boolean} */
-    var result = dom.events.dispatchEvent(input_, dom.events.TYPE.INPUT);
-    return dom.events.dispatchEvent(input_, dom.events.TYPE.CHANGE) && result;
+    dom.events.dispatchEvent(input_, dom.events.TYPE.INPUT);
+    dom.events.dispatchEvent(input_, dom.events.TYPE.CHANGE);
   }
 
   /**
@@ -241,6 +248,13 @@ forms.InputRange = function(input) {
    * @private
    */
   var step_ = +(input_.getAttribute('step') || 1);
+
+  /**
+   * The step interval in pixels.
+   * @type {number}
+   * @private
+   */
+  var interval_;
 
   /**
    * Detects touch screen.
