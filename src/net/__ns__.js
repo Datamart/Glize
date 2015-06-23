@@ -8,6 +8,6 @@
 
 /**
  * Defines 'net' namespace.
- * @namespace Defines 'net' namespace.
+ * @namespace
  */
 var net = net || {};

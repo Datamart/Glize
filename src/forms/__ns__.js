@@ -9,7 +9,7 @@
 
 /**
  * Defines 'forms' namespace.
- * @namespace Defines 'forms' namespace.
+ * @namespace
  */
 var forms = {
 

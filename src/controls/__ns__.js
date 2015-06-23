@@ -8,6 +8,6 @@
 
 /**
  * Defines namespace for 'controls' package.
- * @namespace Defines namespace for 'controls' package.
+ * @namespace
  */
 var controls = window['controls'] = window['controls'] || {};

@@ -9,7 +9,7 @@
 
 /**
  * Defines 'locale' namespace.
- * @namespace Defines 'locale' namespace.
+ * @namespace
  * @see util.Locale
  */
 var locale = locale || {};

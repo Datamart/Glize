@@ -8,7 +8,7 @@
 
 /**
  * The '<code>animation</code>' namespace definition.
- * @namespace The '<code>animation</code>' namespace definition.
+ * @namespace
  */
 var animation = animation || {};
 

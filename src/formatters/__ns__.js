@@ -9,6 +9,6 @@
 
 /**
  * Defines 'formatters' namespace.
- * @namespace Defines 'formatters' namespace.
+ * @namespace
  */
 var formatters = formatters || {};

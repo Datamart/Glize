@@ -9,8 +9,9 @@ JSDOC_PATH="./lib/jsdoc-master/jsdoc"
 OUTPUT_PATH="./jsdoc-master.zip"
 TEMPLATE="./lib/jsdoc-master/templates/haruki"
 CSS_PATH="./lib/jsdoc-master/templates/default/static/styles/jsdoc-default.css"
-SRC_PATH="../src/**/*.js"
+SRC_PATH="../src"
 DOC_PATH="../docs"
+CONF_PATH="../jsDocConf.json"
 DOWNLOAD_URL=https://codeload.github.com/jsdoc3/jsdoc/zip/master
 WGET="`which wget`"
 CURL="`which curl`"
@@ -35,6 +36,6 @@ fi
 
 rm -rf ${DOC_PATH} && mkdir ${DOC_PATH}
 
-${JSDOC_PATH} ${SRC_PATH} -d ${DOC_PATH}
+${JSDOC_PATH} ${SRC_PATH} -r -c ${CONF_PATH} -d ${DOC_PATH}
 
 echo "Done"

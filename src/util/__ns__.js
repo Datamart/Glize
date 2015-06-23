@@ -8,6 +8,6 @@
 
 
 /**
- * @namespace Defines namespace for 'util' package.
+ * @namespace
  */
 var util = util || {};

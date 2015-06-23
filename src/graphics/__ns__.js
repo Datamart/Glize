@@ -8,6 +8,6 @@
 
 /**
  * Defines 'graphics' namespace.
- * @namespace Defines 'graphics' namespace.
+ * @namespace
  */
 var graphics = graphics || {};

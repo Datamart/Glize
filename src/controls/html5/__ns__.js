@@ -7,6 +7,6 @@
 
 
 /**
- * @namespace Defines namespace for 'controls.html5' package.
+ * @namespace
  */
 controls.html5 = controls['html5'] = controls['html5'] || {};

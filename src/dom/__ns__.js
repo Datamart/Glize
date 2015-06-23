@@ -9,28 +9,28 @@
 
 /**
  * Defines 'dom' namespace.
- * @namespace Defines 'dom' namespace.
+ * @namespace
  */
 var dom = dom || {};
 
 
 /**
  * Defines 'dom.events' namespace.
- * @namespace Defines 'dom.events' namespace.
+ * @namespace
  */
 dom.events = dom.events || {};
 
 
 /**
  * Defines 'dom.scripts' namespace.
- * @namespace Defines 'dom.scripts' namespace.
+ * @namespace
  */
 dom.scripts = dom.scripts || {};
 
 
 /**
  * Defines 'dom.css' namespace.
- * @namespace Defines 'dom.css' namespace.
+ * @namespace
  */
 dom.css = dom.css || {};
 
