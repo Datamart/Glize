@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: animation/__ns__.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: animation/__ns__.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * @fileoverview The '&lt;code>animation&lt;/code>' namespace definition.
+ * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+ * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ */
+
+
+/**
+ * The '&lt;code>animation&lt;/code>' namespace definition.
+ * @namespace
+ */
+var animation = animation || {};
+
+
+/**
+ * Runs animations.
+ * @param {!Node} element The element to animate.
+ * @param {!Object.&lt;string, number>} options Animation options.
+ * @static
+ * @see charts.BarChart
+ * @see charts.ColumnChart
+ * @example
+ * animation.animate(element, {'width': 500});
+ * animation.animate(element, {'width': 0});
+ */
+animation.animate = function(element, options) {
+  // Testing.
+  // if (element.tagName == 'DIV') return animation.run_(element, options);
+
+  if ('transition' in element.style) {
+    /** @type {!RegExp} */ var isDigit = /^\d+([\.]{1,}\d+)?$/;
+    for (/** @type {string} */ var key in options) {
+      // 99ms fix Firefox delay issue.
+      /** @type {number} */ var delay = window['XULElement'] ? 99 : 0;
+      (function(prop) {
+        /** @type {number} */ var timer = setTimeout(function() {
+          element.style.transition = 'all ' +
+              Math.random().toFixed(2) + 's ease-in-out';
+          if ('transform' == prop) {
+            element.style.transform = options[prop];
+            element.style.WebkitTransform = options[prop];
+            element.style.MozTransform = options[prop];
+            element.style.OTransform = options[prop];
+          } else {
+            element.style[prop] = options[prop] +
+                (isDigit.test(options[prop]) ? 'px' : '');
+          }
+          clearTimeout(timer);
+        }, delay);
+      })(key);
+    }
+  } else {
+    animation.run_(element, options);
+  }
+};
+
+
+/**
+ * Runs animation by property.
+ * @param {Node} element Animated element.
+ * @param {Object.&lt;string, number>} options Animation options.
+ * @private
+ */
+animation.run_ = function(element, options) {
+  /**
+   * @param {function(number)} frame The frame function.
+   * @param {function(number): number=} opt_delta The optional delta function.
+   * @param {number=} opt_duration The optional duration.
+   * @param {number=} opt_delay The optional delay.
+   */
+  function animate(frame, opt_delta, opt_duration, opt_delay) {
+    opt_duration = (opt_duration || 300) * Math.random() + 100;
+    opt_delay = opt_delay || 10;
+    opt_delta = opt_delta || function(progress) {
+      //return Math.pow(progress, 2);
+      return progress;
+    };
+
+    /** @type {!Date} */ var start = new Date;
+    /** @type {number} */ var interval = setInterval(function() {
+      /** @type {number} */ var progress = (new Date - start) / opt_duration;
+      if (progress > 1) progress = 1;
+      frame(opt_delta(progress));
+      if (progress == 1) clearInterval(interval);
+    }, opt_delay);
+  }
+
+  animate(function(delta) {
+    for (/** @type {string} */ var prop in options) {
+      element.style[prop] = options[prop] * delta + 'px';
+    }
+  });
+};
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="controls.html5.InputDate.html">InputDate</a></li><li><a href="controls.html5.InputNumber.html">InputNumber</a></li><li><a href="controls.html5.InputRange.html">InputRange</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.InputNumber.html">InputNumber</a></li><li><a href="forms.InputRange.html">InputRange</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="animation.html">animation</a></li><li><a href="controls.html">controls</a></li><li><a href="controls.html5.html">html5</a></li><li><a href="dom.html">dom</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.css.html">css</a></li><li><a href="dom.events.html">events</a></li><li><a href="dom.scripts.html">scripts</a></li><li><a href="formatters.html">formatters</a></li><li><a href="forms.html">forms</a></li><li><a href="graphics.html">graphics</a></li><li><a href="locale.html">locale</a></li><li><a href="net.html">net</a></li><li><a href="util.html">util</a></li><li><a href="util.Base64.html">Base64</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.String.html">String</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jun 24 2015 10:48:00 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

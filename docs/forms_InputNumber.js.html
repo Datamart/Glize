@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: forms/InputNumber.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: forms/InputNumber.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * @fileoverview Simple implementation of HTML5 input
+ *               &lt;code>type="number"&lt;/code> control.
+ *
+ * @see http://www.w3.org/TR/html-markup/input.number.html
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ */
+
+
+
+/**
+ * An implementation of HTML5 input &lt;code>type="number"&lt;/code> for non
+ * HTML5 browsers.
+ * @param {string|HTMLInputElement} input The input element or its ID attribute.
+ * @constructor
+ * @requires dom.events
+ * @see http://www.w3.org/TR/html-markup/input.number.html
+ */
+forms.InputNumber = function(input) {
+  /**
+   * The "&lt;code>.number-control&lt;/code>" css class for input control.
+   * @type {string}
+   * @const
+   */
+  var CONTROL_CLASS = forms.FEATURES.TYPE_NUMBER + '-control';
+
+  /**
+   * @bug 344616 https://bugzilla.mozilla.org/show_bug.cgi?id=344616
+   * @private
+   */
+  function init_() {
+    if (!forms.hasFeature(forms.FEATURES.TYPE_NUMBER, input_)) {
+      dom.events.addEventListener(input_, dom.events.TYPE.KEYDOWN, keydown_);
+      dom.events.addEventListener(
+          input_, dom.events.TYPE.MOUSEDOWN, mousedown_);
+      dom.events.addEventListener(
+          input_, dom.events.TYPE.MOUSEMOVE, mousemove_);
+
+      if (!input_.getAttribute('pattern')) {
+        input_.setAttribute('pattern', '^\-?[0-9]+$');
+      }
+
+      if (!input_.getAttribute('maxlength')) {
+        input_.setAttribute('maxlength', ('' + max_).length);
+      }
+
+      dom.css.addClass(input_, CONTROL_CLASS);
+      if (dom.getComputedStyle(input_, 'background-image')) {
+        input_.style.backgroundImage =
+            'url(data:image/png;base64,' + img_ + ')';
+        input_.style.backgroundPosition = 'right center';
+        input_.style.backgroundRepeat = 'no-repeat';
+      }
+      input_.style.paddingRight =
+          (parseInt(dom.getComputedStyle(input_, 'padding-right'), 10) || 0) +
+          padding_ + 'px';
+    }
+  }
+
+  /**
+   * @private
+   */
+  function increment_() {
+    /**@type {number} */ var value = parseInt(input_.value, 10) || 0;
+    dispatchEvents_('' + Math.min(max_, value + step_));
+  }
+
+  /**
+   * @private
+   */
+  function decrement_() {
+    /**@type {number} */ var value = parseInt(input_.value, 10) || 0;
+    dispatchEvents_('' + Math.max(min_, value - step_));
+  }
+
+  /**
+   * @param {Event} e The keydown event.
+   * @private
+   */
+  function keydown_(e) {
+    e = dom.events.getEvent(e);
+    if (isNaN(input_.value)) {
+      input_.focus();
+    } else {
+      if (38 === e.keyCode) increment_();
+      else if (40 === e.keyCode) decrement_();
+    }
+  }
+
+  /**
+   * @param {Event} e The mousedown event.
+   * @private
+   */
+  function mousedown_(e) {
+    e = dom.events.getEvent(e);
+    /** @type {Object} */ var rect = dom.getBoundingClientRect(input_);
+    /** @type {number} */ var x = e.clientX;
+    /** @type {number} */ var y = e.clientY;
+    // @bug MSIE does not calculates rect.height for inline elements.
+    /** @type {number} */ var height = rect['height'] || input_.offsetHeight;
+
+    if (x &amp;&amp; x > rect['right'] - padding_) {
+      (y &lt; rect['top'] + height / 2) ? increment_() : decrement_();
+    }
+  }
+
+  /**
+   * @param {Event} e The mousemove event.
+   * @private
+   */
+  function mousemove_(e) {
+    e = dom.events.getEvent(e);
+    /** @type {number} */ var x = e.clientX;
+
+    input_.style.cursor =
+        (x &amp;&amp; x > dom.getBoundingClientRect(input_)['right'] - padding_) ?
+        'default' : 'text';
+  }
+
+  /**
+   * Dispatches input events.
+   * @param {string} value The new value.
+   * @private
+   */
+  function dispatchEvents_(value) {
+    if (value != input_.value) {
+      input_.value = value;
+      dom.events.dispatchEvent(input_, dom.events.TYPE.INPUT);
+      dom.events.dispatchEvent(input_, dom.events.TYPE.CHANGE);
+    }
+  }
+
+  /**
+   * The reference to input element.
+   * @type {HTMLInputElement}
+   * @private
+   */
+  var input_ = typeof input == 'string' ?
+      /** @type {HTMLInputElement} */ (dom.getElementById(input)) : input;
+
+  /**
+   * The expected lower bound for the input value.
+   * @type {number}
+   * @private
+   */
+  var min_ = +(input_.getAttribute('min') || -1e6);
+
+  /**
+   * The expected upper bound for the input value.
+   * @type {number}
+   * @private
+   */
+  var max_ = +(input_.getAttribute('max') || 1e6);
+
+  /**
+   * Specifies the value granularity of the input value.
+   * @type {number}
+   * @private
+   */
+  var step_ = +(input_.getAttribute('step') || 1);
+
+  /**
+   * Base64 encoded PNG top-bottom arrows image.
+   * @type {string}
+   * @private
+   */
+  var img_ = 'iVBORw0KGgoAAAANSUhEUgAAAA8AAAAQBAMAAAA7eDg3AAAAA3NCSVQICAjb4U' +
+             '/gAAAACXBIWXMAAAsSAAALEgHS3X78AAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBG' +
+             'aXJld29ya3MgQ1M26LyyjAAAABR0RVh0Q3JlYXRpb24gVGltZQA2LzYvMTOlfn' +
+             '1pAAAAElBMVEUAAABmZmb///9kZGRmZmZmZmaw6hPAAAAABXRSTlMAAAAB/Rh8' +
+             'uVEAAAArSURBVAjXY1CCAAUGvAwFViYoIzQIwlANDYWKMDChMRBSroEw7UYErY' +
+             'AwAOxWEY6fpOynAAAAAElFTkSuQmCC';
+
+  /**
+   * Input's right padding. (Actual background image width.)
+   * @type {number}
+   * @private
+   */
+  var padding_ = 16;
+
+  // var img = new Image();img.src = 'data:image/png;base64,' + img_ + '';
+  // console.log(padding_ == img.width + 1)
+
+  init_();
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="controls.html5.InputDate.html">InputDate</a></li><li><a href="controls.html5.InputNumber.html">InputNumber</a></li><li><a href="controls.html5.InputRange.html">InputRange</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.InputNumber.html">InputNumber</a></li><li><a href="forms.InputRange.html">InputRange</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="animation.html">animation</a></li><li><a href="controls.html">controls</a></li><li><a href="controls.html5.html">html5</a></li><li><a href="dom.html">dom</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.css.html">css</a></li><li><a href="dom.events.html">events</a></li><li><a href="dom.scripts.html">scripts</a></li><li><a href="formatters.html">formatters</a></li><li><a href="forms.html">forms</a></li><li><a href="graphics.html">graphics</a></li><li><a href="locale.html">locale</a></li><li><a href="net.html">net</a></li><li><a href="util.html">util</a></li><li><a href="util.Base64.html">Base64</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.String.html">String</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jun 24 2015 10:48:00 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: forms/InputRange.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: forms/InputRange.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * @fileoverview Simple implementation of HTML5 input
+ *               &lt;code>type="range"&lt;/code> control.
+ *
+ * @see http://www.w3.org/TR/html-markup/input.range.html
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ */
+
+
+
+/**
+ * Simple implementation of HTML5 input &lt;code>type="range"&lt;/code> control.
+ * @param {string|HTMLInputElement} input The input element or its ID attribute.
+ * @constructor
+ * @requires dom.css
+ * @requires dom.events
+ * @see http://www.w3.org/TR/html-markup/input.range.html
+ */
+forms.InputRange = function(input) {
+
+  /**
+   * The "&lt;code>.range-track&lt;/code>" css class should emulate
+   * following pseudo-classes:&lt;pre>
+   *     input[type=range]::-webkit-slider-runnable-track {}
+   *     input[type=range]::-moz-range-track {}
+   *     input[type=range]::-ms-track {}&lt;/pre>
+   * @type {string}
+   * @const
+   */
+  var RANGE_TRACK_CLASS = forms.FEATURES.TYPE_RANGE + '-track';
+
+  /**
+   * The "&lt;code>.range-thumb&lt;/code>" css class should emulate
+   * following pseudo-classes:&lt;pre>
+   *     input[type=range]::-webkit-slider-thumb {}
+   *     input[type=range]::-moz-range-thumb {}
+   *     input[type=range]::-ms-thumb {}&lt;/pre>
+   * @type {string}
+   * @const
+   */
+  var RANGE_THUMB_CLASS = forms.FEATURES.TYPE_RANGE + '-thumb';
+
+  /**
+   * The "&lt;code>.range-track-focus&lt;/code>" css class should emulate
+   * following pseudo-classes:&lt;pre>
+   *     input[type=range]:focus::-webkit-slider-runnable-track {}
+   *     input[type=range]:focus::-webkit-slider-thumb {}
+   *     input[type=range]:focus::-moz-range-track {}
+   *     input[type=range]:focus::-moz-range-thumb {}&lt;/pre>
+   * @type {string}
+   * @const
+   */
+  var RANGE_TRACK_FOCUS_CLASS = RANGE_TRACK_CLASS + '-focus';
+
+  /**
+   * The "&lt;code>.range-control&lt;/code>" css class for control container.
+   * @type {string}
+   * @const
+   * @example
+   * &lt;span class="range-control">
+   *   &lt;input />
+   *   &lt;div class="range-track">
+   *     &lt;div class="range-thumb">&lt;/div>
+   *   &lt;/div>
+   * &lt;/span>
+   */
+  var RANGE_CONTROL_CLASS = forms.FEATURES.TYPE_RANGE + '-control';
+
+  /**
+   * @private
+   */
+  function init_() {
+    if (!forms.hasFeature(forms.FEATURES.TYPE_RANGE, input_)) {
+      /** @type {number} */ var value = +(input_.value || 0);
+      /** @type {string} */ var type = maxTouchPoints_ ?
+          dom.events.TYPE.TOUCHSTART : dom.events.TYPE.MOUSEDOWN;
+      input_.value = '0';
+
+      track_ = dom.createElement('DIV');
+      dom.css.setClass(track_, RANGE_TRACK_CLASS);
+      getControl_().appendChild(track_);
+
+      thumb_ = dom.createElement('DIV');
+      dom.css.setClass(thumb_, RANGE_THUMB_CLASS);
+      track_.appendChild(thumb_);
+
+      interval_ = (track_.offsetWidth - thumb_.offsetWidth) /
+          (max_ - min_) * step_;
+      setValue_(value > max_ ? max_ : value &lt; min_ ? min_ : value);
+
+      dom.events.addEventListener(track_, type, mousedown_);
+      dom.events.addEventListener(thumb_, type, mousedown_);
+    }
+  }
+
+  /**
+   * @return {Element} Returns reference to control element.
+   * @private
+   */
+  function getControl_() {
+    if (!control_) {
+      control_ = dom.createElement('SPAN');
+      dom.css.setClass(control_, RANGE_CONTROL_CLASS);
+      input_.parentNode.insertBefore(control_, input_);
+      control_.appendChild(input_);
+    }
+    return control_;
+  }
+
+  /**
+   * @param {Event} e The mousedown event.
+   * @private
+   */
+  function mousedown_(e) {
+    if (dom.events.getEventTarget(e) == thumb_) {
+      /** @type {string} */ var move = maxTouchPoints_ ?
+          dom.events.TYPE.TOUCHMOVE : dom.events.TYPE.MOUSEMOVE;
+      /** @type {string} */ var end = maxTouchPoints_ ?
+          dom.events.TYPE.TOUCHEND : dom.events.TYPE.MOUSEUP;
+
+      dom.events.addEventListener(dom.document, move, mousemove_);
+      dom.events.addEventListener(dom.document, end, mouseup_);
+      dom.css.addClass(track_, RANGE_TRACK_FOCUS_CLASS);
+    }
+    mousemove_(e);
+  }
+
+  /**
+   * @param {Event} e The mouseup event.
+   * @private
+   */
+  function mouseup_(e) {
+    /** @type {string} */ var move = maxTouchPoints_ ?
+        dom.events.TYPE.TOUCHMOVE : dom.events.TYPE.MOUSEMOVE;
+    /** @type {string} */ var end = maxTouchPoints_ ?
+        dom.events.TYPE.TOUCHEND : dom.events.TYPE.MOUSEUP;
+
+    dom.events.removeEventListener(dom.document, move, mousemove_);
+    dom.events.removeEventListener(dom.document, end, mouseup_);
+    dom.css.removeClass(track_, RANGE_TRACK_FOCUS_CLASS);
+  }
+
+  /**
+   * @param {Event} e The mousemove event.
+   * @private
+   */
+  function mousemove_(e) {
+    e = dom.events.getEvent(e);
+    /** @type {Object} */ var rect = dom.getBoundingClientRect(track_);
+    /** @type {number} */ var margin = thumb_.offsetWidth / 2;
+    /** @type {number} */ var x = e['changedTouches'] ?
+        e['changedTouches'][0].clientX : e.clientX;
+
+    if (x >= rect['left'] + margin &amp;&amp; x &lt;= rect['right'] - margin) {
+      setValue_((x - margin - rect['left']) / interval_);
+    }
+
+    // Prevent text selection.
+    dom.events.preventDefault(e);
+  }
+
+  /**
+   * Sets new input's value.
+   * @param {number} value The new value to set.
+   * @private
+   */
+  function setValue_(value) {
+    value = ~~(value + 0.5); // value = Math.ceil(value);
+    if (value != input_.value &amp;&amp; value + min_ >= min_ &amp;&amp; value + min_ &lt;= max_) {
+      input_.value = '' + value;
+      thumb_.style.left = value * interval_ + 'px';
+      dispatchEvents_();
+    }
+  }
+
+  /**
+   * Dispatches input events.
+   * @private
+   */
+  function dispatchEvents_() {
+    dom.events.dispatchEvent(input_, dom.events.TYPE.INPUT);
+    dom.events.dispatchEvent(input_, dom.events.TYPE.CHANGE);
+  }
+
+  /**
+   * The reference to control element.
+   * @type {Element}
+   * @private
+   */
+  var control_ = dom.NULL;
+
+  /**
+   * The reference to slider thumb element.
+   * @type {Element}
+   * @private
+   */
+  var thumb_ = dom.NULL;
+
+  /**
+   * The reference to slider track element.
+   * @type {Element}
+   * @private
+   */
+  var track_ = dom.NULL;
+
+  /**
+   * The reference to input element.
+   * @type {HTMLInputElement}
+   * @private
+   */
+  var input_ = 'string' === typeof input ?
+      /** @type {HTMLInputElement} */ (dom.getElementById(input)) : input;
+
+  /**
+   * The expected lower bound for the input value.
+   * @type {number}
+   * @private
+   */
+  var min_ = +(input_.getAttribute('min') || -1e6);
+
+  /**
+   * The expected upper bound for the input value.
+   * @type {number}
+   * @private
+   */
+  var max_ = +(input_.getAttribute('max') || 1e6);
+
+  /**
+   * Specifies the value granularity of the input value.
+   * @type {number}
+   * @private
+   */
+  var step_ = +(input_.getAttribute('step') || 1);
+
+  /**
+   * The step interval in pixels.
+   * @type {number}
+   * @private
+   */
+  var interval_;
+
+  /**
+   * Detects touch screen.
+   * @type {number}
+   * @private
+   */
+  var maxTouchPoints_ = +navigator['maxTouchPoints'] ||
+                        +navigator['msMaxTouchPoints'] ||
+                        +('ontouchstart' in window);
+
+  init_();
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="controls.html5.InputDate.html">InputDate</a></li><li><a href="controls.html5.InputNumber.html">InputNumber</a></li><li><a href="controls.html5.InputRange.html">InputRange</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.InputNumber.html">InputNumber</a></li><li><a href="forms.InputRange.html">InputRange</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="animation.html">animation</a></li><li><a href="controls.html">controls</a></li><li><a href="controls.html5.html">html5</a></li><li><a href="dom.html">dom</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.css.html">css</a></li><li><a href="dom.events.html">events</a></li><li><a href="dom.scripts.html">scripts</a></li><li><a href="formatters.html">formatters</a></li><li><a href="forms.html">forms</a></li><li><a href="graphics.html">graphics</a></li><li><a href="locale.html">locale</a></li><li><a href="net.html">net</a></li><li><a href="util.html">util</a></li><li><a href="util.Base64.html">Base64</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.String.html">String</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Jun 24 2015 10:48:00 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
