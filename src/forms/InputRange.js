@@ -74,6 +74,8 @@ forms.InputRange = function(input) {
   function init_() {
     if (!forms.hasFeature(forms.FEATURES.TYPE_RANGE, input_)) {
       /** @type {number} */ var value = +(input_.value || 0);
+      /** @type {string} */ var type = maxTouchPoints_ ?
+          dom.events.TYPE.TOUCHSTART : dom.events.TYPE.MOUSEDOWN;
       input_.value = '0';
 
       track_ = dom.createElement('DIV');
@@ -88,17 +90,8 @@ forms.InputRange = function(input) {
           (max_ - min_) * step_;
       setValue_(value > max_ ? max_ : value < min_ ? min_ : value);
 
-      if (maxTouchPoints_) {
-        dom.events.addEventListener(
-            track_, dom.events.TYPE.TOUCHSTART, mousedown_);
-        dom.events.addEventListener(
-            thumb_, dom.events.TYPE.TOUCHSTART, mousedown_);
-      } else {
-        dom.events.addEventListener(
-            track_, dom.events.TYPE.MOUSEDOWN, mousedown_);
-        dom.events.addEventListener(
-            thumb_, dom.events.TYPE.MOUSEDOWN, mousedown_);
-      }
+      dom.events.addEventListener(track_, type, mousedown_);
+      dom.events.addEventListener(thumb_, type, mousedown_);
     }
   }
 
@@ -122,17 +115,13 @@ forms.InputRange = function(input) {
    */
   function mousedown_(e) {
     if (dom.events.getEventTarget(e) == thumb_) {
-      if (maxTouchPoints_) {
-        dom.events.addEventListener(
-            dom.document, dom.events.TYPE.TOUCHMOVE, mousemove_);
-        dom.events.addEventListener(
-            dom.document, dom.events.TYPE.TOUCHEND, mouseup_);
-      } else {
-        dom.events.addEventListener(
-            dom.document, dom.events.TYPE.MOUSEMOVE, mousemove_);
-        dom.events.addEventListener(
-            dom.document, dom.events.TYPE.MOUSEUP, mouseup_);
-      }
+      /** @type {string} */ var move = maxTouchPoints_ ?
+          dom.events.TYPE.TOUCHMOVE : dom.events.TYPE.MOUSEMOVE;
+      /** @type {string} */ var end = maxTouchPoints_ ?
+          dom.events.TYPE.TOUCHEND : dom.events.TYPE.MOUSEUP;
+
+      dom.events.addEventListener(dom.document, move, mousemove_);
+      dom.events.addEventListener(dom.document, end, mouseup_);
       dom.css.addClass(track_, RANGE_TRACK_FOCUS_CLASS);
     }
     mousemove_(e);
@@ -143,17 +132,13 @@ forms.InputRange = function(input) {
    * @private
    */
   function mouseup_(e) {
-    if (maxTouchPoints_) {
-      dom.events.removeEventListener(
-          dom.document, dom.events.TYPE.TOUCHMOVE, mousemove_);
-      dom.events.removeEventListener(
-          dom.document, dom.events.TYPE.TOUCHEND, mouseup_);
-    } else {
-      dom.events.removeEventListener(
-          dom.document, dom.events.TYPE.MOUSEMOVE, mousemove_);
-      dom.events.removeEventListener(
-          dom.document, dom.events.TYPE.MOUSEUP, mouseup_);
-    }
+    /** @type {string} */ var move = maxTouchPoints_ ?
+        dom.events.TYPE.TOUCHMOVE : dom.events.TYPE.MOUSEMOVE;
+    /** @type {string} */ var end = maxTouchPoints_ ?
+        dom.events.TYPE.TOUCHEND : dom.events.TYPE.MOUSEUP;
+
+    dom.events.removeEventListener(dom.document, move, mousemove_);
+    dom.events.removeEventListener(dom.document, end, mouseup_);
     dom.css.removeClass(track_, RANGE_TRACK_FOCUS_CLASS);
   }
 

@@ -9,6 +9,7 @@
 
 /**
  * Constructor of Validation.
+ * @requires util.Locale
  * @constructor
  */
 locale.Validation = function() {
