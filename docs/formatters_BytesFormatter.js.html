@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: util/PropertyReader.js</title>
+    <title>JSDoc: Source: formatters/BytesFormatter.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: util/PropertyReader.js</h1>
+    <h1 class="page-title">Source: formatters/BytesFormatter.js</h1>
 
     
 
@@ -28,97 +28,59 @@
         <article>
             <pre class="prettyprint source linenums"><code>
 /**
- * @fileoverview PropertyReader utils.
+ * @fileoverview Bytes format library.
  *
- * @see http://google.github.io/styleguide/javascriptguide.xml
- * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @link https://google.github.io/styleguide/javascriptguide.xml
+ * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
 
 /**
- * Constructor of PropertyReader.
+ * Constructor of BytesFormatter.
  * @constructor
  */
-util.PropertyReader = function() {
+formatters.BytesFormatter = function() {
 
   /**
-   * Gets attribute' values of &lt;code>tagName&lt;/code> founded in
-   *     &lt;code>context&lt;/code>.
-   * @param {Document|Node} context The DOM context.
-   * @param {string} tagName The element tag name.
-   * @param {string} attribute The name of attribute.
-   * @param {string} value The name of value attribute.
-   * @see util.MetaData
+   * @type {!Array.&lt;string>}
+   * @const
    */
-  this.read = function(context, tagName, attribute, value) {
-    if (context) {
-      /** @type {NodeList} */
-      var nodes = dom.getElementsByTagName(context, tagName);
-      /** @type {number} */ var i = 0;
-      /** @type {!Node} */ var node;
-      /** @type {string} */ var name;
-      /** @type {string} */ var result;
+  var FORMATS = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
-      for (; i &lt; nodes.length;) {
-        node = nodes[i++];
-        name = node.getAttribute(attribute);
-        if (name) {
-          result = node.getAttribute(value);
-          cache_[name] = result;
-          values_.push(result);
-          names_.push(name);
-        }
-      }
+  /**
+   * Formats given &lt;code>bytes&lt;/code> to human friendly format.
+   * @param {number} bytes The bytes to be formatted.
+   * @return {string} The formatted bytes as string.
+   * @example
+   * var formatter = new formatters.BytesFormatter();
+   * formatter.format(1024); // 1.0 Kb
+   */
+  this.format = function(bytes) {
+    /** @type {number} */ var i = 0;
+    while (1023 &lt; bytes) {
+      bytes /= 1024;
+      ++i;
     }
+    return (i ? bytes.toFixed(2) : bytes) + ' ' + FORMATS[i];
   };
+};
 
-  /**
-   * @return {!Array.&lt;string>} Returns list of values.
-   */
-  this.getValues = function() {
-    return values_;
-  };
 
-  /**
-   * @return {!Array.&lt;string>} Returns list of names.
-   */
-  this.getNames = function() {
-    return names_;
-  };
-
-  /**
-   * @return {Object.&lt;string, string>} Returns data object.
-   */
-  this.getData = function() {
-    return cache_;
-  };
-
-  /**
-   * @param {string} key The property key.
-   * @return {?string} Returns property value.
-   */
-  this.getValue = function(key) {
-    return cache_[key];
-  };
-
-  /**
-   * @dict
-   * @private
-   */
-  var cache_ = {};
-
-  /**
-   * @type {!Array.&lt;string>}
-   * @private
-   */
-  var values_ = [];
-
-  /**
-   * @type {!Array.&lt;string>}
-   * @private
-   */
-  var names_ = [];
+/**
+ * Formats given &lt;code>bytes&lt;/code> to human friendly format.
+ * @param {number} bytes The bytes to be formatted.
+ * @return {string} The formatted bytes as string.
+ * @static
+ * @example
+ * var formatter = new formatters.BytesFormatter();
+ * formatter.format(1024); // 1.0 Kb
+ */
+formatters.BytesFormatter.format = function(bytes) {
+  if (!formatters.BytesFormatter.formatter_) {
+    formatters.BytesFormatter.formatter_ = new formatters.BytesFormatter;
+  }
+  return formatters.BytesFormatter.formatter_.format(bytes);
 };
 </code></pre>
         </article>

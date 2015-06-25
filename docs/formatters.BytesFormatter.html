@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Template</title>
+    <title>JSDoc: Class: BytesFormatter</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Template</h1>
+    <h1 class="page-title">Class: BytesFormatter</h1>
 
     
 
@@ -29,9 +29,9 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="dom.html">dom</a>.</span>
+            <span class="ancestors"><a href="formatters.html">formatters</a>.</span>
         
-        Template
+        BytesFormatter
         </h2>
         
     
@@ -44,14 +44,14 @@
 
     
 
-    <h4 class="name" id="Template"><span class="type-signature"></span>new Template<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="BytesFormatter"><span class="type-signature"></span>new BytesFormatter<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Simple logic-less template engine.
+    Constructor of BytesFormatter.
 </div>
 
 
@@ -95,7 +95,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom_Template.js.html">dom/Template.js</a>, <a href="dom_Template.js.html#line16">line 16</a>
+        <a href="formatters_BytesFormatter.js.html">formatters/BytesFormatter.js</a>, <a href="formatters_BytesFormatter.js.html#line15">line 15</a>
     </li></ul></dd>
     
 
@@ -107,11 +107,6 @@
 </dl>
 
 
-
-<h5>Requires:</h5>
-<ul>
-    <li>module:net.HttpRequest</li>
-</ul>
 
 
 
@@ -132,12 +127,6 @@
     
 
     
-        <h3 class="subsection-title">Requires</h3>
-
-        <ul>
-            <li>module:net.HttpRequest</li>
-        </ul>
-    
 
     
 
@@ -146,127 +135,26 @@
     
 
     
-
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h3 class="subsection-title">Members</h3>
 
         
             
-
-    
-
-    <h4 class="name" id="load"><span class="type-signature"></span>load<span class="signature">(url, callback<span class="signature-attributes">non-null</span>, values<span class="signature-attributes">non-null</span>)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Loads template by URL.
-</div>
+<h4 class="name" id="~FORMATS"><span class="type-signature">(inner, constant, non-null) </span>FORMATS<span class="type-signature"> :Array.&lt;string></span></h4>
 
 
 
 
 
 
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
+    <h5>Type:</h5>
+    <ul>
+        <li>
             
-                <td class="name"><code>url</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
+<span class="param-type">Array.&lt;string></span>
 
 
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The template path.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The callback function.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>values</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The template values as dict.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
+        </li>
+    </ul>
 
 
 
@@ -301,7 +189,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom_Template.js.html">dom/Template.js</a>, <a href="dom_Template.js.html#line35">line 35</a>
+        <a href="formatters_BytesFormatter.js.html">formatters/BytesFormatter.js</a>, <a href="formatters_BytesFormatter.js.html#line21">line 21</a>
     </li></ul></dd>
     
 
@@ -317,43 +205,25 @@
 
 
 
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
+        
     
-    <pre class="prettyprint"><code>var values = {
-  'date': '2013-07-18',
-  'user': {'name': 'John'},
-  'func': function() {return 'Hello World.';}
-};
-var callback = function(content) {
-  document.getElementById('div').innerHTML = content;
-};
-var template = &lt;b>new&lt;/b> dom.Template();
-template.load('template.html', callback, values);</code></pre>
 
-
+    
+        <h3 class="subsection-title">Methods</h3>
 
         
             
 
     
 
-    <h4 class="name" id="parse"><span class="type-signature"></span>parse<span class="signature">(content, values<span class="signature-attributes">non-null</span>, opt_prefix<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".format"><span class="type-signature">(static) </span>format<span class="signature">(bytes)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
 
 
 <div class="description">
-    Parses template text content.
+    Formats given <code>bytes</code> to human friendly format.
 </div>
 
 
@@ -377,8 +247,6 @@ template.load('template.html', callback, values);</code></pre>
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -391,95 +259,23 @@ template.load('template.html', callback, values);</code></pre>
 
         <tr>
             
-                <td class="name"><code>content</code></td>
+                <td class="name"><code>bytes</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">number</span>
 
 
             
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last">The template text content.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>values</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The template values as dict.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>opt_prefix</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">The optional var name prefix.</td>
+            <td class="description last">The bytes to be formatted.</td>
         </tr>
 
     
@@ -520,7 +316,7 @@ template.load('template.html', callback, values);</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom_Template.js.html">dom/Template.js</a>, <a href="dom_Template.js.html#line62">line 62</a>
+        <a href="formatters_BytesFormatter.js.html">formatters/BytesFormatter.js</a>, <a href="formatters_BytesFormatter.js.html#line51">line 51</a>
     </li></ul></dd>
     
 
@@ -547,7 +343,7 @@ template.load('template.html', callback, values);</code></pre>
 
         
 <div class="param-desc">
-    Returns parsed template text content.
+    The formatted bytes as string.
 </div>
 
 
@@ -569,14 +365,167 @@ template.load('template.html', callback, values);</code></pre>
 
     <h5>Example</h5>
     
-    <pre class="prettyprint"><code>var values = {
-  'date': '2013-07-18',
-  'user': {'name': 'John'},
-  'func': function() {return 'Hello World.';}
-};
-var content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
-var template = new dom.Template();
-document.getElementById('div').innerHTML = template.parse(content, values);</code></pre>
+    <pre class="prettyprint"><code>var formatter = new formatters.BytesFormatter();
+formatter.format(1024); // 1.0 Kb</code></pre>
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="format"><span class="type-signature"></span>format<span class="signature">(bytes)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Formats given <code>bytes</code> to human friendly format.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>bytes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The bytes to be formatted.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_BytesFormatter.js.html">formatters/BytesFormatter.js</a>, <a href="formatters_BytesFormatter.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The formatted bytes as string.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">string</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var formatter = new formatters.BytesFormatter();
+formatter.format(1024); // 1.0 Kb</code></pre>
 
 
 

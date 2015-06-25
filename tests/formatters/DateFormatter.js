@@ -1,7 +1,8 @@
 
 /**
  * @fileoverview Date format library test suite.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
+ *
+ * @link https://google.github.io/styleguide/javascriptguide.xml
  * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
  * @link https://code.google.com/p/js-test-driver/
  */
