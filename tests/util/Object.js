@@ -1,9 +1,10 @@
 
 /**
  * @fileoverview Object utils test suite.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
- * @link https://code.google.com/p/js-test-driver/
+ *
+ * @see {@link http://google.github.io/styleguide/javascriptguide.xml}
+ * @see {@link developers.google.com/closure/compiler/docs/js-for-compiler}
+ * @see {@link https://code.google.com/p/js-test-driver/}
  */
 
 

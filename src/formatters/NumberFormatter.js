@@ -21,7 +21,7 @@ formatters.NumberFormatter = function(opt_options) {
 
   /**
    * Formats given number according to given options.
-   * @param {number} number The Number to be formatted.
+   * @param {number} number The number to be formatted.
    * @return {string} The formatted number string.
    * @example
    * var formatter = new formatters.NumberFormatter();
@@ -51,7 +51,7 @@ formatters.NumberFormatter = function(opt_options) {
 
   /**
    * Rounds given number.
-   * @param {number} number The Number to be rounded.
+   * @param {number} number The number to be rounded.
    * @return {string} The rounded number string.
    * @example
    * var formatter = new formatters.NumberFormatter();
@@ -83,6 +83,18 @@ formatters.NumberFormatter = function(opt_options) {
     /** @type {string} */
     var result = (a == b ? a : b) + ['', 'k', 'm', 'g', 't'][~~(base / 3)];
     return options['prefix'] + result + options['suffix'];
+  };
+
+  /**
+   * @param {number} number The number.
+   * @return {string} Returns the ordinal suffix for a number.
+   */
+  this.ordinal = function(number) {
+    var index = (
+        number = ~~(number < 0 ? -number : number) % 100) > 10 &&
+        number < 14 || (number %= 10) > 3 ? 0 : number;
+
+    return ['th', 'st', 'nd', 'rd'][index];
   };
 
   /**

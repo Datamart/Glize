@@ -36,3 +36,12 @@ formatters.NumberFormatterTestCase.prototype.testRound = function() {
   assertEquals(formatter.round(100), '$100');
   assertEquals(formatter.round(1e6), '$1m');
 };
+
+
+formatters.NumberFormatterTestCase.prototype.testOrdinal = function() {
+  var formatter = new formatters.NumberFormatter();
+  assertEquals(formatter.ordinal(1), 'st');
+  assertEquals(formatter.ordinal(2), 'nd');
+  assertEquals(formatter.ordinal(3), 'rd');
+  assertEquals(formatter.ordinal(4), 'th');
+};

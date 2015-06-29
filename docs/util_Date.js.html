@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: net/ServletRequest.js</title>
+    <title>JSDoc: Source: util/Date.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: net/ServletRequest.js</h1>
+    <h1 class="page-title">Source: util/Date.js</h1>
 
     
 
@@ -28,102 +28,41 @@
         <article>
             <pre class="prettyprint source linenums"><code>
 /**
- * @fileoverview Simple implementation of
- *               &lt;code>javax.servlet.ServletRequest.&lt;/code>
+ * @fileoverview Date utility methods.
  *
- * @see {@link //docs.oracle.com/javaee/7/api/javax/servlet/ServletRequest.html}
- * @see {@link //google.github.io/styleguide/javascriptguide.xml}
- * @see {@link //developers.google.com/closure/compiler/docs/js-for-compiler}
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
-
 
 
 /**
- * Simple implementation of &lt;code>javax.servlet.ServletRequest&lt;/code>.
- * @requires util.StringUtils.URI
- * @requires util.Object
- * @requires net.URL
- * @constructor
- * @see http://docs.oracle.com/javaee/7/api/javax/servlet/ServletRequest.html
+ * Date utility methods.
+ * @namespace
  */
-net.ServletRequest = function() {
+util.Date = {
+  /**
+   * @return {number} Returns the number of milliseconds elapsed since
+   *                  1 January 1970 00:00:00 UTC.
+   * @see https://es5.github.io/x15.9.html#x15.9.4.4
+   */
+  now: function() {
+    return +new Date;
+  },
 
   /**
-   * Returns the value of a request parameter as a &lt;code>string&lt;/code>, or empty
-   * &lt;code>string&lt;/code> if the parameter does not exist.
-   * @param {string} name A &lt;code>string&lt;/code> specifying the name of the
-   *     parameter.
-   * @param {Element|Location|string=} opt_location Optional location object.
-   * @return {string} Returns a &lt;code>string&lt;/code> representing the single
-   *     value of the parameter.
+   * Converts a &lt;code>date&lt;/code> object into a string using the ISO standard.
+   * @param {!Date} date The date to format.
+   * @return {string} Returns a string in simplified extended ISO format.
+   * @see https://es5.github.io/x15.9.html#x15.9.5.43
+   * @see https://en.wikipedia.org/wiki/ISO_8601
    */
-  this.getParameter = function(name, opt_location) {
-    /** @type {!Object.&lt;string, string>} */
-    var map = self_.getParameterMap(opt_location);
-    return map[name] || '';
-  };
+  toISOString: function(date) {
+    /** @type {Function} */ var fn = date.toISOString;
 
-  /**
-   * @param {Element|Location|string=} opt_location Optional location object.
-   * @return {!Array.&lt;string>} Returns an &lt;code>Array&lt;/code> of
-   * &lt;code>string&lt;/code> objects, each &lt;code>string&lt;/code> containing the name
-   * of a request parameter; or an empty &lt;code>Array&lt;/code> if the request has
-   * no parameters.
-   */
-  this.getParameterNames = function(opt_location) {
-    /** @type {!Object.&lt;string, string>} */
-    var map = self_.getParameterMap(opt_location);
-    return util.Object.keys(map);
-  };
-
-  /**
-   * Returns a map of the parameters of this request including parameters from
-   * parsed from query string and hash.
-   * @param {Element|Location|net.URL|string=} opt_location Optional location.
-   * @return {!Object.&lt;string, string>} Map containing parameter names as keys
-   *     and parameter values as map values.
-   */
-  this.getParameterMap = function(opt_location) {
-    opt_location = opt_location || location;
-    if ('string' == typeof opt_location) {
-      opt_location = new net.URL(opt_location);
-    }
-
-    /** @type {string} */ var url = opt_location.toString();
-    /** @type {!Object.&lt;string, string>} */ var map = {};
-    /** @type {Array.&lt;string>} */ var pairs;
-    /** @type {Array.&lt;string>} */ var pair;
-    /** @type {number} */ var index;
-    /** @type {string} */ var key;
-
-    if (!(url in maps_)) {
-      pairs = opt_location.search.substr(1).split('&amp;').concat(
-          opt_location.hash.substr(1).split('&amp;'));
-      index = pairs.length >>> 0;
-      while (index--) {
-        pair = pairs[index].split('=');
-        key = pair[0];
-        if (key) map[key] = util.StringUtils.URI.decode(pair[1]);
-      }
-      maps_[url] = map;
-    }
-    return maps_[url];
-  };
-
-  /**
-   * The reference to current class instance.
-   * Used in private methods and for preventing jslint errors.
-   * @type {!net.ServletRequest}
-   * @private
-   */
-  var self_ = this;
-
-  /**
-   * Cache for parsed parameters maps.
-   * @type {!Object.&lt;string, !Object&lt;string,string>>}
-   * @private
-   */
-  var maps_ = {};
+    return fn ? fn.call(date) :
+        (1e3 - ~date.getUTCMonth() * 10 + date.toUTCString() + 1e3 + date / 1).
+        replace(/1(..).*?(\d\d)\D+(\d+).(\S+).*(...)/, '$3-$1-$2T$4.$5Z');
+  }
 };
 </code></pre>
         </article>

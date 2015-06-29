@@ -109,7 +109,7 @@ net.HttpRequest = function() {
     var req = window.XMLHttpRequest ? new XMLHttpRequest :
                                       new ActiveXObject('Microsoft.XMLHTTP');
     req.onreadystatechange = function() {
-      if (req.readyState == 4) {
+      if (4 === req.readyState) {
         net.HttpRequest.count_--;
         callback(req);
       }
