@@ -11,6 +11,7 @@
 /**
  * Simple logic-less template engine.
  * @requires net.HttpRequest
+ * @requires util.Array
  * @constructor
  */
 dom.Template = function() {
@@ -72,7 +73,7 @@ dom.Template = function() {
       name = ((opt_prefix ? opt_prefix + '.' : '') + key).replace('.', '\\.');
       value = values[key];
       re = new RegExp('{{ ' + name + '(\\|\\w+)? }}', 'img');
-      if (value instanceof Array) {
+      if (util.Array.isArray(value)) {
         value = value.join(', ');
         if (value) content = content.replace(re, value);
       } else if ('function' == typeof value) {

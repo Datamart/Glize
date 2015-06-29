@@ -245,8 +245,7 @@ util.StringUtils.JSON = {
       result = 'string' == type ? '"' + obj + '"' : '' + obj;
     } else {
       /** @type {Array.<string>} */ var buffer = [];
-      /** @type {boolean} */
-      var isArray = /** @type {boolean} */ (obj && obj instanceof Array);
+      /** @type {boolean} */ var isArray = util.Array.isArray(obj);
       for (/** @type {string} */ var key in obj) {
         /** @type {string|Object} */ var value = obj[key];
         type = typeof value;

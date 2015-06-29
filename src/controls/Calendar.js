@@ -3,7 +3,7 @@
  * @fileoverview Calendar control.
  *
  * @see http://google.github.io/styleguide/javascriptguide.xml
- * @see developers.google.com/closure/compiler/docs/js-for-compiler
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
@@ -16,6 +16,7 @@
  * @constructor
  * @requires formatters.DateFormatter
  * @requires locale.Calendar
+ * @requires util.Array
  * @example
  * <style>
  * table.calendar {border: solid 1px gray; border-collapse: collapse;}
@@ -182,7 +183,7 @@ controls.Calendar = function(container, opt_options) {
    */
   function initSelection_(opt_selected) {
     opt_selected = opt_selected || new Date;
-    if (!(opt_selected instanceof Array)) {
+    if (!util.Array.isArray(opt_selected)) {
       opt_selected = [opt_selected];
     }
 

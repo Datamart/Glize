@@ -29,7 +29,7 @@ util.Object = {
       source = arguments[i++];
       for (key in source) {
         value = source[key];
-        if (value instanceof Array) {
+        if (util.Array.isArray(value)) {
           target[key] = [].concat(value);
         } else if ('object' === typeof value) {
           target[key] = util.Object.extend(

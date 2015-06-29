@@ -1,7 +1,8 @@
 /**
  * @fileoverview The helper class for VML graphics.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
@@ -9,9 +10,10 @@
 /**
  * The helper class for VML graphics.
  * Based on raphael.js library.
- * @link http://www.w3.org/TR/NOTE-VML#_Toc416858391
- * @link http://www.w3.org/TR/SVG/paths.html#PathData
- * @link https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael.js
+ * @see http://www.w3.org/TR/NOTE-VML#_Toc416858391
+ * @see http://www.w3.org/TR/SVG/paths.html#PathData
+ * @see https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael.js
+ * @requires util.Array
  * @constructor
  */
 graphics.VmlHelper = function() {
@@ -393,7 +395,7 @@ graphics.VmlHelper = function() {
    * @private
    */
   function isArray_(obj) {
-    return obj ? (obj instanceof Array) : false;
+    return util.Array.isArray(obj);
   }
 
   // replaced "\x09\x0a\x0b\x0c\x0d\x20\xa0\u1680\u180e\u2000\u2001\u2002" +
