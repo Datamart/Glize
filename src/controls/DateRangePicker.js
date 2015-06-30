@@ -42,8 +42,8 @@ controls.DateRangePicker = function(opt_options) {
   /** @inheritDoc */
   this.getDates = function() {
     /** @type {!Array.<Date>} */ var range = [];
-    /** @type {Date} */ var start = new Date;
-    /** @type {Date} */ var end = new Date;
+    /** @type {Date} */ var start = util.Date.getDate();
+    /** @type {Date} */ var end = util.Date.getDate();
 
     /** @type {Array.<string>} */
     var value = self_.getValue().split(opt_options['separator']);
@@ -55,9 +55,9 @@ controls.DateRangePicker = function(opt_options) {
     }
 
     while (start <= end) {
-      range.push(new Date(start));
+      range.push(new util.Date.DateTime(start));
       start.setDate(start.getDate() + 1);
-      //start = new Date(+start + 864e5);
+      //start = new util.Date.DateTime(+start + 864e5);
     }
     return range;
   };

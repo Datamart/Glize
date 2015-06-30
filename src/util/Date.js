@@ -13,12 +13,28 @@
  */
 util.Date = {
   /**
+   * Shortcut for <code>Date</code> constructor.
+   * Used to reduce size after compilation.
+   * @constructor
+   */
+  DateTime: Date,
+
+  /**
+   * Shortcut for <code>new Date()</code>.
+   * Used to reduce size after compilation.
+   * @return {!Date} Returns current <code>Date</code> object.
+   */
+  getDate: function() {
+    return new util.Date.DateTime;
+  },
+
+  /**
    * @return {number} Returns the number of milliseconds elapsed since
    *                  1 January 1970 00:00:00 UTC.
    * @see https://es5.github.io/x15.9.html#x15.9.4.4
    */
   now: function() {
-    return +new Date;
+    return +util.Date.getDate();
   },
 
   /**

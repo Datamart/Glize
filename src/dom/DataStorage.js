@@ -15,6 +15,7 @@
  * @requires util.StringUtils.URI
  * @requires util.StringUtils.LZW
  * @requires dom.Cookies
+ * @requires util.Date
  * @constructor
  * @param {Object.<string, *>=} opt_options Optional configuration options.
  * @example
@@ -50,7 +51,7 @@ dom.DataStorage = function(opt_options) {
     }
 
     if ('session' === options_['type'] && !nativeStorage_) {
-      dom.Cookies.set(options_['session']['key'], +new Date + '', 1);
+      dom.Cookies.set(options_['session']['key'], util.Date.now() + '', 1);
     }
   };
 
@@ -188,7 +189,7 @@ dom.DataStorage = function(opt_options) {
       /** @type {!Object} */ var session = options_['session'];
       /** @type {string} */ var timestamp = dom.Cookies.get(session['key']);
 
-      if (timestamp && +timestamp + session['ttl'] * 6e4 < +new Date) {
+      if (timestamp && +timestamp + session['ttl'] * 6e4 < util.Date.now()) {
         self_.clear();
       }
     }

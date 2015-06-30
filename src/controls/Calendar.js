@@ -91,7 +91,7 @@ controls.Calendar = function(container, opt_options) {
    * @return {!Date} Returns calendar date.
    */
   this.getDate = function() {
-    return selected_[0] || new Date;
+    return selected_[0] || util.Date.getDate();
   };
 
   /**
@@ -99,7 +99,7 @@ controls.Calendar = function(container, opt_options) {
    * @return {!Date} Returns current displayed calendar date.
    */
   this.getNavDate = function() {
-    return navDate_ || new Date;
+    return navDate_ || util.Date.getDate();
   };
 
   /**
@@ -139,7 +139,8 @@ controls.Calendar = function(container, opt_options) {
    */
   this.clear = function() {
     selected_ = [];
-    /** @type {string} */ var now = formatter_.format(new Date(), 'YYYY-MM-dd');
+    /** @type {string} */
+    var now = formatter_.format(util.Date.getDate(), 'YYYY-MM-dd');
     /** @type {string} */ var cellDate;
 
     self_.each(function(cell) {
@@ -182,12 +183,12 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function initSelection_(opt_selected) {
-    opt_selected = opt_selected || new Date;
+    opt_selected = opt_selected || util.Date.getDate();
     if (!util.Array.isArray(opt_selected)) {
       opt_selected = [opt_selected];
     }
 
-    navDate_ = navDate_ || new Date(opt_selected[0].getTime());
+    navDate_ = navDate_ || new util.Date.DateTime(opt_selected[0].getTime());
     selected_[0] = selected_[0] || opt_selected[0];
     if (opt_options['multiple']) {
       for (/** @type {number} */ var i = 1; i < opt_selected.length; i++) {
@@ -246,10 +247,10 @@ controls.Calendar = function(container, opt_options) {
         }
 
         start = selected_[0];
-        end = new Date(selected_[index]);
+        end = new util.Date.DateTime(selected_[index]);
         while (end > start) {
           end.setDate(end.getDate() - 1);
-          selected_.splice(1, 0, new Date(end.getTime()));
+          selected_.splice(1, 0, new util.Date.DateTime(end.getTime()));
         }
 
         self_.draw(selected_);
@@ -279,12 +280,13 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function tbody_(date) {
-    /** @type {!Date} */ var now = new Date;
+    /** @type {!Date} */ var now = util.Date.getDate();
     /** @type {number} */ var year = date.getFullYear();
     /** @type {number} */ var month = date.getMonth();
 
     // Fix date bug when current day is 31st.
-    /** @type {number} */ var fix = new Date(year, month, 1).getDay() + 1;
+    /** @type {number} */
+    var fix = new util.Date.DateTime(year, month, 1).getDay() + 1;
 
     /** @type {Array} */
     var dim = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -297,7 +299,7 @@ controls.Calendar = function(container, opt_options) {
       var day = ((i - fix >= 0) && (i - fix < dim[month])) ? i - fix + 1 : 0;
       /** @type {string} */
       var value = !day ? '' : formatter_.format(
-          new Date(year, month, day), opt_options['format']);
+          new util.Date.DateTime(year, month, day), opt_options['format']);
 
       /** @type {string} */ var className = getCellCssClass_(date, now, day);
       tbody += '<td align="right" class="' + className + '"' +
@@ -331,7 +333,8 @@ controls.Calendar = function(container, opt_options) {
     /** @type {number} */ var year = date.getFullYear();
     /** @type {number} */ var month = date.getMonth();
     /** @type {number} */ var active = 0;
-    /** @type {boolean} */ var disabled = new Date(year, month, day) > now;
+    /** @type {boolean} */
+    var disabled = new util.Date.DateTime(year, month, day) > now;
     /** @type {number} */
     var today = (year == now.getFullYear() &&
                  month == now.getMonth()) ? now.getDate() : 0;

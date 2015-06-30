@@ -10,6 +10,7 @@
 /**
  * Cookies utility methods.
  * @type {!Object.<string, Function>}
+ * @requires util.Date
  * @namespace
  */
 dom.Cookies = {
@@ -23,7 +24,9 @@ dom.Cookies = {
    */
   set: function(key, value, expires, opt_domain) {
     dom.document.cookie = escape(key) + '=' + escape(value || '') +
-        '; expires=' + (new Date(+new Date + (expires * 864e5)).toGMTString()) +
+        '; expires=' +
+        (new util.Date.DateTime(
+        expires * 864e5 + util.Date.now()).toGMTString()) +
         '; path=/; domain=' + (opt_domain || dom.document.domain);
   },
 

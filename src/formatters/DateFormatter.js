@@ -79,8 +79,9 @@ formatters.DateFormatter = function() {
       month = calendar_.getMonthByName(map['MMMM'] || map['MMM']);
     }
     return month >= 0 && +map['dd'] < 32 ?
-        new Date(year, month, +map['dd'], +map['hh'] || 0,
-               +map['mm'] || 0, +map['ss'] || 0) : dom.NULL;
+        new util.Date.DateTime(
+        year, month, +map['dd'], +map['hh'] || 0,
+        +map['mm'] || 0, +map['ss'] || 0) : dom.NULL;
   };
 
   /**

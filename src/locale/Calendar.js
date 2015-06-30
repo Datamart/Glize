@@ -36,7 +36,7 @@ locale.Calendar = function() {
    * @see locale.Calendar#getMonthNames
    */
   this.getMonthName = function(opt_date) {
-    opt_date = opt_date || new Date;
+    opt_date = opt_date || util.Date.getDate();
     return self_.getMonthNames()[opt_date.getMonth()];
   };
 

@@ -102,7 +102,7 @@ net.HttpRequest = function() {
    */
   function doRequest_(method, url, callback, opt_data) {
     url = url.replace(/^\/+/, '/');
-    url += (~url.indexOf('?') ? '&' : '?') + 'nocache=' + (+new Date);
+    url += (~url.indexOf('?') ? '&' : '?') + 'nocache=' + util.Date.now();
     net.HttpRequest.count_++;
 
     /** @type {!XMLHttpRequest} */

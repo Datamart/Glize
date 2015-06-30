@@ -77,9 +77,10 @@ animation.run_ = function(element, options) {
       return progress;
     };
 
-    /** @type {!Date} */ var start = new Date;
+    /** @type {!Date} */ var start = util.Date.getDate();
+    /** @type {number} */ var progress;
     /** @type {number} */ var interval = setInterval(function() {
-      /** @type {number} */ var progress = (new Date - start) / opt_duration;
+      progress = (util.Date.getDate() - start) / opt_duration;
       if (progress > 1) progress = 1;
       frame(opt_delta(progress));
       if (progress == 1) clearInterval(interval);

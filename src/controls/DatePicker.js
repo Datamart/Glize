@@ -141,7 +141,8 @@ controls.DatePicker = function(opt_options) {
    */
   this.getDates = function() {
     /** @type {string} */ var value = self_.getValue();
-    return [value ? formatter_.parse(value, self_.getFormat()) : new Date];
+    return [value ?
+          formatter_.parse(value, self_.getFormat()) : util.Date.getDate()];
   };
 
   /**
