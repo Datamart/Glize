@@ -121,15 +121,17 @@ graphics.VmlHelper = function() {
     }
     var p = pathToAbsolute_(path),
         p2 = path2 && pathToAbsolute_(path2),
-        attrs = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
-        attrs2 = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null};
+        attrs = {
+          x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: dom.NULL, qy: dom.NULL},
+        attrs2 = {
+          x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: dom.NULL, qy: dom.NULL};
 
     function processPath(path, d) {
       var nx, ny;
       if (!path) {
         return ['C', d.x, d.y, d.x, d.y, d.x, d.y];
       }
-      !(path[0] in {T: 1, Q: 1}) && (d.qx = d.qy = null);
+      !(path[0] in {T: 1, Q: 1}) && (d.qx = d.qy = dom.NULL);
       switch (path[0]) {
         case 'M':
           d.X = path[1];
@@ -220,7 +222,7 @@ graphics.VmlHelper = function() {
       pth.curve = pathClone_(p);
     }
     return p2 ? [p, p2] : p;
-  }, null, pathClone_);
+  }, dom.NULL, pathClone_);
 
   /**
    * @param {*} pathArray The SVG path string.
@@ -408,7 +410,7 @@ graphics.VmlHelper = function() {
 
   function parsePathString_(pathString) {
     if (!pathString) {
-      return null;
+      return dom.NULL;
     }
     var pth = paths_(pathString);
     if (pth.arr) {

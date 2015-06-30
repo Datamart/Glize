@@ -54,11 +54,8 @@ util.Locale = function(language, opt_country, opt_variant) {
  */
 util.Locale.getDefault = function() {
   /** @type {string} */
-  var language = navigator['userLanguage'] || navigator['language'];
-  if (language) {
-    return new util.Locale(language.substr(0, 2).toLowerCase());
-  }
-  return util.Locale.ENGLISH;
+  var lang = dom.device['userLanguage'] || dom.device['language'] || 'en';
+  return new util.Locale(lang.substr(0, 2).toLowerCase());
 };
 
 

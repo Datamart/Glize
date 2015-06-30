@@ -32,7 +32,7 @@ animation.animate = function(element, options) {
     /** @type {!RegExp} */ var isDigit = /^\d+([\.]{1,}\d+)?$/;
     for (/** @type {string} */ var key in options) {
       // 99ms fix Firefox delay issue.
-      /** @type {number} */ var delay = window['XULElement'] ? 99 : 0;
+      /** @type {number} */ var delay = dom.context['XULElement'] ? 99 : 0;
       (function(prop) {
         /** @type {number} */ var timer = setTimeout(function() {
           element.style.transition = 'all ' +

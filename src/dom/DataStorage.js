@@ -155,15 +155,15 @@ dom.DataStorage = function(opt_options) {
     /** @type {string} */ var key = options_['type'] + 'Storage';
     /** @preserveTry */
     try {
-      nativeStorage_ = key in window && window[key];
+      nativeStorage_ = key in dom.context && dom.context[key];
     } catch (e) {}
 
     if (!nativeStorage_) {
       key = 'globalStorage';
       /** @preserveTry */
       try {
-        globalStorage_ = key in window && window[key] &&
-            window[key][location.hostname];
+        globalStorage_ = key in dom.context && dom.context[key] &&
+            dom.context[key][location.hostname];
       } catch (e) {}
     }
 

@@ -106,8 +106,8 @@ net.HttpRequest = function() {
     net.HttpRequest.count_++;
 
     /** @type {!XMLHttpRequest} */
-    var req = window.XMLHttpRequest ? new XMLHttpRequest :
-                                      new ActiveXObject('Microsoft.XMLHTTP');
+    var req = dom.context.XMLHttpRequest ?
+        new XMLHttpRequest : new ActiveXObject('Microsoft.XMLHTTP');
     req.onreadystatechange = function() {
       if (4 === req.readyState) {
         net.HttpRequest.count_--;

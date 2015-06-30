@@ -36,11 +36,27 @@ dom.css = dom.css || {};
 
 
 /**
- * Alias of W3C <code>document</code>.
+ * Reference to the <code>document</code> object.
  * Used to reduce size after compilation.
  * @type {!Document}
  */
 dom.document = document;
+
+
+/**
+ * Reference to the <code>window</code> object.
+ * Used to reduce size after compilation.
+ * @type {!Window}
+ */
+dom.context = window;
+
+
+/**
+ * Reference to the <code>navigator</code> object.
+ * Used to reduce size after compilation.
+ * @type {Navigator}
+ */
+dom.device = navigator;
 
 
 /**
@@ -161,8 +177,9 @@ dom.getBoundingClientRect = function(element) {
  * @return {string|number} Returns element style value.
  */
 dom.getComputedStyle = function(element, prop) {
-  if (window['getComputedStyle']) {
-    return window['getComputedStyle'](element, dom.NULL).getPropertyValue(prop);
+  if (dom.context['getComputedStyle']) {
+    return dom.context['getComputedStyle'](
+        element, dom.NULL).getPropertyValue(prop);
   }
 
   // Converting 'css-property-name' to 'cssPropertyName'.
@@ -403,7 +420,7 @@ dom.events.preventDefault = function(e) {
  * @static
  */
 dom.events.getEvent = function(e) {
-  return e || window.event;
+  return e || dom.context.event;
 };
 
 

@@ -248,9 +248,9 @@ forms.Validation = function() {
     /** @type {boolean} */ var result = false;
     // To the user Safari will behave no differently than a browser that doesn't
     // support constraint validation at all.
-    if (window['webkitURL'] && window['HTMLElement']) {
-      if (window['HTMLElement'].toString().indexOf('Constructor') > 0) {
-        // window.HTMLElement.toString()
+    if (dom.context['webkitURL'] && dom.context['HTMLElement']) {
+      if (dom.context['HTMLElement'].toString().indexOf('Constructor') > 0) {
+        // dom.context.HTMLElement.toString()
         // chrome:
         // "function HTMLElement() { [native code] }"
         // safari (v. 3-8):

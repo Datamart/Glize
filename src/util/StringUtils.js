@@ -228,7 +228,7 @@ util.StringUtils.JSON = {
    * @static
    */
   parse: function(value) {
-    return /** @type {Object} */ ((window.JSON ?
+    return /** @type {Object} */ ((dom.context.JSON ?
         JSON.parse(value) : eval('(' + value + ')')) || dom.NULL);
   },
 
@@ -238,7 +238,7 @@ util.StringUtils.JSON = {
    * @return {string} Returns serialized object as string.
    * @static
    */
-  stringify: window.JSON ? JSON.stringify : function(obj) {
+  stringify: dom.context.JSON ? JSON.stringify : function(obj) {
     /** @type {string} */ var result;
     /** @type {string} */ var type = typeof obj;
     if ('object' != type || obj === dom.NULL) {

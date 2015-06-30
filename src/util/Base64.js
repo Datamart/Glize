@@ -27,7 +27,9 @@ util.Base64 = {
    * @return {string} Returns encoded string.
    */
   encode: function(str) {
-    /** @type {string} */ var result = window.btoa ? window.btoa(str) : '';
+    /** @type {string} */
+    var result = dom.context.btoa ? dom.context.btoa(str) : '';
+
     if (!result) {
       /** @type {!Array.<string>} */
       var table = util.Base64.BASE64_CHARACTER_TABLE.split('');
@@ -49,7 +51,9 @@ util.Base64 = {
    * @return {string} Returns decoded string.
    */
   decode: function(str) {
-    /** @type {string} */ var result = window.atob ? window.atob(str) : '';
+    /** @type {string} */
+    var result = dom.context.atob ? dom.context.atob(str) : '';
+
     if (!result) {
       /** @type {!Array.<string>} */ var buffer = str.split('');
       /** @type {number} */ var bit = 0;

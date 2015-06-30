@@ -23,16 +23,17 @@ util.FileUtils = {
     /** @type {Element} */ var link = dom.createElement('A');
     opt_fileName = opt_fileName || 'file';
     opt_contentType = opt_contentType || 'text/plain';
-    if (window['Blob'] && 'download' in link) {
-      link['href'] = (window['URL'] || window['webkitURL']).createObjectURL(
-          new window['Blob']([data],
-          {'type': opt_contentType + ';charset=' + dom.CHARSET}));
+    if (dom.context['Blob'] && 'download' in link) {
+      link['href'] = (dom.context['URL'] || dom.context['webkitURL']).
+          createObjectURL(
+          new dom.context['Blob'](
+          [data], {'type': opt_contentType + ';charset=' + dom.CHARSET}));
       link.setAttribute('download', opt_fileName);
       dom.document.body.appendChild(link);
       link.click();
     } else {
-      window.open('data:' + opt_contentType +
-                  ';base64,' + util.Base64.encode(data));
+      dom.context.open('data:' + opt_contentType +
+          ';base64,' + util.Base64.encode(data));
     }
   }
 };

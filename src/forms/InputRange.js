@@ -246,9 +246,9 @@ forms.InputRange = function(input) {
    * @type {number}
    * @private
    */
-  var maxTouchPoints_ = +navigator['maxTouchPoints'] ||
-                        +navigator['msMaxTouchPoints'] ||
-                        +('ontouchstart' in window);
+  var maxTouchPoints_ = +dom.device['maxTouchPoints'] ||
+                        +dom.device['msMaxTouchPoints'] ||
+                        +('ontouchstart' in dom.context);
 
   init_();
 };

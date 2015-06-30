@@ -76,9 +76,9 @@ controls.DatePicker = function(opt_options) {
       element_ = element;
       draw_();
       /** @type {number} */ var y = dom.document.documentElement.scrollTop ||
-                                    window.pageYOffset || 0;
+                                    dom.context.pageYOffset || 0;
       /** @type {number} */ var x = dom.document.documentElement.scrollLeft ||
-                                    window.pageXOffset || 0;
+                                    dom.context.pageXOffset || 0;
       /** @type {Object} */ var rect = dom.getBoundingClientRect(element);
       // TODO: implement possibility to show picker above element.
       picker.style.top = (rect['bottom'] + y) + 'px';
@@ -217,13 +217,13 @@ controls.DatePicker = function(opt_options) {
    * @type {Node}
    * @private
    */
-  var element_ = null;
+  var element_ = dom.NULL;
 
   /**
    * @type {controls.Calendar}
    * @private
    */
-  var calendar_ = null;
+  var calendar_ = dom.NULL;
 
   /**
    * @type {!formatters.DateFormatter}
