@@ -119,7 +119,7 @@ controls.Calendar = function(container, opt_options) {
    * @return {!Date} Returns calendar date.
    */
   this.getDate = function() {
-    return selected_[0] || new Date;
+    return selected_[0] || util.Date.getDate();
   };
 
   /**
@@ -127,7 +127,7 @@ controls.Calendar = function(container, opt_options) {
    * @return {!Date} Returns current displayed calendar date.
    */
   this.getNavDate = function() {
-    return navDate_ || new Date;
+    return navDate_ || util.Date.getDate();
   };
 
   /**
@@ -167,7 +167,8 @@ controls.Calendar = function(container, opt_options) {
    */
   this.clear = function() {
     selected_ = [];
-    /** @type {string} */ var now = formatter_.format(new Date(), 'YYYY-MM-dd');
+    /** @type {string} */
+    var now = formatter_.format(util.Date.getDate(), 'YYYY-MM-dd');
     /** @type {string} */ var cellDate;
 
     self_.each(function(cell) {
@@ -210,12 +211,12 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function initSelection_(opt_selected) {
-    opt_selected = opt_selected || new Date;
+    opt_selected = opt_selected || util.Date.getDate();
     if (!util.Array.isArray(opt_selected)) {
       opt_selected = [opt_selected];
     }
 
-    navDate_ = navDate_ || new Date(opt_selected[0].getTime());
+    navDate_ = navDate_ || new util.Date.DateTime(opt_selected[0].getTime());
     selected_[0] = selected_[0] || opt_selected[0];
     if (opt_options['multiple']) {
       for (/** @type {number} */ var i = 1; i &lt; opt_selected.length; i++) {
@@ -274,10 +275,10 @@ controls.Calendar = function(container, opt_options) {
         }
 
         start = selected_[0];
-        end = new Date(selected_[index]);
+        end = new util.Date.DateTime(selected_[index]);
         while (end > start) {
           end.setDate(end.getDate() - 1);
-          selected_.splice(1, 0, new Date(end.getTime()));
+          selected_.splice(1, 0, new util.Date.DateTime(end.getTime()));
         }
 
         self_.draw(selected_);
@@ -307,12 +308,13 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function tbody_(date) {
-    /** @type {!Date} */ var now = new Date;
+    /** @type {!Date} */ var now = util.Date.getDate();
     /** @type {number} */ var year = date.getFullYear();
     /** @type {number} */ var month = date.getMonth();
 
     // Fix date bug when current day is 31st.
-    /** @type {number} */ var fix = new Date(year, month, 1).getDay() + 1;
+    /** @type {number} */
+    var fix = new util.Date.DateTime(year, month, 1).getDay() + 1;
 
     /** @type {Array} */
     var dim = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -325,7 +327,7 @@ controls.Calendar = function(container, opt_options) {
       var day = ((i - fix >= 0) &amp;&amp; (i - fix &lt; dim[month])) ? i - fix + 1 : 0;
       /** @type {string} */
       var value = !day ? '' : formatter_.format(
-          new Date(year, month, day), opt_options['format']);
+          new util.Date.DateTime(year, month, day), opt_options['format']);
 
       /** @type {string} */ var className = getCellCssClass_(date, now, day);
       tbody += '&lt;td align="right" class="' + className + '"' +
@@ -359,7 +361,8 @@ controls.Calendar = function(container, opt_options) {
     /** @type {number} */ var year = date.getFullYear();
     /** @type {number} */ var month = date.getMonth();
     /** @type {number} */ var active = 0;
-    /** @type {boolean} */ var disabled = new Date(year, month, day) > now;
+    /** @type {boolean} */
+    var disabled = new util.Date.DateTime(year, month, day) > now;
     /** @type {number} */
     var today = (year == now.getFullYear() &amp;&amp;
                  month == now.getMonth()) ? now.getDate() : 0;
@@ -471,13 +474,13 @@ controls['Calendar'] = controls.Calendar;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="controls.html5.InputDate.html">InputDate</a></li><li><a href="controls.html5.InputNumber.html">InputNumber</a></li><li><a href="controls.html5.InputRange.html">InputRange</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.BytesFormatter.html">BytesFormatter</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.InputNumber.html">InputNumber</a></li><li><a href="forms.InputRange.html">InputRange</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="animation.html">animation</a></li><li><a href="controls.html">controls</a></li><li><a href="controls.html5.html">html5</a></li><li><a href="dom.html">dom</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.css.html">css</a></li><li><a href="dom.events.html">events</a></li><li><a href="dom.scripts.html">scripts</a></li><li><a href="formatters.html">formatters</a></li><li><a href="forms.html">forms</a></li><li><a href="graphics.html">graphics</a></li><li><a href="locale.html">locale</a></li><li><a href="net.html">net</a></li><li><a href="util.html">util</a></li><li><a href="util.Array.html">Array</a></li><li><a href="util.Base64.html">Base64</a></li><li><a href="util.Date.html">Date</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.String.html">String</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="controls.html5.InputDate.html">InputDate</a></li><li><a href="controls.html5.InputNumber.html">InputNumber</a></li><li><a href="controls.html5.InputRange.html">InputRange</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.BytesFormatter.html">BytesFormatter</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.InputNumber.html">InputNumber</a></li><li><a href="forms.InputRange.html">InputRange</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Date.DateTime.html">DateTime</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="animation.html">animation</a></li><li><a href="controls.html">controls</a></li><li><a href="controls.html5.html">html5</a></li><li><a href="dom.html">dom</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.css.html">css</a></li><li><a href="dom.events.html">events</a></li><li><a href="dom.scripts.html">scripts</a></li><li><a href="formatters.html">formatters</a></li><li><a href="forms.html">forms</a></li><li><a href="graphics.html">graphics</a></li><li><a href="locale.html">locale</a></li><li><a href="net.html">net</a></li><li><a href="util.html">util</a></li><li><a href="util.Array.html">Array</a></li><li><a href="util.Base64.html">Base64</a></li><li><a href="util.Date.html">Date</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.String.html">String</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jun 29 2015 19:13:46 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 12:08:27 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>
