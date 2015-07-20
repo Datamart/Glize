@@ -300,10 +300,11 @@ dom.events.TYPE = {
   CLICK: 'click',
   DBLCLICK: 'dblclick',
   MOUSEDOWN: 'mousedown',
-  MOUSEUP: 'mouseup',
-  MOUSEOVER: 'mouseover',
-  MOUSEOUT: 'mouseout',
   MOUSEMOVE: 'mousemove',
+  MOUSEOUT: 'mouseout',
+  MOUSEOVER: 'mouseover',
+  MOUSEUP: 'mouseup',
+  MOUSEWHEEL: 'onmousewheel' in dom.document ? 'mousewheel' : 'DOMMouseScroll',
 
   // Keyboard events.
   KEYDOWN: 'keydown',
@@ -311,16 +312,39 @@ dom.events.TYPE = {
   KEYUP: 'keyup',
 
   // Touch events.
-  TOUCHSTART: 'touchstart',
+  TOUCHCANCEL: 'touchcancel',
   TOUCHEND: 'touchend',
   TOUCHMOVE: 'touchmove',
+  TOUCHSTART: 'touchstart',
 
-  // Other.
+  // Forms events.
   BLUR: 'blur',
-  FOCUS: 'focus',
-  SUBMIT: 'submit',
   CHANGE: 'change',
-  INPUT: 'input'
+  FOCUS: 'focus',
+  INPUT: 'input',
+  RESET: 'reset',
+  SELECT: 'select',
+  SUBMIT: 'submit',
+
+  // Drag and drop events.
+  DRAG: 'drag',
+  DRAGEND: 'dragend',
+  DRAGENTER: 'dragenter',
+  DRAGLEAVE: 'dragleave',
+  DRAGOVER: 'dragover',
+  DRAGSTART: 'dragstart',
+  DROP: 'drop',
+
+  // Window and document events.
+  BEFOREUNLOAD: 'beforeunload',
+  DOMCONTENTLOADED: 'DOMContentLoaded',
+  ERROR: 'error',
+  LOAD: 'load',
+  ORIENTATIONCHANGE: 'orientationchange',
+  READYSTATECHANGE: 'readystatechange',
+  RESIZE: 'resize',
+  SCROLL: 'scroll',
+  UNLOAD: 'unload'
 };
 
 

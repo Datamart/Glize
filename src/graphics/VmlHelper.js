@@ -74,7 +74,7 @@ graphics.VmlHelper = function() {
    */
   function cacher_(f, opt_scope, opt_postprocessor) {
     function newf() {
-      var arg = Array.prototype.slice.call(arguments, 0),
+      var arg = util.Array.slice.call(arguments, 0),
           args = arg.join('\u2400'),
           cache = newf.cache = newf.cache || {},
           count = newf.count = newf.count || [];
