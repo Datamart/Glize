@@ -75,8 +75,9 @@ util.Array = {
     /** @type {number} */ var length = list.length;
     /** @type {number} */ var i = 0;
     /** @type {number} */ var j = 0;
-    /** @type {function(Function):!Array} */ var fn = list['filter'];
-    /** @type {!Array} */ var result = fn ? fn.call(list, callback) : [];
+    /** @type {function(Function, Object=):!Array} */ var fn = list['filter'];
+    /** @type {!Array} */ var result = fn ?
+        fn.call(list, callback, opt_context) : [];
     /** @type {*} */ var element;
 
     if (!fn) {
@@ -104,9 +105,9 @@ util.Array = {
     /** @type {!Array} */ var list = util.Array.toArray(obj);
     /** @type {number} */ var length = list.length;
     /** @type {number} */ var i = 0;
-    /** @type {function(Function):!Array} */ var fn = list['map'];
+    /** @type {function(Function, Object=):!Array} */ var fn = list['map'];
     /** @type {!Array} */ var result = fn ?
-        fn.call(list, callback) : new Array(length);
+        fn.call(list, callback, opt_context) : new Array(length);
 
     if (!fn) {
       for (; i < length;) {
@@ -115,6 +116,28 @@ util.Array = {
     }
 
     return result;
+  },
+
+  /**
+   * Executes a provided function once per array element.
+   * @param {!Arguments|Array|NodeList|string} obj The array-like object.
+   * @param {!function(*, number, Array):*} callback The callback function.
+   * @param {Object=} opt_context The optional context object.
+   * @see http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.18
+   */
+  forEach: function(obj, callback, opt_context) {
+    /** @type {!Array} */ var list = util.Array.toArray(obj);
+    /** @type {number} */ var length = list.length;
+    /** @type {number} */ var i = 0;
+    /** @type {function(Function, Object=)} */ var fn = list['forEach'];
+
+    if (fn) {
+      fn.call(list, callback, opt_context);
+    } else {
+      for (; i < length;) {
+        callback.call(opt_context, list[i], i++, list);
+      }
+    }
   },
 
   /**

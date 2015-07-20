@@ -88,3 +88,13 @@ util.ArrayUtilsTestCase.prototype.testToArray = function() {
   assertEquals(str.length, list.length);
   assertEquals(str, list.join(''));
 };
+
+util.ArrayUtilsTestCase.prototype.testForEach = function() {
+  var arr = ['a', 'b', 'c', 'd'];
+  arr.forEach = null; // clear native.
+  var callback = function(element, index) {
+    assertEquals(element, arr[index]);
+  };
+  util.Array.forEach(arr, callback);
+  util.Array.forEach(arr.join(''), callback);
+};
