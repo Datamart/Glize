@@ -240,8 +240,7 @@ dom.css.hasClass = function(element, className) {
  */
 dom.css.setClass = function(element, var_args) {
   if (element) {
-    /** @type {!Array.<string>} */ var args = dom.css.slice_.call(arguments, 1);
-    element.className = args.join(' ');
+    element.className = util.Array.slice.call(arguments, 1).join(' ');
   }
 };
 
@@ -256,9 +255,7 @@ dom.css.addClass = function(element, var_args) {
   // if element is not appended into the DOM.
   if (element) {
     dom.css.removeClass.apply(dom.NULL, arguments);
-
-    /** @type {!Array.<string>} */ var args = dom.css.slice_.call(arguments, 1);
-    element.className += ' ' + args.join(' ');
+    element.className += ' ' + util.Array.slice.call(arguments, 1).join(' ');
   }
 };
 
@@ -272,7 +269,8 @@ dom.css.removeClass = function(element, var_args) {
   // Note: `element.classList.remove` throws 'TypeError: Illegal invocation'
   // if element is not appended into the DOM.
   if (element) {
-    /** @type {!Array.<string>} */ var args = dom.css.slice_.call(arguments, 1);
+    /** @type {!Array.<string>} */
+    var args = util.Array.slice.call(arguments, 1);
     dom.css.setClass(element, element.className.replace(
         new RegExp('\\s?\\b(' + args.join('|') + ')\\b', 'g'), ''));
   }
@@ -288,15 +286,6 @@ dom.css.toggleClass = function(element, className) {
   (dom.css.hasClass(element, className) ?
       dom.css.removeClass : dom.css.addClass)(element, className);
 };
-
-
-/**
- * Alias of <code>Array.prototype.slice</code>.
- * Used to reduce size after compilation.
- * @type {!function(number): !Array}
- * @private
- */
-dom.css.slice_ = Array.prototype.slice;
 
 
 /**

@@ -62,3 +62,29 @@ util.ArrayUtilsTestCase.prototype.testContains = function() {
   assertEquals(true, util.Array.contains(arr, 'c'));
   assertEquals(false, util.Array.contains(arr, 'w'));
 };
+
+util.ArrayUtilsTestCase.prototype.testRandom = function() {
+  var arr = ['a', 'b', 'c', 'd'];
+  var rnd = util.Array.random(arr);
+
+  assertNotNull(rnd);
+  assertTrue('undefined' !== typeof rnd);
+  assertTrue('string' === typeof rnd);
+  assertTrue(util.Array.contains(arr, rnd));
+  assertTrue(rnd.charCodeAt(0) >= 97);
+  assertTrue(rnd.charCodeAt(0) <= 100);
+};
+
+util.ArrayUtilsTestCase.prototype.testToArray = function() {
+  (function() {
+    var list = util.Array.toArray(arguments);
+    assertNotNull(list);
+    assertEquals(arguments.length, list.length);
+    assertEquals(arguments[0], list[0]);
+  })(1, 2, 3);
+
+  var str = '123';
+  var list = util.Array.toArray(str);
+  assertEquals(str.length, list.length);
+  assertEquals(str, list.join(''));
+};

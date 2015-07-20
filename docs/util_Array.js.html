@@ -41,25 +41,34 @@
  */
 util.Array = {
   /**
+   * Reference to &lt;code>Array.prototype.slice&lt;/code>.
+   * Used to reduce size after compilation.
+   * @type {!function(number=, number=): !Array}
+   * @see http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.10
+   */
+  slice: Array.prototype.slice,
+
+  /**
    * Searches the array for the specified element, and returns its position.
-   * @param {!Array} arr The array.
+   * @param {!Arguments|Array|NodeList|string} obj The array-like object.
    * @param {*} element The element to locate in the array.
    * @param {number=} opt_fromIndex The optional index to start the search at.
    * @return {number} Returns the first index at which a given element can be
    *                  found in the array, or -1 if it is not present.
    * @see https://es5.github.io/#x15.4.4.14
    */
-  indexOf: function(arr, element, opt_fromIndex) {
+  indexOf: function(obj, element, opt_fromIndex) {
     opt_fromIndex = opt_fromIndex | 0;
 
-    /** @type {number} */ var length = arr.length;
-    /** @type {Function} */ var fn = arr.indexOf;
+    /** @type {!Array} */ var list = util.Array.toArray(obj);
+    /** @type {number} */ var length = list.length;
+    /** @type {function(*, number=):number} */ var fn = list['indexOf'];
     /** @type {number} */ var result = fn ?
-        fn.call(arr, element, opt_fromIndex) : -1;
+        fn.call(list, element, opt_fromIndex) : -1;
 
     if (!fn) {
       for (; opt_fromIndex &lt; length &amp;&amp; !~result; opt_fromIndex++) {
-        result = arr[opt_fromIndex] === element ? opt_fromIndex : result;
+        result = list[opt_fromIndex] === element ? opt_fromIndex : result;
       }
     }
 
@@ -74,7 +83,7 @@ util.Array = {
    * @see https://es5.github.io/#x15.4.3.2
    */
   isArray: function(obj) {
-    /** @type {Function} */ var fn = Array.isArray;
+    /** @type {function(*):boolean} */ var fn = Array['isArray'];
 
     return fn ?
         fn(obj) : '[object Array]' === Object.prototype.toString.call(obj);
@@ -83,24 +92,53 @@ util.Array = {
   /**
    * Creates a new array with all elements that pass the test implemented
    * by the provided function.
-   * @param {!Array} arr The array.
+   * @param {!Arguments|Array|NodeList|string} obj The array-like object.
    * @param {!function(*, number, Array):boolean} callback The callback function
    * @param {Object=} opt_context The optional context object.
-   * @return {Array} Returns filtered array.
+   * @return {!Array} Returns filtered array.
    * @see http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.20
    */
-  filter: function(arr, callback, opt_context) {
-    /** @type {number} */ var length = arr.length;
+  filter: function(obj, callback, opt_context) {
+    /** @type {!Array} */ var list = util.Array.toArray(obj);
+    /** @type {number} */ var length = list.length;
     /** @type {number} */ var i = 0;
-    /** @type {Function} */ var fn = arr.filter;
-    /** @type {Array} */ var result = fn ? fn.call(arr, callback) : [];
+    /** @type {number} */ var j = 0;
+    /** @type {function(Function):!Array} */ var fn = list['filter'];
+    /** @type {!Array} */ var result = fn ? fn.call(list, callback) : [];
+    /** @type {*} */ var element;
 
     if (!fn) {
       for (; i &lt; length;) {
-        var element = arr[i++];
-        if (callback.call(opt_context, element, i, arr)) {
-          result.push(element);
+        element = list[i++];
+        if (callback.call(opt_context, element, i, list)) {
+          result[j++] = element;
         }
+      }
+    }
+
+    return result;
+  },
+
+  /**
+   * Creates a new array with the results of calling a provided function on
+   * every element in this array.
+   * @param {!Arguments|Array|NodeList|string} obj The array-like object.
+   * @param {!function(*, number, Array):*} callback The callback function.
+   * @param {Object=} opt_context The optional context object.
+   * @return {!Array} Returns filtered array.
+   * @see http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.19
+   */
+  map: function(obj, callback, opt_context) {
+    /** @type {!Array} */ var list = util.Array.toArray(obj);
+    /** @type {number} */ var length = list.length;
+    /** @type {number} */ var i = 0;
+    /** @type {function(Function):!Array} */ var fn = list['map'];
+    /** @type {!Array} */ var result = fn ?
+        fn.call(list, callback) : new Array(length);
+
+    if (!fn) {
+      for (; i &lt; length;) {
+        result[i] = callback.call(opt_context, list[i], i++, list);
       }
     }
 
@@ -115,6 +153,26 @@ util.Array = {
    */
   contains: function(arr, element) {
     return 0 &lt;= util.Array.indexOf(arr, element);
+  },
+
+  /**
+   * Gets random element from array.
+   * @param {!Arguments|Array|NodeList|string} obj The array-like object.
+   * @return {*} Returns random element from array &lt;code>obj&lt;/code>.
+   */
+  random: function(obj) {
+    /** @type {!Array} */ var list = util.Array.toArray(obj);
+    return list[Math.random() * list.length | 0];
+  },
+
+  /**
+   * Converts object &lt;code>obj&lt;/code> to &lt;code>Array&lt;/code>.
+   * @param {!Arguments|Array|NodeList|string} obj The array-like object.
+   * @return {!Array} Returns &lt;code>obj&lt;/code> converted to &lt;code>Array&lt;/code>.
+   */
+  toArray: function(obj) {
+    return util.Array.isArray(obj) ?
+        /** @type {!Array} */ (obj) : util.Array.slice.call(obj);
   }
 };
 </code></pre>
@@ -133,7 +191,7 @@ util.Array = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Tue Jun 30 2015 12:55:36 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jul 20 2015 14:25:47 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>
