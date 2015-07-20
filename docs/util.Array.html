@@ -103,6 +103,90 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".slice"><span class="type-signature">(static, non-null) </span>slice<span class="type-signature"> :function</span></h4>
+
+
+
+
+<div class="description">
+    Reference to <code>Array.prototype.slice</code>.
+Used to reduce size after compilation.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">function</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.10">http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.10</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -235,7 +319,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line120">line 120</a>
+        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -288,7 +372,7 @@
 
     
 
-    <h4 class="name" id=".filter"><span class="type-signature">(static) </span>filter<span class="signature">(arr, callback<span class="signature-attributes">non-null</span>, opt_context<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (non-null) {Array}</span></h4>
+    <h4 class="name" id=".filter"><span class="type-signature">(static) </span>filter<span class="signature">(obj, callback<span class="signature-attributes">non-null</span>, opt_context<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (non-null) {Array}</span></h4>
 
     
 
@@ -334,13 +418,19 @@ by the provided function.
 
         <tr>
             
-                <td class="name"><code>arr</code></td>
+                <td class="name"><code>obj</code></td>
             
 
             <td class="type">
             
                 
+<span class="param-type">Arguments</span>
+|
+
 <span class="param-type">Array</span>
+|
+
+<span class="param-type">NodeList</span>
 |
 
 <span class="param-type">string</span>
@@ -361,7 +451,7 @@ by the provided function.
 
             
 
-            <td class="description last">The array.</td>
+            <td class="description last">The array-like object.</td>
         </tr>
 
     
@@ -466,7 +556,7 @@ by the provided function.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line65">line 65</a>
+        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -526,7 +616,7 @@ by the provided function.
 
     
 
-    <h4 class="name" id=".indexOf"><span class="type-signature">(static) </span>indexOf<span class="signature">(arr<span class="signature-attributes">non-null</span>, element, opt_fromIndex<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    <h4 class="name" id=".indexOf"><span class="type-signature">(static) </span>indexOf<span class="signature">(obj, element, opt_fromIndex<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
 
     
 
@@ -571,13 +661,22 @@ by the provided function.
 
         <tr>
             
-                <td class="name"><code>arr</code></td>
+                <td class="name"><code>obj</code></td>
             
 
             <td class="type">
             
                 
+<span class="param-type">Arguments</span>
+|
+
 <span class="param-type">Array</span>
+|
+
+<span class="param-type">NodeList</span>
+|
+
+<span class="param-type">string</span>
 
 
             
@@ -595,7 +694,7 @@ by the provided function.
 
             
 
-            <td class="description last">The array.</td>
+            <td class="description last">The array-like object.</td>
         </tr>
 
     
@@ -700,7 +799,7 @@ by the provided function.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line25">line 25</a>
+        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line32">line 32</a>
     </li></ul></dd>
     
 
@@ -861,7 +960,7 @@ by the provided function.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line49">line 49</a>
+        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -922,7 +1021,7 @@ by the provided function.
 
     
 
-    <h4 class="name" id=".map"><span class="type-signature">(static) </span>map<span class="signature">(arr, callback<span class="signature-attributes">non-null</span>, opt_context<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (non-null) {Array}</span></h4>
+    <h4 class="name" id=".map"><span class="type-signature">(static) </span>map<span class="signature">(obj, callback<span class="signature-attributes">non-null</span>, opt_context<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; (non-null) {Array}</span></h4>
 
     
 
@@ -968,13 +1067,19 @@ every element in this array.
 
         <tr>
             
-                <td class="name"><code>arr</code></td>
+                <td class="name"><code>obj</code></td>
             
 
             <td class="type">
             
                 
+<span class="param-type">Arguments</span>
+|
+
 <span class="param-type">Array</span>
+|
+
+<span class="param-type">NodeList</span>
 |
 
 <span class="param-type">string</span>
@@ -995,7 +1100,7 @@ every element in this array.
 
             
 
-            <td class="description last">The array.</td>
+            <td class="description last">The array-like object.</td>
         </tr>
 
     
@@ -1100,7 +1205,7 @@ every element in this array.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line96">line 96</a>
+        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -1156,6 +1261,330 @@ every element in this array.
 
 
         
+            
+
+    
+
+    <h4 class="name" id=".random"><span class="type-signature">(static) </span>random<span class="signature">(obj)</span><span class="type-signature"> &rarr; {*}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets random element from array.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Arguments</span>
+|
+
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">NodeList</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The array-like object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line135">line 135</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Returns random element from array <code>obj</code>.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".toArray"><span class="type-signature">(static) </span>toArray<span class="signature">(obj)</span><span class="type-signature"> &rarr; (non-null) {Array}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Converts object <code>obj</code> to <code>Array</code>.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Arguments</span>
+|
+
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">NodeList</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The array-like object.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="util_Array.js.html">util/Array.js</a>, <a href="util_Array.js.html#line145">line 145</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Returns <code>obj</code> converted to <code>Array</code>.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
     
 
     
@@ -1177,7 +1606,7 @@ every element in this array.
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jul 20 2015 12:29:19 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Mon Jul 20 2015 14:25:53 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>
