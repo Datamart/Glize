@@ -32,13 +32,26 @@ util.ArrayUtilsTestCase.prototype.testIsArray = function() {
 
 util.ArrayUtilsTestCase.prototype.testFilter = function() {
   var arr = ['a', 'b', 'c', 'd'];
+  var expected = 'bc';
+  var callback = function(element, index) {
+    return 'b' == element || 'c' == element;
+  };
   arr.filter = null; // clear native.
 
-  var result = util.Array.filter(arr, function(element, index) {
-    return 'b' == element || 'c' == element;
-  });
+  assertEquals(expected, util.Array.filter(arr, callback).join(''));
+  assertEquals(expected, util.Array.filter(arr.join(''), callback).join(''));
+};
 
-  assertEquals('bc', result.join(''));
+util.ArrayUtilsTestCase.prototype.testMap = function() {
+  var arr = ['a', 'b', 'c', 'd'];
+  var expected = '97,98,99,100';
+  var callback = function(element, index) {
+    return element.charCodeAt(0);
+  };
+  arr.map = null; // clear native.
+
+  assertEquals(expected, util.Array.map(arr, callback).join(','));
+  assertEquals(expected, util.Array.map(arr.join(''), callback).join(','));
 };
 
 util.ArrayUtilsTestCase.prototype.testContains = function() {

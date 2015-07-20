@@ -12,6 +12,7 @@
  * @namespace
  */
 util.Array = {
+
   /**
    * Searches the array for the specified element, and returns its position.
    * @param {!Array} arr The array.
@@ -55,24 +56,55 @@ util.Array = {
   /**
    * Creates a new array with all elements that pass the test implemented
    * by the provided function.
-   * @param {!Array} arr The array.
+   * @param {!Array|string} arr The array.
    * @param {!function(*, number, Array):boolean} callback The callback function
    * @param {Object=} opt_context The optional context object.
-   * @return {Array} Returns filtered array.
+   * @return {!Array} Returns filtered array.
    * @see http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.20
    */
   filter: function(arr, callback, opt_context) {
-    /** @type {number} */ var length = arr.length;
+    /** @type {!Array} */ var list = 'string' === typeof arr ?
+        arr.split('') : arr;
+    /** @type {number} */ var length = list.length;
     /** @type {number} */ var i = 0;
-    /** @type {Function} */ var fn = arr.filter;
-    /** @type {Array} */ var result = fn ? fn.call(arr, callback) : [];
+    /** @type {number} */ var j = 0;
+    /** @type {function(Function):!Array} */ var fn = list['filter'];
+    /** @type {!Array} */ var result = fn ? fn.call(list, callback) : [];
+    /** @type {*} */ var element;
 
     if (!fn) {
       for (; i < length;) {
-        var element = arr[i++];
-        if (callback.call(opt_context, element, i, arr)) {
-          result.push(element);
+        element = list[i++];
+        if (callback.call(opt_context, element, i, list)) {
+          result[j++] = element;
         }
+      }
+    }
+
+    return result;
+  },
+
+  /**
+   * Creates a new array with the results of calling a provided function on
+   * every element in this array.
+   * @param {!Array|string} arr The array.
+   * @param {!function(*, number, Array):*} callback The callback function.
+   * @param {Object=} opt_context The optional context object.
+   * @return {!Array} Returns filtered array.
+   * @see http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.4.19
+   */
+  map: function(arr, callback, opt_context) {
+    /** @type {!Array} */ var list = 'string' === typeof arr ?
+        arr.split('') : arr;
+    /** @type {number} */ var length = list.length;
+    /** @type {number} */ var i = 0;
+    /** @type {function(Function):!Array} */ var fn = list['map'];
+    /** @type {!Array} */ var result = fn ?
+        fn.call(list, callback) : new Array(length);
+
+    if (!fn) {
+      for (; i < length;) {
+        result[i] = callback.call(opt_context, list[i], i++, list);
       }
     }
 
