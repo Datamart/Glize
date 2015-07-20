@@ -141,6 +141,34 @@ util.Array = {
   },
 
   /**
+   * Calls the specified <code>callback</code> function for all the elements
+   * in an array-like object <code>obj</code>.
+   * @param {!Arguments|Array|NodeList|string} obj The array-like object.
+   * @param {!function(*, *, number, Array):*} callback The callback function.
+   * @param {*=} opt_initial The initial value to use as the first argument
+   *     to the first call of the <code>callback</code>.
+   * @return {*} Returns accumulated result from the last call to
+   *     the <code>callback</code> function.
+   * @see http://es5.github.io/#x15.4.4.21
+   */
+  reduce: function(obj, callback, opt_initial) {
+    /** @type {!Array} */ var list = util.Array.toArray(obj);
+    /** @type {number} */ var length = list.length;
+    /** @type {number} */ var i = arguments.length > 2 ? 0 : 1;
+    /** @type {function(Function, *=):*} */ var fn = list['reduce'];
+
+    if (fn) {
+      opt_initial = fn.call(list, callback, opt_initial);
+    } else {
+      opt_initial = i ? list[0] : opt_initial;
+      for (; i < length;) {
+        opt_initial = callback(opt_initial, list[i], i++, list);
+      }
+    }
+    return opt_initial;
+  },
+
+  /**
    * Checks if array contains the given element.
    * @param {!Array} arr The array to test for the presence of the element.
    * @param {*} element The element to search.

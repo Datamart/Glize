@@ -98,3 +98,13 @@ util.ArrayUtilsTestCase.prototype.testForEach = function() {
   util.Array.forEach(arr, callback);
   util.Array.forEach(arr.join(''), callback);
 };
+
+util.ArrayUtilsTestCase.prototype.testReduce = function() {
+  var arr = [0, 1, 2, 3, 4];
+  arr.reduce = null; // clear native.
+  var callback = function(previous, current, index, array) {
+    return previous + current;
+  };
+  assertEquals(10, util.Array.reduce(arr, callback));
+  assertEquals(15, util.Array.reduce(arr, callback, 5));
+};
