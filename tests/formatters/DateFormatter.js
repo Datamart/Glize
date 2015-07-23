@@ -23,6 +23,8 @@ formatters.DateFormatterTestCase.prototype.testFormat = function() {
   assertEquals('2013-06-15', formatters.DateFormatter.format(date, 'YYYY-MM-dd'));
   assertEquals('2013-06-15 13:30', formatters.DateFormatter.format(date, 'YYYY-MM-dd hh:mm'));
   assertEquals('15 Jun, 2013', formatters.DateFormatter.format(date, 'dd MMM, YYYY'));
+
+  assertEquals('2013-06-15T13:30:00.000Z', formatter.format(date, 'YYYY-MM-ddThh:mm:ss.000Z'));
 };
 
 
