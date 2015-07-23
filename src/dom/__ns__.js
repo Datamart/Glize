@@ -291,9 +291,6 @@ dom.css.toggleClass = function(element, className) {
 /**
  * Enum of event types.
  * @enum {string}
- * @example <code>{
- *  CLICK, DBLCLICK, MOUSEDOWN, MOUSEUP, MOUSEOVER, MOUSEOUT, MOUSEMOVE, KEYDOWN
- * }</code>
  */
 dom.events.TYPE = {
   // Mouse events.

@@ -20,19 +20,6 @@ var forms = {
   TAGS: ['INPUT', 'TEXTAREA', 'SELECT'],
 
   /**
-   * Enumeration of HTML5 form features.
-   * @type {!Object.<string, string>}
-   * @example
-   * {PLACEHOLDER, VALIDATION, TYPE_RANGE, TYPE_NUMBER}
-   */
-  FEATURES: {
-    PLACEHOLDER: 'placeholder',
-    VALIDATION: 'required',
-    TYPE_RANGE: 'range',
-    TYPE_NUMBER: 'number'
-  },
-
-  /**
    * Returns a boolean flag indicating if a given feature is supported.
    * @param {string} feature Is a string representing the feature name.
    * @param {Element=} opt_element Optional element to test.
@@ -57,7 +44,7 @@ var forms = {
   /**
    * Adds onchange/oninput event handler on all form elements.
    * @param {HTMLFormElement} form Form element.
-   * @param {!Function} handler Event handler.
+   * @param {!function(Element)} handler Event handler.
    */
   onchange: function(form, handler) {
 
@@ -89,6 +76,18 @@ var forms = {
     (new forms.PlaceHolder).init(container);
     (new forms.Validation).init(container);
   }
+};
+
+
+/**
+ * Enumeration of HTML5 form features.
+ * @enum {string}
+ */
+forms.FEATURES = {
+  PLACEHOLDER: 'placeholder',
+  VALIDATION: 'required',
+  TYPE_RANGE: 'range',
+  TYPE_NUMBER: 'number'
 };
 
 
