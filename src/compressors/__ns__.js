@@ -9,7 +9,7 @@
 
 
 /**
- * Defines 'compressors' namespace.
+ * Defines compressors utility methods.
  * @namespace
  */
 var compressors = {

@@ -299,7 +299,6 @@ util.StringUtils.toByteArray = function(str) {
 /**
  * LZW compression utility.
  * @see http://en.wikipedia.org/wiki/Lempel–Ziv–Welch
- * @see {compressors.LZW}
  * @deprecated Use {@link compressors.LZW} instead.
  * @requires compressors.LZW
  * @namespace
