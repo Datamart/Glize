@@ -45,10 +45,28 @@ util.Date = {
    * @see https://en.wikipedia.org/wiki/ISO_8601
    */
   toISOString: function(date) {
-    /** @type {Function} */ var fn = date.toISOString;
+    /** @type {function():string} */ var fn = date.toISOString;
 
     return fn ? fn.call(date) :
         (1e3 - ~date.getUTCMonth() * 10 + date.toUTCString() + 1e3 + date / 1).
         replace(/1(..).*?(\d\d)\D+(\d+).(\S+).*(...)/, '$3-$1-$2T$4.$5Z');
+  },
+
+  /**
+   * Converts 24-hour time string to 12-hour time string.
+   * @param {string} time The time string ("00:30", "01:45", "12:00", "22:15").
+   * @return {string} Return converted 24-hour time string to 12-hour time.
+   * @example
+   * util.Date.toAmPmTime('00:30'); // 12:30 AM
+   * util.Date.toAmPmTime('01:15'); // 1:15 AM
+   * util.Date.toAmPmTime('11:45'); // 11:45 AM
+   * util.Date.toAmPmTime('12:15'); // 12:15 PM
+   * util.Date.toAmPmTime('13:15'); // 1:15 PM
+   * util.Date.toAmPmTime('23:15'); // 11:15 PM
+   */
+  toAmPmTime: function(time) {
+    var hours = time.slice(0, 2);
+    return (hours % 12 || 12) + ':' + time.slice(3, 5) + ' ' +
+           (12 > hours ? 'AM' : 'PM');
   }
 };
