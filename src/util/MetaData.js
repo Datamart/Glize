@@ -10,15 +10,14 @@
 
 /**
  * Constructor of MetaData.
- * @class Constructor of MetaData.
- * @extends {util.PropertyReader} util.PropertyReader
  * @constructor
+ * @extends {util.PropertyReader} util.PropertyReader
  * @example
- * <b>var</b> meta = <b>new</b> util.MetaData();
- * console.log(meta.getValues());
- * console.log(meta.getValues(document));
- * console.log(meta.getValues(document.getElementById('container')));
- * console.log(meta.getValues(ajax.responseXML));
+ * var meta = new util.MetaData();
+ * console.log(meta.getMetaData());
+ * console.log(meta.getMetaData(document));
+ * console.log(meta.getMetaData(document.getElementById('container')));
+ * console.log(meta.getMetaData(ajax.responseXML));
  */
 util.MetaData = function() {
   util.PropertyReader.apply(this, arguments);

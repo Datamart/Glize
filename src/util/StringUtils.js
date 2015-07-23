@@ -192,8 +192,9 @@ util.StringUtils.BASE64_CHARACTER_TABLE =
 /**
  * Base64 utils.
  * @type {!Object.<string, function(string):string>}
- * @namespace
  * @deprecated Use {@link util.Base64} instead.
+ * @requires util.Base64
+ * @namespace
  */
 util.StringUtils.Base64 = {
 
@@ -225,7 +226,6 @@ util.StringUtils.JSON = {
    * This method parses a JSON text to produce an object or array.
    * @param {string} value String to parse.
    * @return {Object} Returns parsed object from string.
-   * @static
    */
   parse: function(value) {
     return /** @type {Object} */ ((dom.context.JSON ?
@@ -236,22 +236,25 @@ util.StringUtils.JSON = {
    * This method produces a JSON text from a JavaScript value.
    * @param {*} obj Any JavaScript value, usually an object or array.
    * @return {string} Returns serialized object as string.
-   * @static
    */
   stringify: dom.context.JSON ? JSON.stringify : function(obj) {
-    /** @type {string} */ var result;
     /** @type {string} */ var type = typeof obj;
-    if ('object' != type || obj === dom.NULL) {
-      result = 'string' == type ? '"' + obj + '"' : '' + obj;
+    /** @type {Array.<string>} */ var buffer = [];
+    /** @type {boolean} */ var isArray;
+    /** @type {string} */ var result;
+    /** @type {string} */ var key;
+    /** @type {string|Object} */ var value;
+
+    if ('object' !== type || dom.NULL === obj) {
+      result = 'string' === type ? '"' + obj + '"' : '' + obj;
     } else {
-      /** @type {Array.<string>} */ var buffer = [];
-      /** @type {boolean} */ var isArray = util.Array.isArray(obj);
-      for (/** @type {string} */ var key in obj) {
-        /** @type {string|Object} */ var value = obj[key];
+      isArray = util.Array.isArray(obj);
+      for (key in obj) {
+        value = obj[key];
         type = typeof value;
-        if ('string' == type) {
+        if ('string' === type) {
           value = '"' + value + '"';
-        } else if ('object' == type && dom.NULL !== value) {
+        } else if ('object' === type && dom.NULL !== value) {
           value = util.StringUtils.JSON.stringify(/** @type {Object}*/ (value));
         }
         buffer.push((isArray ? '' : '"' + key + '":') + value);
@@ -268,7 +271,6 @@ util.StringUtils.JSON = {
  * Converts string to a byte array.
  * @param {string} str The input string.
  * @return {!Array.<number>} Returns byte array.
- * @static
  */
 util.StringUtils.toByteArray = function(str) {
   /** @type {!Array.<number>} */ var result = [];
@@ -297,62 +299,25 @@ util.StringUtils.toByteArray = function(str) {
 /**
  * LZW compression utility.
  * @see http://en.wikipedia.org/wiki/Lempel–Ziv–Welch
+ * @see {compressors.LZW}
+ * @deprecated Use {@link compressors.LZW} instead.
+ * @requires compressors.LZW
  * @namespace
  */
-util.StringUtils.LZW = {};
+util.StringUtils.LZW = {
+  /**
+   * Encodes string using LZW algorithm.
+   * @param {string} str The input string.
+   * @return {string} Returns compressed string using LZW algorithm.
+   * @deprecated Use {@link compressors.LZW.compress} instead.
+   */
+  encode: compressors.LZW.compress,
 
-
-/**
- * Encodes string using LZW algorithm.
- * @param {string} str The input string.
- * @return {string} Returns compressed string using LZW algorithm.
- * @static
- */
-util.StringUtils.LZW.encode = function(str) {
-  /** @type {!Object.<string, number>} */ var dict = {};
-  /** @type {!Array.<string>} */ var data = str.split('');
-  /** @type {!Array} */ var out = [];
-  /** @type {number} */ var code = 256;
-  /** @type {string} */ var phrase = data.shift();
-  while (data.length) {
-    /** @type {string} */ var next = data.shift();
-    if (dom.NULL != dict[phrase + next]) {
-      phrase += next;
-    } else {
-      out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
-      dict[phrase + next] = code++;
-      phrase = next;
-    }
-  }
-  out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
-  for (/** @type {number} */ var i = 0; i < out.length; i++) {
-    out[i] = String.fromCharCode(/** @type {number} */ (out[i]));
-  }
-  return out.join('');
-};
-
-
-/**
- * Decodes string encoded with LZW algorithm.
- * @param {string} str The input string encoded with LZW algorithm.
- * @return {string} Returns decoded string.
- * @static
- */
-util.StringUtils.LZW.decode = function(str) {
-  /** @type {!Object} */ var dict = {};
-  /** @type {!Array.<string>} */ var data = str.split('');
-  /** @type {!Array.<string>} */ var out = [data.shift()];
-  /** @type {number} */ var code = 256;
-  /** @type {string} */ var chr = out[0];
-  /** @type {string} */ var tmp = chr;
-  for (/** @type {number} */ var i = 0; i < data.length; i++) {
-    /** @type {number} */ var next = data[i].charCodeAt(0);
-    /** @type {string} */ var phrase =
-        next < 256 ? data[i] : (dict[next] ? dict[next] : (tmp + chr));
-    out.push(phrase);
-    chr = phrase.charAt(0);
-    dict[code++] = tmp + chr;
-    tmp = phrase;
-  }
-  return out.join('');
+  /**
+   * Decodes string encoded with LZW algorithm.
+   * @param {string} str The input string encoded with LZW algorithm.
+   * @return {string} Returns decoded string.
+   * @deprecated Use {@link compressors.LZW.decompress} instead.
+   */
+  decode: compressors.LZW.decompress
 };

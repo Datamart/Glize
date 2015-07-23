@@ -13,7 +13,7 @@
  * Provides a storage mechanism that uses HTML5 local storage.
  * @requires util.StringUtils.JSON
  * @requires util.StringUtils.URI
- * @requires util.StringUtils.LZW
+ * @requires compressors.LZW
  * @requires dom.Cookies
  * @requires util.Date
  * @constructor
@@ -217,7 +217,7 @@ dom.DataStorage = function(opt_options) {
     /** @type {string} */ var result = util.StringUtils.JSON.stringify(value);
     if (options_['compress']) {
       result = util.StringUtils.UTF8.encode(result);
-      result = util.StringUtils.LZW.encode(result);
+      result = compressors.LZW.compress(result);
     }
     return result;
   }
@@ -229,7 +229,7 @@ dom.DataStorage = function(opt_options) {
    */
   function parse_(value) {
     if (value && options_['compress']) {
-      value = util.StringUtils.LZW.decode(value);
+      value = compressors.LZW.decompress(value);
       value = util.StringUtils.UTF8.decode(value);
     }
 

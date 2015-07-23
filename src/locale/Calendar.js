@@ -9,6 +9,7 @@
 
 /**
  * Constructor of Calendar.
+ * @requires util.Locale
  * @constructor
  */
 locale.Calendar = function() {
