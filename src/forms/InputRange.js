@@ -28,7 +28,6 @@ forms.InputRange = function(input) {
    *     input[type=range]::-ms-track {}</pre>
    * @type {string}
    * @const
-   * @default
    */
   var RANGE_TRACK_CLASS = forms.FEATURES.TYPE_RANGE + '-track';
 
