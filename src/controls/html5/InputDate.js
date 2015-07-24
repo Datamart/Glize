@@ -1,8 +1,12 @@
 
 /**
- * @fileoverview Implementation of HTML5 input type="date" control.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @fileoverview Simple implementation of HTML5 input
+ *               <code>type="date"</code> control.
+ *
+ * @see http://www.w3.org/TR/html-markup/input.date.html
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
@@ -24,7 +28,7 @@
  * @constructor
  * @requires controls.DatePicker
  * @requires formatters.DateFormatter
- * @link http://www.w3.org/TR/html-markup/input.date.html
+ * @see http://www.w3.org/TR/html-markup/input.date.html
  */
 controls.html5.InputDate = function(input) {
   // http://trac.webkit.org/wiki/Styling%20Form%20Controls
@@ -93,7 +97,7 @@ controls.html5.InputDate = function(input) {
    * @type {controls.DatePicker}
    * @private
    */
-  var picker_ = null;
+  var picker_ = dom.NULL;
 
   /**
    * The reference to input element.

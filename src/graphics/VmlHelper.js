@@ -3,13 +3,14 @@
  *
  * @see http://google.github.io/styleguide/javascriptguide.xml
  * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @see https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael.js
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
 
 /**
- * The helper class for VML graphics.
- * Based on raphael.js library.
+ * The helper class for VML graphics. Based on raphael.js library.
  * @see http://www.w3.org/TR/NOTE-VML#_Toc416858391
  * @see http://www.w3.org/TR/SVG/paths.html#PathData
  * @see https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael.js
@@ -20,7 +21,6 @@ graphics.VmlHelper = function() {
 
   /**
    * Converts SVG path string to VML path string.
-   * @link https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael.js
    * @param {string} svgPath The SVG path string.
    * @return {string} Returns converted VML path string.
    */
@@ -586,8 +586,6 @@ graphics.VmlHelper = function() {
 
 /**
  * Converts SVG path string to VML path string.
- * Based on raphael.js library.
- * @link https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael.js
  * @param {string} svgPath The SVG path string.
  * @return {string} Returns converted VML path string.
  * @static

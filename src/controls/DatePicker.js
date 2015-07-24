@@ -1,8 +1,10 @@
 
 /**
  * @fileoverview DatePicker control.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
@@ -246,9 +248,3 @@ controls.DatePicker.show = function(element) {
   }
   element.picker_.show(element);
 };
-
-// Export for closure compiler.
-controls.DatePicker['show'] = controls.DatePicker.show;
-
-// Export for closure compiler.
-controls['DatePicker'] = controls.DatePicker;

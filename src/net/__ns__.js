@@ -1,13 +1,15 @@
 
 /**
- * @fileoverview Defines 'net' namespace.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @fileoverview Defines <code>net</code> namespace.
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
 /**
- * Defines 'net' namespace.
+ * Defines <code>net</code> namespace.
  * @namespace
  */
-var net = net || {};
+var net = {};

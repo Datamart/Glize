@@ -1,14 +1,15 @@
 
 /**
- * @fileoverview Defines 'forms' namespace.
+ * @fileoverview Defines utilities methods for manipulating a form and elements.
  *
  * @see http://google.github.io/styleguide/javascriptguide.xml
  * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
 /**
- * Defines 'forms' namespace.
+ * Defines utilities methods for manipulating a form and elements.
  * @namespace
  */
 var forms = {

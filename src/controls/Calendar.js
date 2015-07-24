@@ -4,6 +4,7 @@
  *
  * @see http://google.github.io/styleguide/javascriptguide.xml
  * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
@@ -428,11 +429,3 @@ controls.Calendar.draw = function(container, opt_selected, opt_options) {
   calendar.draw(opt_selected);
   return calendar;
 };
-
-// Export for closure compiler.
-controls.Calendar['draw'] = controls.Calendar.draw;
-
-// Export for closure compiler.
-controls['Calendar'] = controls.Calendar;
-
-

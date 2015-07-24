@@ -3,8 +3,10 @@
  * @fileoverview Simple implementation of
  *               <code>javax.servlet.http.HttpServletRequest</code>.
  *
- * @see {@link //google.github.io/styleguide/javascriptguide.xml}
- * @see {@link //developers.google.com/closure/compiler/docs/js-for-compiler}
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @see docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServletRequest.html
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 

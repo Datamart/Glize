@@ -1,35 +1,36 @@
 
 /**
- * @fileoverview Defines 'dom' namespace.
+ * @fileoverview Defines <code>dom</code> namespace.
  *
  * @see http://google.github.io/styleguide/javascriptguide.xml
  * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
 /**
- * Defines 'dom' namespace.
+ * Defines <code>dom</code> namespace.
  * @namespace
  */
 var dom = dom || {};
 
 
 /**
- * Defines 'dom.events' namespace.
+ * Defines <code>dom.events</code> namespace.
  * @namespace
  */
 dom.events = dom.events || {};
 
 
 /**
- * Defines 'dom.scripts' namespace.
+ * Defines <code>dom.scripts</code> namespace.
  * @namespace
  */
 dom.scripts = dom.scripts || {};
 
 
 /**
- * Defines 'dom.css' namespace.
+ * Defines <code>dom.css</code> namespace.
  * @namespace
  */
 dom.css = dom.css || {};

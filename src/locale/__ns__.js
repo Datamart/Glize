@@ -1,15 +1,18 @@
 
 /**
- * @fileoverview Defines 'locale' namespace.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
- * @link http://docs.oracle.com/javase/1.5.0/docs/api/java/util/Locale.html
+ * @fileoverview Defines <code>locale</code> namespace.
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
 /**
- * Defines 'locale' namespace.
+ * Defines <code>locale</code> namespace.
  * @namespace
+ * @see locale.Calendar
+ * @see locale.Validation
  * @see util.Locale
  */
-var locale = locale || {};
+var locale = {};

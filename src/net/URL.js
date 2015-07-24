@@ -1,8 +1,11 @@
 
 /**
  * @fileoverview Creates a URL object composed from the given parameters.
- * @see http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @see http://developer.mozilla.org/en-US/docs/Web/API/URL/URL
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 

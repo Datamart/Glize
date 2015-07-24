@@ -1,14 +1,16 @@
 
 /**
- * @fileoverview Simple implementation of XMLHttpRequest.
- * @link http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml
- * @link https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @fileoverview Simple implementation of HttpRequest.
+ *
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
 
 /**
- * The constructor initiates a XMLHttpRequest.
+ * The constructor initiates a HttpRequest.
  * @constructor
  */
 net.HttpRequest = function() {

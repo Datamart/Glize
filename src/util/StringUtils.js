@@ -4,13 +4,12 @@
  *
  * @see http://google.github.io/styleguide/javascriptguide.xml
  * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 
 
 /**
  * Miscellaneous String utility methods.
- * @see http://static.springsource.org/spring/docs/2.5.x/api/org/
- *     springframework/util/StringUtils.html
  * @namespace
  */
 util.StringUtils = {
