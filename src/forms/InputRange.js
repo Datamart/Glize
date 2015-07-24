@@ -80,11 +80,11 @@ forms.InputRange = function(input) {
 
       track_ = dom.createElement('DIV');
       dom.css.setClass(track_, RANGE_TRACK_CLASS);
-      getControl_().appendChild(track_);
+      dom.appendChild(getControl_(), track_);
 
       thumb_ = dom.createElement('DIV');
       dom.css.setClass(thumb_, RANGE_THUMB_CLASS);
-      track_.appendChild(thumb_);
+      dom.appendChild(track_, thumb_);
 
       interval_ = (track_.offsetWidth - thumb_.offsetWidth) /
           (max_ - min_) * step_;
@@ -104,7 +104,7 @@ forms.InputRange = function(input) {
       control_ = dom.createElement('SPAN');
       dom.css.setClass(control_, RANGE_CONTROL_CLASS);
       input_.parentNode.insertBefore(control_, input_);
-      control_.appendChild(input_);
+      dom.appendChild(control_, input_);
     }
     return control_;
   }

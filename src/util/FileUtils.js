@@ -29,7 +29,7 @@ util.FileUtils = {
           new dom.context['Blob'](
           [data], {'type': opt_contentType + ';charset=' + dom.CHARSET}));
       link.setAttribute('download', opt_fileName);
-      dom.document.body.appendChild(link);
+      dom.appendChild(dom.document.body, link);
       link.click();
     } else {
       dom.context.open('data:' + opt_contentType +

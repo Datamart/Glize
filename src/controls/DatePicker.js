@@ -169,7 +169,8 @@ controls.DatePicker = function(opt_options) {
    */
   function init_() {
     if (!controls.DatePicker.control_) {
-      controls.DatePicker.control_ = dom.document.body.appendChild(
+      controls.DatePicker.control_ = dom.appendChild(
+          dom.document.body,
           dom.createElement('DIV'));
       controls.DatePicker.control_.style.position = 'absolute';
       dom.css.setClass(controls.DatePicker.control_, 'date-picker');

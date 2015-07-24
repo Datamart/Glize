@@ -172,7 +172,7 @@ dom.DataStorage = function(opt_options) {
       try {
         userData_ = dom.createElement('userdata');
         userData_['addBehavior']('#default#userData');
-        dom.document.body.appendChild(userData_);
+        dom.appendChild(dom.document.body, userData_);
         userData_['load'](userData_.tagName);
       } catch (e) {}
     }

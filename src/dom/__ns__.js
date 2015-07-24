@@ -213,6 +213,19 @@ dom.clearElement = function(element) {
 
 
 /**
+ * Alias of W3C <code>element.appendChild</code>.
+ * Used to reduce size after compilation.
+ * @param {Node} parent The parent element.
+ * @param {Node} child The child element.
+ * @return {Node} Returns a reference to the <code>child</code> that
+ *     is appended to the parent.
+ */
+dom.appendChild = function(parent, child) {
+  return parent.appendChild(child);
+};
+
+
+/**
  * Returns true if an element has a class.
  * @param {Node} element The element to test.
  * @param {string} className The class name to test for.
