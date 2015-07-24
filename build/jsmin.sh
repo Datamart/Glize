@@ -10,6 +10,11 @@ JS_DOWNLOAD_URL="http://dl.google.com/closure-compiler/compiler-latest.zip"
 WGET="`which wget`"
 CURL="`which curl`"
 
+LICENSE="/* @license http://www.apache.org/licenses/LICENSE-2.0 */"
+
+# http://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html
+NEW_LINE=$'\n'
+
 if [ ! -f "${JS_COMPILER_JAR}" ]; then
     mkdir -p lib
     rm -rf tmp && mkdir tmp && cd tmp
@@ -33,7 +38,7 @@ python -c "import sys;sys.argv.pop(0);print(' --js ' + ' --js '.join(sorted(sys.
       --externs externs.js \
       --js_output_file "${COMPILED_JS}"
 
-echo "(function(){" | cat - $COMPILED_JS > /tmp/out && mv /tmp/out $COMPILED_JS
+echo "${LICENSE}${NEW_LINE}(function(){" | cat - $COMPILED_JS > /tmp/out && mv /tmp/out $COMPILED_JS
 echo '})();' >> $COMPILED_JS
 
 echo "Done"
