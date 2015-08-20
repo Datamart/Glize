@@ -12,6 +12,62 @@
  * @namespace
  */
 var animation = {
+
+  /**
+   * @type {string}
+   * @const
+   */
+  ANIMATION_FRAME: 'AnimationFrame',
+
+  /**
+   * Registers a function to call when the system ready to update the display.
+   * @param {!function(number)} callback A function to call when it's time to
+   *     update your animation for the next repaint.
+   * @return {number} Return request ID that can be used to cancel the request.
+   * @see https://msdn.microsoft.com/en-us/library/hh773174(v=vs.85).aspx
+   * @see animation.cancelAnimationFrame
+   */
+  requestAnimationFrame: function(callback) {
+    if (animation.requestAnimationFrame_) {
+      /** @type {string} */ var suffix = 'equest' + animation.ANIMATION_FRAME;
+      /** @type {number} */ var last = 0;
+      animation.requestAnimationFrame_ =
+          dom.context['r' + suffix] ||
+          dom.context['webkitR' + suffix] ||
+          dom.context['mozR' + suffix] ||
+          dom.context['oR' + suffix] ||
+          function(func) {
+            /** @type {number} */ var now = +new Date;
+            /** @type {number} */ var next = Math.max(16 + last, now);
+            return dom.context.setTimeout(function() {
+              last = next;
+              func(last);
+            }, next - now);
+          };
+    }
+    return animation.requestAnimationFrame_(callback);
+  },
+
+  /**
+   * Cancels an animation frame request.
+   * @param {number} request The request ID.
+   * @see https://msdn.microsoft.com/en-us/library/hh773172(v=vs.85).aspx
+   * @see animation.requestAnimationFrame
+   */
+  cancelAnimationFrame: function(request) {
+    if (animation.cancelAnimationFrame_) {
+      /** @type {string} */ var suffix = 'ancel' + animation.ANIMATION_FRAME;
+      animation.cancelAnimationFrame_ =
+          dom.context['c' + suffix] ||
+          dom.context['webkitC' + suffix] ||
+          dom.context['CancelRequest' + animation.ANIMATION_FRAME] ||
+          dom.context['mozC' + suffix] ||
+          dom.context['oC' + suffix] ||
+          dom.context.clearTimeout;
+    }
+    animation.cancelAnimationFrame_(request);
+  },
+
   /**
    * Runs animations.
    * @param {!Node} element The element to animate.
@@ -54,7 +110,21 @@ var animation = {
       }
       clearTimeout(timer);
     }, dom.context['XULElement'] ? 99 : 0); // fix Firefox issue with delay 99ms
-  }
+  },
+
+  /**
+   * Reference to 'requestAnimationFrame' polyfill.
+   * @type {?function(!function(number)):number}
+   * @private
+   */
+  requestAnimationFrame_: null,
+
+  /**
+   * Reference to 'cancelAnimationFrame' polyfill.
+   * @type {?function(number)}
+   * @private
+   */
+  cancelAnimationFrame_: null
 };
 
 
