@@ -12,7 +12,6 @@
 
 /**
  * Simple Beacon implementation.
- * @requires net.HttpRequest
  * @namespace
  */
 dom.Beacon = {
