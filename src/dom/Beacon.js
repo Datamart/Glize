@@ -13,6 +13,9 @@
 /**
  * Simple Beacon implementation.
  * @namespace
+ * @see http://w3c.github.io/beacon/
+ * @see http://www.w3.org/TR/beacon/#sec-sendBeacon-method
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
  */
 dom.Beacon = {
   /**
