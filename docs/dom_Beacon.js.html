@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: locale/__ns__.js</title>
+    <title>JSDoc: Source: dom/Beacon.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: locale/__ns__.js</h1>
+    <h1 class="page-title">Source: dom/Beacon.js</h1>
 
     
 
@@ -28,21 +28,49 @@
         <article>
             <pre class="prettyprint source linenums"><code>
 /**
- * @fileoverview Defines &lt;code>locale&lt;/code> namespace.
+ * @fileoverview Simple Beacon implementation.
  *
+ * @see http://w3c.github.io/beacon/
+ * @see http://www.w3.org/TR/beacon/#sec-sendBeacon-method
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
  * @see http://google.github.io/styleguide/javascriptguide.xml
  * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
 /**
- * Defines &lt;code>locale&lt;/code> namespace.
+ * Simple Beacon implementation.
+ * @requires net.HttpRequest
  * @namespace
- * @see locale.Calendar
- * @see locale.Validation
- * @see util.Locale
  */
-var locale = {};
+dom.Beacon = {
+  /**
+   * Transmits data provided by the &lt;code>data&lt;/code> parameter to the URL
+   * provided by the &lt;code>url&lt;/code> parameter.
+   * @param {string} url The parameter indicates the resolved URL where the
+   *     &lt;code>data&lt;/code> is to be transmitted.
+   * @param {ArrayBufferView|Blob|FormData|string=} opt_data The optional data
+   *     to be transmitted.
+   * @return {boolean} Returns &lt;code>true&lt;/code> if the user agent is able to
+   *     successfully queue the data for transfer.
+   */
+  sendBeacon: function(url, opt_data) {
+    /** @type {Function} */ var fn = dom.device['sendBeacon'];
+    /** @type {boolean} */ var result = fn ? fn(url, opt_data) : true;
+    /** @type {XMLHttpRequest} */ var req;
+
+    if (!fn) {
+      req = dom.context.XMLHttpRequest ?
+          new XMLHttpRequest : new ActiveXObject('Microsoft.XMLHTTP');
+      req.open('POST', url, false);
+      req.setRequestHeader('Accept', '*/*');
+      req.setRequestHeader('Content-Type', 'text/plain;charset=' + dom.CHARSET);
+      req.send(opt_data);
+    }
+
+    return result;
+  }
+};
 </code></pre>
         </article>
     </section>
