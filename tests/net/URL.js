@@ -10,6 +10,7 @@
 net.URLTestCase = TestCase('URLTestCase');
 
 net.URLTestCase.prototype.testURL = function() {
+  net.URL = net.URL_; // clear native window.URL.
   var str = 'http://www.example.com:80/dir/file.html?a=b&c=d#e=f';
   var url = new net.URL(str);
   assertEquals('http:', url.protocol);

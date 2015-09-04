@@ -8,6 +8,13 @@
  */
 
 
+/**
+ * @const
+ * @private
+ */
+net.NATIVE_URL_ = window['URL'] || window['webkitURL'];
+
+
 
 /**
  * Creates and return a URL object composed from the given parameters.
@@ -15,13 +22,9 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/API/URL
  * @see https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
  * @constructor
- * @return {undefined}
+ * @private
  */
-net.URL = window['URL'] || window['webkitURL'] || function(url) {
-  // The '@return {undefined}' fixes following warning:
-  // found   : function (new:net.URL, string): ?
-  // expected: function (new:net.URL, string): undefined
-
+net.URL_ = function(url) {
   /**
    * @return {string} Returns URL string representation.
    */
@@ -53,10 +56,22 @@ net.URL = window['URL'] || window['webkitURL'] || function(url) {
   /**
    * The reference to current class instance.
    * Used in private methods and for preventing jslint errors.
-   * @type {!net.URL}
+   * @type {!net.URL_}
    * @private
    */
   var self_ = this;
 
   init_();
 };
+
+
+
+/**
+ * Creates and return a URL object composed from the given parameters.
+ * @param {string} url Is a String representing an absolute or relative URL.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/URL
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
+ * @constructor
+ */
+net.URL = net.NATIVE_URL_ || net.URL_;
+

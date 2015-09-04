@@ -10,14 +10,15 @@
 
 /**
  * Simple HTML5 Audio Recorder.
- * @param {!function(AudioBuffer)} callback The callback function.
+ * @param {!function(AudioProcessingEvent)} onprocess The audio process event
+ *     handler.
  * @param {Object=} opt_constraints The optional constraints object.
  * @param {number=} opt_bufferSize The optional buffer size of sample-frames.
  * @constructor
  * @see https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer
  * @see https://developer.mozilla.org/en-US/docs/Web/API/AudioContext
  */
-media.AudioRecorder = function(callback, opt_constraints, opt_bufferSize) {
+media.AudioRecorder = function(onprocess, opt_constraints, opt_bufferSize) {
   opt_bufferSize = opt_bufferSize || 16384;
 
   /**
@@ -28,7 +29,7 @@ media.AudioRecorder = function(callback, opt_constraints, opt_bufferSize) {
     var context = new media.AudioContext;
     var input = context['createMediaStreamSource'](stream);
     var recorder = context['createScriptProcessor'](opt_bufferSize, 1, 1);
-    recorder['onaudioprocess'] = function(e) { callback(e['inputBuffer']); };
+    recorder['onaudioprocess'] = onprocess;
     input['connect'](recorder);
     recorder['connect'](context['destination']);
   }

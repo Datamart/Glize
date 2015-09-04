@@ -10,6 +10,7 @@
 net.ServletRequestTestCase = TestCase('ServletRequestTestCase');
 
 net.ServletRequestTestCase.prototype.testGetParameter = function() {
+  net.URL = net.URL_; // clear native window.URL.
   var request = new net.ServletRequest;
   var url = 'http://localhost?a=1&b=2#c=3&d=4';
   assertEquals('1', request.getParameter('a', url));
@@ -20,6 +21,7 @@ net.ServletRequestTestCase.prototype.testGetParameter = function() {
 
 
 net.ServletRequestTestCase.prototype.testGetParameterNames = function() {
+  net.URL = net.URL_; // clear native window.URL.
   var request = new net.ServletRequest;
   var url = 'http://localhost?a=1&b=2#c=3&d=4';
   var names = request.getParameterNames(url);
@@ -29,6 +31,7 @@ net.ServletRequestTestCase.prototype.testGetParameterNames = function() {
 
 
 net.ServletRequestTestCase.prototype.testGetParameterMap = function() {
+  net.URL = net.URL_; // clear native window.URL.
   var request = new net.ServletRequest;
   var url = 'http://localhost?a=1&b=2#c=3&d=4';
   var map = request.getParameterMap(url);
