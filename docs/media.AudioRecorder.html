@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: dom/Beacon.js</title>
+    <title>JSDoc: Class: AudioRecorder</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,65 +17,267 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: dom/Beacon.js</h1>
+    <h1 class="page-title">Class: AudioRecorder</h1>
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>
-/**
- * @fileoverview Simple Beacon implementation.
- *
- * @see http://w3c.github.io/beacon/
- * @see http://www.w3.org/TR/beacon/#sec-sendBeacon-method
- * @see https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
- * @see http://google.github.io/styleguide/javascriptguide.xml
- * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
- */
+        <h2>
+            <span class="ancestors"><a href="media.html">media</a>.</span>
+        
+        AudioRecorder
+        </h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    <h4 class="name" id="AudioRecorder"><span class="type-signature"></span>new AudioRecorder<span class="signature">(callback<span class="signature-attributes">non-null</span>, opt_constraints<span class="signature-attributes">opt</span>, opt_bufferSize<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
 
 
-/**
- * Simple Beacon implementation.
- * @namespace
- * @see http://w3c.github.io/beacon/
- * @see http://www.w3.org/TR/beacon/#sec-sendBeacon-method
- * @see https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
- */
-dom.Beacon = {
-  /**
-   * Transmits data provided by the &lt;code>data&lt;/code> parameter to the URL
-   * provided by the &lt;code>url&lt;/code> parameter.
-   * @param {string} url The parameter indicates the resolved URL where the
-   *     &lt;code>data&lt;/code> is to be transmitted.
-   * @param {ArrayBufferView|Blob|FormData|string=} opt_data The optional data
-   *     to be transmitted.
-   * @return {boolean} Returns &lt;code>true&lt;/code> if the user agent is able to
-   *     successfully queue the data for transfer.
-   */
-  sendBeacon: function(url, opt_data) {
-    /** @type {Function} */ var fn = dom.device['sendBeacon'];
-    /** @type {boolean} */ var result = fn ? fn(url, opt_data) : true;
-    /** @type {XMLHttpRequest} */ var req;
 
-    if (!fn) {
-      req = dom.context.XMLHttpRequest ?
-          new XMLHttpRequest : new ActiveXObject('Microsoft.XMLHTTP');
-      req.open('POST', url, false);
-      req.setRequestHeader('Accept', '*/*');
-      req.setRequestHeader('Content-Type', 'text/plain;charset=' + dom.CHARSET);
-      req.send(opt_data);
-    }
+<div class="description">
+    Simple HTML5 Audio Recorder.
+</div>
 
-    return result;
-  }
-};
-</code></pre>
-        </article>
-    </section>
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The callback function.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_constraints</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The optional constraints object.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_bufferSize</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">The optional buffer size of sample-frames.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="media_AudioRecorder.js.html">media/AudioRecorder.js</a>, <a href="media_AudioRecorder.js.html#line20">line 20</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer">https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer</a></li>
+        
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioContext">https://developer.mozilla.org/en-US/docs/Web/API/AudioContext</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -89,7 +291,7 @@ dom.Beacon = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Fri Sep 04 2015 14:30:27 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Fri Sep 04 2015 14:30:35 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

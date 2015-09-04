@@ -15,8 +15,12 @@
  * @see https://developer.mozilla.org/en-US/docs/Web/API/URL
  * @see https://developer.mozilla.org/en-US/docs/Web/API/URL/URL
  * @constructor
+ * @return {undefined}
  */
-net.URL = function(url) {
+net.URL = window['URL'] || window['webkitURL'] || function(url) {
+  // The '@return {undefined}' fixes following warning:
+  // found   : function (new:net.URL, string): ?
+  // expected: function (new:net.URL, string): undefined
 
   /**
    * @return {string} Returns URL string representation.
