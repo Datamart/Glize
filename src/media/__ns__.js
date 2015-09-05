@@ -25,6 +25,12 @@ var media = {
                0x00, 0x40],
 
   /**
+   * @const {string}
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/data_URIs
+   */
+  WAV_URI_PREFIX: 'data:audio/wav;base64,',
+
+  /**
    * Prompts the user for permission to use their Web camera or other video or
    * audio input.
    * @param {!Object|MediaStreamConstraints} constraints The object specifying
@@ -97,6 +103,6 @@ var media = {
    * @see media.toWav64
    */
   toWav64Uri: function(data) {
-    return 'data:audio/wav;base64,' + media.toWav64(data);
+    return media.WAV_URI_PREFIX + media.toWav64(data);
   }
 };

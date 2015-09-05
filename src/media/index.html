@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Media</title>
+<script src="../dom/__ns__.js"></script>
+<script src="../util/__ns__.js"></script><script src="../util/Base64.js"></script>
+<script src="../net/__ns__.js"></script><script src="../net/URL.js"></script>
+<script src="__ns__.js"></script><script src="AudioRecorder.js"></script>
+<script>
+if (window.console) {
+  /** @type {!Object} */ var CONSTRAINTS = {audio: true, video: false};
+  /** @type {number} */ var BUFFER_SIZE = 16384;
+  /** @type {!function(AudioProcessingEvent)} */ var onprocess = function(e) {
+    /** @type {Float32Array} */ var data = e.inputBuffer.getChannelData(0);
+    /** @type {string} */ var uri = media.toWav64Uri(data);
+    console.log(uri);
+  };
+  new media.AudioRecorder(onprocess, CONSTRAINTS, BUFFER_SIZE);
+}
+</script>
+</head>
+<body>Open dev console to see example result.</body>
+</html>
