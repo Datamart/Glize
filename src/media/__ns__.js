@@ -44,20 +44,25 @@ var media = {
    * @see http://www.w3.org/TR/mediacapture-streams/
    * @see https://w3c.github.io/mediacapture-main/getusermedia.html
    */
-  getUserMedia: dom.device['getUserMedia'] ||
-      dom.device['webkitGetUserMedia'] ||
-      dom.device['mozGetUserMedia'] ||
-      dom.device['msGetUserMedia'],
+  getUserMedia: function(constraints, onsuccess, onerror) {
+    var fn = (dom.device['getUserMedia'] ||
+        dom.device['webkitGetUserMedia'] ||
+        dom.device['mozGetUserMedia'] ||
+        dom.device['msGetUserMedia']);
+    fn.call(dom.device, constraints, onsuccess, onerror);
+  },
 
   /**
    * The AudioContext interface represents an audio-processing graph built from
    * audio modules linked together, each represented by an AudioNode.
-   * @constructor
+   * @return {AudioContext}
    * @see https://developer.mozilla.org/en/docs/Web/API/AudioContext
    * @see http://webaudio.github.io/web-audio-api/#the-audiocontext-interface
    */
-  AudioContext: dom.context['AudioContext'] ||
-      dom.context['webkitAudioContext'],
+  getAudioContext: function() {
+    return new (dom.context['AudioContext'] ||
+                dom.context['webkitAudioContext']);
+  },
 
   /**
    * Converts audio data to WAV Uint8Array.

@@ -48,7 +48,7 @@ media.AudioRecorder = function(onprocess, opt_constraints, opt_bufferSize) {
    * @private
    */
   function onsuccess_(stream) {
-    var context = new media.AudioContext;
+    /** @type {AudioContext} */ var context = media.getAudioContext();
     source_ = context['createMediaStreamSource'](stream);
     recorder_ = context['createScriptProcessor'](opt_bufferSize, 1, 1);
     recorder_['onaudioprocess'] = onprocess;
@@ -62,7 +62,8 @@ media.AudioRecorder = function(onprocess, opt_constraints, opt_bufferSize) {
   function init_() {
     media.getUserMedia(
         opt_constraints || {'audio': true, 'video': false},
-        onsuccess_, function() {});
+        onsuccess_,
+        dom.context['console']['log']);
   }
 
   /**
