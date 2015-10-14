@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Namespace: animation</title>
+    <title>JSDoc: Namespace: Number</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Namespace: animation</h1>
+    <h1 class="page-title">Namespace: Number</h1>
 
     
 
@@ -29,7 +29,9 @@
 <header>
     
         <h2>
-        animation
+            <span class="ancestors"><a href="util.html">util</a>.</span>
+        
+        Number
         </h2>
         
     
@@ -39,7 +41,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Defines animations utility methods.</div>
+            <div class="description">Number utility methods.</div>
         
 
         
@@ -74,7 +76,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="animation___ns__.js.html">animation/__ns__.js</a>, <a href="animation___ns__.js.html#line14">line 14</a>
+        <a href="util_Number.js.html">util/Number.js</a>, <a href="util_Number.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -105,10 +107,15 @@
 
         
             
-<h4 class="name" id=".ANIMATION_FRAME"><span class="type-signature">(static, constant) </span>ANIMATION_FRAME<span class="type-signature"> :string</span></h4>
+<h4 class="name" id=".MAX_SAFE_INTEGER"><span class="type-signature">(static, constant) </span>MAX_SAFE_INTEGER<span class="type-signature"> :number</span></h4>
 
 
 
+
+<div class="description">
+    The constant represents the maximum safe integer in JavaScript:
+<code>Math.pow(2, 53) - 1</code>.
+</div>
 
 
 
@@ -116,7 +123,7 @@
     <ul>
         <li>
             
-<span class="param-type">string</span>
+<span class="param-type">number</span>
 
 
         </li>
@@ -155,12 +162,99 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="animation___ns__.js.html">animation/__ns__.js</a>, <a href="animation___ns__.js.html#line20">line 20</a>
+        <a href="util_Number.js.html">util/Number.js</a>, <a href="util_Number.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-number-objects">http://www.ecma-international.org/ecma-262/6.0/#sec-number-objects</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".MIN_SAFE_INTEGER"><span class="type-signature">(static, constant) </span>MIN_SAFE_INTEGER<span class="type-signature"> :number</span></h4>
+
+
+
+
+<div class="description">
+    The constant represents the minimum safe integer in JavaScript:
+<code>-(Math.pow(2, 53) - 1)</code>.
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">number</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="util_Number.js.html">util/Number.js</a>, <a href="util_Number.js.html#line21">line 21</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-number-objects">http://www.ecma-international.org/ecma-262/6.0/#sec-number-objects</a></li>
+        </ul>
+    </dd>
     
 
     
@@ -182,14 +276,14 @@
 
     
 
-    <h4 class="name" id=".animate"><span class="type-signature">(static) </span>animate<span class="signature">(element<span class="signature-attributes">non-null</span>, options<span class="signature-attributes">non-null</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".isInteger"><span class="type-signature">(static) </span>isInteger<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
 
 
 <div class="description">
-    Runs animations.
+    Determines whether the passed value is an integer.
 </div>
 
 
@@ -225,13 +319,13 @@
 
         <tr>
             
-                <td class="name"><code>element</code></td>
+                <td class="name"><code>value</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Node</span>
+<span class="param-type">*</span>
 
 
             
@@ -241,30 +335,7 @@
 
             
 
-            <td class="description last">The element to animate.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object.&lt;string, (string|number)></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The animation options.</td>
+            <td class="description last">The value to be tested for being an integer.</td>
         </tr>
 
     
@@ -305,144 +376,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="animation___ns__.js.html">animation/__ns__.js</a>, <a href="animation___ns__.js.html#line79">line 79</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>animation.animate(element, {'width': 500});
-animation.animate(element, {'width': 0});</code></pre>
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".cancelAnimationFrame"><span class="type-signature">(static) </span>cancelAnimationFrame<span class="signature">(request)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Cancels an animation frame request.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>request</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The request ID.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="animation___ns__.js.html">animation/__ns__.js</a>, <a href="animation___ns__.js.html#line57">line 57</a>
+        <a href="util_Number.js.html">util/Number.js</a>, <a href="util_Number.js.html#line37">line 37</a>
     </li></ul></dd>
     
 
@@ -452,150 +386,7 @@ animation.animate(element, {'width': 0});</code></pre>
     <dt class="tag-see">See:</dt>
     <dd class="tag-see">
         <ul>
-            <li><a href="https://msdn.microsoft.com/en-us/library/hh773172(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/hh773172(v=vs.85).aspx</a></li>
-        
-            <li><a href="animation.html#.requestAnimationFrame">animation.requestAnimationFrame</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".requestAnimationFrame"><span class="type-signature">(static) </span>requestAnimationFrame<span class="signature">(callback<span class="signature-attributes">non-null</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
-
-    
-
-
-
-<div class="description">
-    Registers a function to call when the system ready to update the display.
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">A function to call when it's time to
-    update your animation for the next repaint.</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="animation___ns__.js.html">animation/__ns__.js</a>, <a href="animation___ns__.js.html#line30">line 30</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="https://msdn.microsoft.com/en-us/library/hh773174(v=vs.85).aspx">https://msdn.microsoft.com/en-us/library/hh773174(v=vs.85).aspx</a></li>
-        
-            <li><a href="animation.html#.cancelAnimationFrame">animation.cancelAnimationFrame</a></li>
+            <li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-number.isinteger">http://www.ecma-international.org/ecma-262/6.0/#sec-number.isinteger</a></li>
         </ul>
     </dd>
     
@@ -619,7 +410,7 @@ animation.animate(element, {'width': 0});</code></pre>
 
         
 <div class="param-desc">
-    Return request ID that can be used to cancel the request.
+    Return <code>true</code> if value is an integer.
 </div>
 
 
@@ -630,7 +421,167 @@ animation.animate(element, {'width': 0});</code></pre>
     </dt>
     <dd>
         
-<span class="param-type">number</span>
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".isSafeInteger"><span class="type-signature">(static) </span>isSafeInteger<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Determines whether the provided value is a number that is a safe integer.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The value to be tested for being a safe integer.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="util_Number.js.html">util/Number.js</a>, <a href="util_Number.js.html#line51">line 51</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-number-objects">http://www.ecma-international.org/ecma-262/6.0/#sec-number-objects</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    Return true if value is a number that is a safe integer.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
 
 
     </dd>
@@ -662,7 +613,7 @@ animation.animate(element, {'width': 0});</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Oct 14 2015 16:57:17 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0-dev</a> on Wed Oct 14 2015 16:57:21 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>

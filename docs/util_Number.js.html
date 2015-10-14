@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: util/Base64.js</title>
+    <title>JSDoc: Source: util/Number.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: util/Base64.js</h1>
+    <h1 class="page-title">Source: util/Number.js</h1>
 
     
 
@@ -28,79 +28,60 @@
         <article>
             <pre class="prettyprint source linenums"><code>
 /**
- * @fileoverview Base64 utility methods.
+ * @fileoverview Number utility methods.
  *
- * @see https://en.wikipedia.org/wiki/Base64
  * @see http://google.github.io/styleguide/javascriptguide.xml
  * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
 
 /**
- * Base64 utility methods.
+ * Number utility methods.
  * @namespace
- * @see https://en.wikipedia.org/wiki/Base64
  */
-util.Base64 = {
+util.Number = {
   /**
-   * @type {string}
-   * @const
+   * The constant represents the minimum safe integer in JavaScript:
+   * &lt;code>-(Math.pow(2, 53) - 1)&lt;/code>.
+   * @const {number}
+   * @see http://www.ecma-international.org/ecma-262/6.0/#sec-number-objects
    */
-  BASE64_CHARACTER_TABLE:
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+  MIN_SAFE_INTEGER: Number['MIN_SAFE_INTEGER'] || -9007199254740991,
 
   /**
-   * Encodes string to base64.
-   * @param {string} str String to encode.
-   * @return {string} Returns encoded string.
+   * The constant represents the maximum safe integer in JavaScript:
+   * &lt;code>Math.pow(2, 53) - 1&lt;/code>.
+   * @const {number}
+   * @see http://www.ecma-international.org/ecma-262/6.0/#sec-number-objects
    */
-  encode: function(str) {
-    /** @type {string} */
-    var result = dom.context.btoa ? dom.context.btoa(str) : '';
+  MAX_SAFE_INTEGER: Number['MAX_SAFE_INTEGER'] || 9007199254740991,
 
-    if (!result) {
-      /** @type {!Array.&lt;string>} */
-      var table = util.Base64.BASE64_CHARACTER_TABLE.split('');
-      /** @type {!Array.&lt;string>} */ var buffer = str.split('');
-      /** @type {number} */ var block = 0;
-      /** @type {number} */ var index = 0;
+  /**
+   * Determines whether the passed value is an integer.
+   * @param {*} value The value to be tested for being an integer.
+   * @return {boolean} Return &lt;code>true&lt;/code> if value is an integer.
+   * @see http://www.ecma-international.org/ecma-262/6.0/#sec-number.isinteger
+   */
+  isInteger: function(value) {
+    /** @type {function(*):boolean} */ var fn = Number['isInteger'];
 
-      for (; buffer[index | 0] || (table = ['='], index % 1);
-           result += table[63 &amp; block >> 8 - index % 1 * 8]) {
-        block = block &lt;&lt; 8 | str.charCodeAt(index -= -3 / 4);
-      }
-    }
-    return result;
+    return fn ? fn(value) : ('number' === typeof value &amp;&amp;
+                             isFinite(value) &amp;&amp;
+                             Math.floor(value) === value);
   },
 
   /**
-   * Decodes base64-encoded string.
-   * @param {string} str Encoded string.
-   * @return {string} Returns decoded string.
+   * Determines whether the provided value is a number that is a safe integer.
+   * @param {*} value The value to be tested for being a safe integer.
+   * @return {boolean} Return true if value is a number that is a safe integer.
+   * @see http://www.ecma-international.org/ecma-262/6.0/#sec-number-objects
    */
-  decode: function(str) {
-    /** @type {string} */
-    var result = dom.context.atob ? dom.context.atob(str) : '';
+  isSafeInteger: function(value) {
+    /** @type {function(*):boolean} */ var fn = Number['isSafeInteger'];
 
-    if (!result) {
-      /** @type {!Array.&lt;string>} */ var buffer = str.split('');
-      /** @type {number} */ var bit = 0;
-      /** @type {number} */ var counter = 0;
-      /** @type {number} */ var index = 0;
-      /** @type {string} */ var character = '';
-      /** @type {number} */ var i = 0;
-
-      for (; character = buffer[i++];) {
-        index = util.Base64.BASE64_CHARACTER_TABLE.indexOf(character);
-        if (~index) {
-          bit = counter % 4 ? bit * 64 + index : index;
-          if (counter++ % 4) {
-            result += String.fromCharCode(255 &amp; bit >> (-2 * counter &amp; 6));
-          }
-        }
-      }
-    }
-    return result;
+    return fn ? fn(value) : (util.Number.isInteger(value) &amp;&amp;
+        util.Number.MIN_SAFE_INTEGER &lt;= /** @type {number} */ (value) &amp;&amp;
+        util.Number.MAX_SAFE_INTEGER >= /** @type {number} */ (value));
   }
 };
 </code></pre>
