@@ -464,7 +464,6 @@ dom.events.getEventTarget = function(e) {
  * Gets reference to script element is currently being processed.
  * @return {Element} Reference to script element is currently being processed.
  * @link https://developer.mozilla.org/en/DOM/document.currentScript
- * @static
  */
 dom.scripts.getCurrent = function() {
   return dom.document['currentScript'] || dom.scripts.last_;
@@ -474,7 +473,6 @@ dom.scripts.getCurrent = function() {
 /**
  * Gets reference to last script element.
  * @return {Element} Reference to last script element.
- * @static
  */
 dom.scripts.getLast = function() {
   /** @type {NodeList} */
@@ -484,10 +482,34 @@ dom.scripts.getLast = function() {
 
 
 /**
+ * Loads script.
+ * @param {string} src The script source.
+ * @param {!Function=} opt_callback The optional callback function.
+ */
+dom.scripts.load = function(src, opt_callback) {
+  /** @type {Element} */ var script = dom.createElement('SCRIPT');
+  /** @type {boolean} */ var loaded = false;
+  /** @type {string} */ var state;
+
+  script['src'] = src;
+  script['onload'] = script['onreadystatechange'] = function() {
+    state = script['readyState'] || 'complete';
+    if (!loaded && ('loaded' === state || 'complete' === state)) {
+      loaded = true;
+      // Handle memory leak in IE.
+      script['onload'] = script['onreadystatechange'] = dom.NULL;
+      script.parentNode.removeChild(script);
+      opt_callback && opt_callback();
+    }
+  };
+  dom.appendChild(dom.scripts.last_.parentNode, script);
+};
+
+
+/**
  * The reference to last script element.
  * @type {Node}
  * @private
- * @static
  */
 dom.scripts.last_ = dom.scripts.getLast();
 
