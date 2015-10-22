@@ -75,5 +75,48 @@ util.Date = {
     /** @type {string} */ var hours = time.slice(0, 2);
     return (hours % 12 || 12) + ':' + time.slice(3, 5) + ' ' +
            (12 > hours ? 'AM' : 'PM');
+  },
+
+  /**
+   * Gets week date.
+   * @param {!Date=} opt_date The optional date object.
+   * @return {string} Returns week date in ISO 8601 format.
+   * @see https://en.wikipedia.org/wiki/ISO_8601#Week_dates
+   * @see https://en.wikipedia.org/wiki/ISO_week_date
+   */
+  getWeekDate: function(opt_date) {
+    opt_date = opt_date || util.Date.getDate();
+    /** @type {number} */ var number = util.Date.getWeekNumber(opt_date);
+    /** @type {string} */ var week = ('0' + number).slice(-2);
+    return opt_date.getFullYear() + '-W' + week;
+  },
+
+  /**
+   * Gets week number.
+   * @param {!Date=} opt_date The optional date object.
+   * @return {number} Returns week number.
+   * @see https://en.wikipedia.org/wiki/ISO_8601#Week_dates
+   * @see https://en.wikipedia.org/wiki/ISO_week_date
+   */
+  getWeekNumber: function(opt_date) {
+    opt_date = opt_date || util.Date.getDate();
+    /** @type {!Date} */ var jan4 = new Date(opt_date.getFullYear(), 0, 4);
+
+    // var s = 24 * 60 * 60 * 1000;
+    // var s = 86400000;
+    // var s = 864e5;
+
+    // var d = (opt_date - jan4) / 864e5 / 7;
+    // var n = Math.ceil(d);
+    // var w =  1 + n;
+    //
+    // var d = (opt_date - jan4) / 864e5 / 7;
+    // var n = 1 + ~~d;
+    // var w = 1 + n;
+    //
+    // var d = (opt_date - jan4) / 864e5 / 7;
+    // var w = 1 + 1 + ~~d;
+
+    return 2 + ~~((opt_date - jan4) / 864e5 / 7);
   }
 };
