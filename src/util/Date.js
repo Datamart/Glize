@@ -101,6 +101,7 @@ util.Date = {
   getWeekNumber: function(opt_date) {
     opt_date = opt_date || util.Date.getDate();
     /** @type {!Date} */ var jan4 = new Date(opt_date.getFullYear(), 0, 4);
+    opt_date.setDate(opt_date.getDate() - ((opt_date.getDay() + 6) % 7) + 3);
 
     // var s = 24 * 60 * 60 * 1000;
     // var s = 86400000;
