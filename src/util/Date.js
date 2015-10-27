@@ -83,6 +83,10 @@ util.Date = {
    * @return {string} Returns week date in ISO 8601 format.
    * @see https://en.wikipedia.org/wiki/ISO_8601#Week_dates
    * @see https://en.wikipedia.org/wiki/ISO_week_date
+   * @example
+   * var weekDate = util.Date.getWeekDate(new Date(2015, 9, 26));
+   * var expected = '2015-W44';
+   * weekDate == expected;
    */
   getWeekDate: function(opt_date) {
     opt_date = opt_date || util.Date.getDate();
@@ -119,5 +123,35 @@ util.Date = {
     // var w = 1 + 1 + ~~d;
 
     return 2 + ~~((opt_date - jan4) / 864e5 / 7);
+  },
+
+  /**
+   * Converts value to Date object.
+   * NOTE: Currently supported only ISO 8601 week date format.
+   * @param {string} value The value to convert.
+   * @return {Date} Returns converted value to Date object.
+   * @see util.Date.getWeekDate
+   * @example
+   * var date = util.Date.toDate('2015-W44');
+   * var str = 'Mon Oct 26 2015 00:00:00 GMT+0200 (EET)';
+   * date.toString() == str;
+   */
+  toDate: function(value) {
+    /** @type {Array.<string>} */
+    var weekDate = value.match(/^([12]\d{3})\-w([012345]\d)(\-\d+)*$/i);
+    /** @type {number} */ var year;
+    /** @type {number} */ var week;
+    /** @type {Date} */ var date;
+    /** @type {number} */ var offset;
+
+    if (weekDate) {
+      year = +weekDate[1];
+      week = +weekDate[2];
+
+      date = new Date(year, 0, 1 + (week - 1) * 7);
+      offset = date.getDay() <= 4 ? 1 : 8;
+      date.setDate(date.getDate() - date.getDay() + offset);
+    }
+    return date;
   }
 };
