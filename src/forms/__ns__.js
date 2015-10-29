@@ -44,7 +44,7 @@ var forms = {
   /**
    * Adds onchange/oninput event handler on all form elements.
    * @param {HTMLFormElement} form Form element.
-   * @param {!function(Element)} handler Event handler.
+   * @param {!function(Event)} handler Event handler.
    */
   onchange: function(form, handler) {
 
