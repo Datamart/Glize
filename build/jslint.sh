@@ -17,7 +17,6 @@ readonly JS_SOURCES="${CWD}/../src"
 readonly WGET="`which wget`"
 readonly CURL="`which curl`"
 readonly PYTHON="`which python`"
-readonly GJSLINT="`which gjslint`"
 
 readonly CUSTOM_TAGS="version,example,static,namespace,requires,event"
 
@@ -26,7 +25,7 @@ readonly CUSTOM_TAGS="version,example,static,namespace,requires,event"
 # Downloads closure linter
 #
 function download() {
-  if [ ! -e "${GJSLINT}" ]; then
+  if [ ! -e "`which gjslint`" ]; then
     echo "Downloading closure linter:"
     mkdir -p "${LIB}"
     rm -rf "${TMP}" && mkdir "${TMP}" && cd "${TMP}"
@@ -38,6 +37,7 @@ function download() {
     echo "Extracting closure linter:"
     unzip -q "${TMP}/${JS_LINTER_ZIP}" -d "${LIB}"
 
+    echo "Installing closure linter:"
     cd "${LIB}/"closure-linter-*
     $PYTHON setup.py build && sudo $PYTHON setup.py install
 
