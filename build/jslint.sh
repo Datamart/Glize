@@ -9,9 +9,6 @@ readonly TMP="${CWD}/tmp"
 
 readonly JS_LINTER_ZIP="closure-linter.zip"
 readonly JS_LINTER_URL="https://github.com/google/closure-linter/archive/v2.3.19.zip"
-readonly JS_COMPILER_JAR="${LIB}/compiler.jar"
-
-readonly JS_COMPILED="${CWD}/../bin/glize.js"
 readonly JS_SOURCES="${CWD}/../src"
 
 readonly WGET="`which wget`"
