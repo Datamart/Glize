@@ -18,10 +18,9 @@ readonly WGET="`which wget`"
 readonly CURL="`which curl`"
 readonly PYTHON="`which python`"
 readonly GJSLINT="`which gjslint`"
-readonly FIXJSSTYLE="`which fixjsstyle`"
-
 
 readonly CUSTOM_TAGS="version,example,static,namespace,requires,event"
+
 
 #
 # Downloads closure linter
@@ -51,6 +50,8 @@ function download() {
 #
 function run() {
   echo "Running closure linter:"
+  local GJSLINT="`which gjslint`"
+  local FIXJSSTYLE="`which fixjsstyle`"
 
   $FIXJSSTYLE --strict \
               --custom_jsdoc_tags "${CUSTOM_TAGS}" \
