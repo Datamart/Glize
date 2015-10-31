@@ -1,44 +1,58 @@
-#!/usr/bin/env bash
+#!/bin/bash
+#
+# Guide: https://google.github.io/styleguide/shell.xml
+# Link: https://developers.google.com/closure/compiler/
 
-# https://developers.google.com/closure/compiler/
+readonly CWD=$(cd $(dirname $0); pwd)
+readonly LIB="${CWD}/lib"
+readonly TMP="${CWD}/tmp"
 
-echo -n "Running compiler. "
-COMPILED_JS="../bin/glize.js"
-JS_COMPILER_JAR="./lib/compiler.jar"
-JS_SRC_PATH="../src"
-JS_DOWNLOAD_URL="http://dl.google.com/closure-compiler/compiler-latest.zip"
-WGET="`which wget`"
-CURL="`which curl`"
+readonly JS_COMPILER_ZIP="compiler-latest.zip"
+readonly JS_COMPILER_URL="http://dl.google.com/closure-compiler/${JS_COMPILER_ZIP}"
+readonly JS_COMPILER_JAR="${LIB}/compiler.jar"
 
-LICENSE="/* @license http://www.apache.org/licenses/LICENSE-2.0 */"
+readonly JS_COMPILED="${CWD}/../bin/glize.js"
+readonly JS_SOURCES="${CWD}/../src"
+
+readonly WGET="`which wget`"
+readonly CURL="`which curl`"
+readonly JAVA="`which java`"
+
+readonly LICENSE="/* @license http://www.apache.org/licenses/LICENSE-2.0 */"
 
 # http://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html
-NEW_LINE=$'\n'
+readonly NEW_LINE=$'\n'
 
-if [ ! -f "${JS_COMPILER_JAR}" ]; then
-    mkdir -p lib
-    rm -rf tmp && mkdir tmp && cd tmp
-    if [ -n "$WGET" ]; then
-        $WGET "${JS_DOWNLOAD_URL}"
-    else
-        $CURL "${JS_DOWNLOAD_URL}" > ./compiler-latest.zip
-    fi
-    unzip compiler-latest.zip -d ../lib
-    cd ../ && rm -rf tmp
-fi
+function main() {
+  echo -n "Running closure compiler. "
 
-rm -rf "${COMPILED_JS}" && touch "${COMPILED_JS}" && chmod 0666 "${COMPILED_JS}"
+  if [ ! -f "${JS_COMPILER_JAR}" ]; then
+      mkdir -p "${LIB}"
+      rm -rf "${TMP}" && mkdir "${TMP}" && cd "${TMP}"
+      if [ -n "$WGET" ]; then
+          $WGET "${JS_COMPILER_URL}" -O "${TMP}/${JS_COMPILER_ZIP}"
+      else
+          $CURL "${JS_COMPILER_URL}" > "${TMP}/${JS_COMPILER_ZIP}"
+      fi
+      unzip "${TMP}/${JS_COMPILER_ZIP}" -d "${LIB}"
+      cd "${CWD}" && rm -rf "${TMP}"
+  fi
 
-python -c "import sys;sys.argv.pop(0);print(' --js ' + ' --js '.join(sorted(sys.argv, cmp=lambda x,y: cmp(x.lower(), y.lower()))))" `find "${JS_SRC_PATH}" -name "*.js" -print` |
-    xargs java -jar "${JS_COMPILER_JAR}" \
-      --compilation_level ADVANCED_OPTIMIZATIONS \
-      --warning_level VERBOSE \
-      --charset UTF-8 \
-      --use_types_for_optimization \
-      --externs externs.js \
-      --js_output_file "${COMPILED_JS}"
+  rm -rf "${JS_COMPILED}" && touch "${JS_COMPILED}" && chmod 0666 "${JS_COMPILED}"
 
-echo "${LICENSE}${NEW_LINE}(function(){" | cat - $COMPILED_JS > /tmp/out && mv /tmp/out $COMPILED_JS
-echo '})();' >> $COMPILED_JS
+  python -c "import sys;sys.argv.pop(0);print(' --js ' + ' --js '.join(sorted(sys.argv, cmp=lambda x,y: cmp(x.lower(), y.lower()))))" `find "${JS_SOURCES}" -name "*.js" -print` |
+      xargs java -jar "${JS_COMPILER_JAR}" \
+        --compilation_level ADVANCED_OPTIMIZATIONS \
+        --warning_level VERBOSE \
+        --charset UTF-8 \
+        --use_types_for_optimization \
+        --externs externs.js \
+        --js_output_file "${JS_COMPILED}"
 
-echo "Done"
+  echo "${LICENSE}${NEW_LINE}(function(){" | cat - $JS_COMPILED > /tmp/out && mv /tmp/out $JS_COMPILED
+  echo '})();' >> $JS_COMPILED
+
+  echo "Done"
+}
+
+main "$@"
