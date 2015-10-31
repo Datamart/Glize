@@ -39,7 +39,7 @@ function download() {
       $CURL "${JS_COMPILER_URL}" > "${TMP}/${JS_COMPILER_ZIP}"
     fi
     echo "Extracting closure compiler:"
-    unzip "${TMP}/${JS_COMPILER_ZIP}" -d "${LIB}"
+    unzip -q "${TMP}/${JS_COMPILER_ZIP}" -d "${LIB}"
     cd "${CWD}" && rm -rf "${TMP}"
   fi
 }

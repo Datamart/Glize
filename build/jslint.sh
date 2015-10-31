@@ -36,7 +36,7 @@ function download() {
       $CURL "${JS_LINTER_URL}" > "${TMP}/${JS_LINTER_ZIP}"
     fi
     echo "Extracting closure linter:"
-    unzip "${TMP}/${JS_LINTER_ZIP}" -d "${LIB}"
+    unzip -q "${TMP}/${JS_LINTER_ZIP}" -d "${LIB}"
 
     cd "${LIB}/"closure-linter-*
     $PYTHON setup.py build && sudo $PYTHON setup.py install
