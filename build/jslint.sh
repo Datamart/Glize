@@ -40,7 +40,7 @@ function download() {
 
     echo "Installing closure linter:"
     cd "${LIB}/"closure-linter-*
-    $PYTHON setup.py build --quiet && sudo $PYTHON setup.py install --quiet
+    $PYTHON setup.py --quiet build && sudo $PYTHON setup.py --quiet install
 
     cd "${CWD}" && rm -rf "${TMP}"
   fi
