@@ -39,7 +39,7 @@ function download() {
     echo "Extracting closure linter:"
     unzip "${TMP}/${JS_LINTER_ZIP}" -d "${LIB}"
 
-    cd closure_linter*
+    cd "${LIB}/"closure-linter-*
     $PYTHON setup.py build && sudo $PYTHON setup.py install
 
     cd "${CWD}" && rm -rf "${TMP}"
