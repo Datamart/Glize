@@ -17,6 +17,7 @@ readonly JS_SOURCES="${CWD}/../src"
 readonly WGET="`which wget`"
 readonly CURL="`which curl`"
 readonly JAVA="`which java`"
+readonly PYTHON="`which python`"
 
 readonly LICENSE="/* @license http://www.apache.org/licenses/LICENSE-2.0 */"
 
@@ -40,13 +41,13 @@ function main() {
 
   rm -rf "${JS_COMPILED}" && touch "${JS_COMPILED}" && chmod 0666 "${JS_COMPILED}"
 
-  python -c "import sys;sys.argv.pop(0);print(' --js ' + ' --js '.join(sorted(sys.argv, cmp=lambda x,y: cmp(x.lower(), y.lower()))))" `find "${JS_SOURCES}" -name "*.js" -print` |
-      xargs java -jar "${JS_COMPILER_JAR}" \
+  $PYTHON -c "import sys;sys.argv.pop(0);print(' --js ' + ' --js '.join(sorted(sys.argv, cmp=lambda x,y: cmp(x.lower(), y.lower()))))" `find "${JS_SOURCES}" -name "*.js" -print` |
+      xargs $JAVA -jar "${JS_COMPILER_JAR}" \
         --compilation_level ADVANCED_OPTIMIZATIONS \
         --warning_level VERBOSE \
         --charset UTF-8 \
         --use_types_for_optimization \
-        --externs externs.js \
+        --externs "${CWD}/externs.js" \
         --js_output_file "${JS_COMPILED}"
 
   echo "${LICENSE}${NEW_LINE}(function(){" | cat - $JS_COMPILED > /tmp/out && mv /tmp/out $JS_COMPILED
