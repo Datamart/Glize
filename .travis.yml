@@ -1,2 +1,4 @@
-language: node_js
+language: python
+python:
+  - "2.7"
 script: ./build/jsmin.sh
