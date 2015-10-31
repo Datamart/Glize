@@ -16,8 +16,8 @@ readonly JS_SOURCES="${CWD}/../src"
 
 readonly WGET="`which wget`"
 readonly CURL="`which curl`"
-readonly JAVA="`which java`"
 readonly PYTHON="`which python`"
+readonly JAVA="`which java`"
 
 readonly LICENSE="/* @license http://www.apache.org/licenses/LICENSE-2.0 */"
 
@@ -30,24 +30,24 @@ readonly NEW_LINE=$'\n'
 #
 function download() {
   if [ ! -f "${JS_COMPILER_JAR}" ]; then
-      echo "Downloading closure compiler:"
-      mkdir -p "${LIB}"
-      rm -rf "${TMP}" && mkdir "${TMP}" && cd "${TMP}"
-      if [ -n "$WGET" ]; then
-          $WGET "${JS_COMPILER_URL}" -O "${TMP}/${JS_COMPILER_ZIP}"
-      else
-          $CURL "${JS_COMPILER_URL}" > "${TMP}/${JS_COMPILER_ZIP}"
-      fi
-      echo "Extracting closure compiler:"
-      unzip "${TMP}/${JS_COMPILER_ZIP}" -d "${LIB}"
-      cd "${CWD}" && rm -rf "${TMP}"
+    echo "Downloading closure compiler:"
+    mkdir -p "${LIB}"
+    rm -rf "${TMP}" && mkdir "${TMP}" && cd "${TMP}"
+    if [ -n "$WGET" ]; then
+      $WGET "${JS_COMPILER_URL}" -O "${TMP}/${JS_COMPILER_ZIP}"
+    else
+      $CURL "${JS_COMPILER_URL}" > "${TMP}/${JS_COMPILER_ZIP}"
+    fi
+    echo "Extracting closure compiler:"
+    unzip "${TMP}/${JS_COMPILER_ZIP}" -d "${LIB}"
+    cd "${CWD}" && rm -rf "${TMP}"
   fi
 }
 
 #
 # Runs closure compiler.
 #
-function minify() {
+function run() {
   rm -rf "${JS_COMPILED}" && touch "${JS_COMPILED}" && chmod 0666 "${JS_COMPILED}"
 
   echo "Running closure compiler:"
@@ -71,7 +71,7 @@ function minify() {
 #
 function main() {
   download
-  minify
+  run
 }
 
 main "$@"

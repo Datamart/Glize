@@ -1,32 +1,74 @@
-#!/usr/bin/env bash
+#!/bin/bash
+#
+# Guide: https://google.github.io/styleguide/shell.xml
+# Link: https://github.com/google/closure-linter
 
-# http://code.google.com/p/closure-linter/downloads/list
-# https://closure-linter.googlecode.com/files/closure_linter-latest.tar.gz
+readonly CWD=$(cd $(dirname $0); pwd)
+readonly LIB="${CWD}/lib"
+readonly TMP="${CWD}/tmp"
 
-echo -n "Running jslint. "
-DOWNLOAD_URL="http://closure-linter.googlecode.com/files/closure_linter-latest.tar.gz"
-OUTPUT_PATH="./linter.tar.gz"
-CUSTOM_TAGS="version,example,static,namespace,requires,event"
-SRC_PATH="../src"
-WGET="`which wget`"
-CURL="`which curl`"
+readonly JS_LINTER_ZIP="closure-linter.zip"
+readonly JS_LINTER_URL="https://github.com/google/closure-linter/archive/v2.3.19.zip"
+readonly JS_COMPILER_JAR="${LIB}/compiler.jar"
 
-if [ "x`which gjslint`" == "x" ]
-then
-    rm -rf tmp && mkdir tmp && cd tmp
+readonly JS_COMPILED="${CWD}/../bin/glize.js"
+readonly JS_SOURCES="${CWD}/../src"
 
+readonly WGET="`which wget`"
+readonly CURL="`which curl`"
+readonly PYTHON="`which python`"
+readonly GJSLINT="`which gjslint`"
+readonly FIXJSSTYLE="`which fixjsstyle`"
+
+
+readonly CUSTOM_TAGS="version,example,static,namespace,requires,event"
+
+#
+# Downloads closure linter
+#
+function download() {
+  if [ ! -e "${GJSLINT}" ]; then
+    echo "Downloading closure linter:"
+    mkdir -p "${LIB}"
+    rm -rf "${TMP}" && mkdir "${TMP}" && cd "${TMP}"
     if [ -n "$WGET" ]; then
-        $WGET "${DOWNLOAD_URL}" -O "${OUTPUT_PATH}"
+      $WGET "${JS_LINTER_URL}" -O "${TMP}/${JS_LINTER_ZIP}"
     else
-        $CURL "${DOWNLOAD_URL}" > "${OUTPUT_PATH}"
+      $CURL "${JS_LINTER_URL}" > "${TMP}/${JS_LINTER_ZIP}"
     fi
-    tar -xvzf "${OUTPUT_PATH}" -C ./
+    echo "Extracting closure linter:"
+    unzip "${TMP}/${JS_LINTER_ZIP}" -d "${LIB}"
+
     cd closure_linter*
-    python setup.py build && sudo python setup.py install
-    cd ../
+    $PYTHON setup.py build && sudo $PYTHON setup.py install
 
-    rm -rf tmp
-fi
+    cd "${CWD}" && rm -rf "${TMP}"
+  fi
+}
 
-fixjsstyle --strict --custom_jsdoc_tags "${CUSTOM_TAGS}" -x 'externs.js' -r "${SRC_PATH}"
-gjslint --strict --custom_jsdoc_tags "${CUSTOM_TAGS}" -x 'externs.js' -r "${SRC_PATH}"
+#
+# Runs closure linter.
+#
+function run() {
+  echo "Running closure linter:"
+
+  $FIXJSSTYLE --strict \
+              --custom_jsdoc_tags "${CUSTOM_TAGS}" \
+              -x "${CWD}/externs.js" \
+              -r "${JS_SOURCES}"
+  $GJSLINT --strict \
+           --custom_jsdoc_tags "${CUSTOM_TAGS}" \
+           -x "${CWD}/externs.js" \
+           -r "${JS_SOURCES}"
+  echo "Done"
+}
+
+#
+# The main function.
+#
+function main() {
+  download
+  run
+}
+
+main "$@"
