@@ -24,7 +24,11 @@ readonly LICENSE="/* @license http://www.apache.org/licenses/LICENSE-2.0 */"
 # http://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html
 readonly NEW_LINE=$'\n'
 
-function main() {
+
+#
+# Downloads closure compiler
+#
+function download() {
   if [ ! -f "${JS_COMPILER_JAR}" ]; then
       echo "Downloading closure compiler:"
       mkdir -p "${LIB}"
@@ -38,7 +42,12 @@ function main() {
       unzip "${TMP}/${JS_COMPILER_ZIP}" -d "${LIB}"
       cd "${CWD}" && rm -rf "${TMP}"
   fi
+}
 
+#
+# Runs closure compiler.
+#
+function minify() {
   rm -rf "${JS_COMPILED}" && touch "${JS_COMPILED}" && chmod 0666 "${JS_COMPILED}"
 
   echo "Running closure compiler:"
@@ -55,6 +64,14 @@ function main() {
   echo '})();' >> $JS_COMPILED
 
   echo "Done"
+}
+
+#
+# The main function.
+#
+function main() {
+  download
+  minify
 }
 
 main "$@"
