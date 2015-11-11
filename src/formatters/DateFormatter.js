@@ -35,6 +35,7 @@ formatters.DateFormatter = function() {
       'MMM', month.substr(0, 3),
       'MM', ('0' + (date.getMonth() + 1)).slice(-2),
       'dd', ('0' + date.getDate()).slice(-2),
+      'd', date.getDate(),
       'hh', ('0' + date.getHours()).slice(-2),
       'mm', ('0' + date.getMinutes()).slice(-2),
       'ss', ('0' + date.getSeconds()).slice(-2)
