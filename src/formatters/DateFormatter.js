@@ -16,10 +16,39 @@
 formatters.DateFormatter = function() {
 
   /**
+   * @type {!Object.<string, function(Date): number>}
+   */
+  var NUMBER_FORMAT = {
+    /**
+     * @param {Date} date The date to be formatted.
+     * @return {number} Returns formatted date as number.
+     */
+    'YYYYMMdd': function(date) {
+      return 1e4 * date.getFullYear() +
+             1e2 * (date.getMonth() + 1) + date.getDate();
+    },
+    /**
+     * @param {Date} date The date to be formatted.
+     * @return {number} Returns formatted date as number.
+     */
+    'YYYYMMddhhmm': function(date) {
+      return 1e4 * NUMBER_FORMAT['YYYYMMdd'](date) +
+             1e2 * date.getHours() + date.getMinutes();
+    },
+    /**
+     * @param {Date} date The date to be formatted.
+     * @return {number} Returns formatted date as number.
+     */
+    'YYYYMMddhhmmss': function(date) {
+      return 1e2 * NUMBER_FORMAT['YYYYMMddhhmm'](date) + date.getSeconds();
+    }
+  };
+
+  /**
    * Formats given <code>date</code> according to given <code>format</code>.
-   * @param {Date} date The Date to be formatted.
+   * @param {Date} date The date to be formatted.
    * @param {string} format The date format.
-   * @return {string} The formatted date as string.
+   * @return {string} Returns formatted date as string.
    * @example
    * var formatter = new formatters.DateFormatter();
    * formatter.format(new Date(), 'YYYY-MM-dd');
@@ -27,23 +56,32 @@ formatters.DateFormatter = function() {
    * formatter.format(new Date(), 'dd MMM, YYYY');
    */
   this.format = function(date, format) {
-    /** @type {string} */ var month = calendar_.getMonthName(date);
-    /** @type {!Array.<string, number>} */ var tokens = [
-      'YYYY', date.getFullYear(),
-      'YY', (date.getFullYear() + '').substr(2),
-      'MMMM', month,
-      'MMM', month.substr(0, 3),
-      'MM', ('0' + (date.getMonth() + 1)).slice(-2),
-      'dd', ('0' + date.getDate()).slice(-2),
-      'd', date.getDate(),
-      'hh', ('0' + date.getHours()).slice(-2),
-      'mm', ('0' + date.getMinutes()).slice(-2),
-      'ss', ('0' + date.getSeconds()).slice(-2)
-    ];
-    /** @type {number} */ var length = tokens.length;
+    /** @type {function(Date): number} */ var fn = NUMBER_FORMAT[format];
     /** @type {number} */ var i = 0;
-    for (; i < length;) {
-      format = format.replace(tokens[i++], tokens[i++]);
+    /** @type {Array.<string, number>} */ var tokens;
+    /** @type {number} */ var length;
+    /** @type {string} */ var month;
+
+    if (fn) {
+      format = '' + fn(date);
+    } else {
+      month = calendar_.getMonthName(date);
+      tokens = [
+        'YYYY', date.getFullYear(),
+        'YY', (date.getFullYear() + '').substr(2),
+        'MMMM', month,
+        'MMM', month.substr(0, 3),
+        'MM', ('0' + (date.getMonth() + 1)).slice(-2),
+        'dd', ('0' + date.getDate()).slice(-2),
+        'd', date.getDate(),
+        'hh', ('0' + date.getHours()).slice(-2),
+        'mm', ('0' + date.getMinutes()).slice(-2),
+        'ss', ('0' + date.getSeconds()).slice(-2)
+      ];
+      length = tokens.length;
+      for (; i < length;) {
+        format = format.replace(tokens[i++], tokens[i++]);
+      }
     }
     return format;
   };
