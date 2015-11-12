@@ -51,7 +51,10 @@ function download() {
       else
         $CURL "${PHANTOMJS_MACOS_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
       fi
-      $UNZIP "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip" -d "${PHANTOMJS_LIB}"
+      echo "Done"
+      echo -n "Extracting ${PHANTOMJS_KEY}: "
+      $UNZIP -q "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip" -d "${PHANTOMJS_LIB}"
+      echo "Done"
     else
       if [ `uname -m` == "x86_64" ]; then
         if [ -n "$WGET" ]; then
@@ -66,7 +69,7 @@ function download() {
           $CURL "${PHANTOMJS_LINUX_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
         fi
       fi
-      $TAR -xvjpf "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2" -C "${PHANTOMJS_LIB}"
+      $TAR -xjpf "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2" -C "${PHANTOMJS_LIB}"
     fi
     mv ${PHANTOMJS_LIB}/phantomjs-*/* "${PHANTOMJS_LIB}"
     rm -rf ${PHANTOMJS_LIB}/phantomjs*

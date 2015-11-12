@@ -18,6 +18,7 @@ readonly WGET="`which wget`"
 readonly CURL="`which curl`"
 readonly PYTHON="`which python`"
 readonly JAVA="`which java`"
+readonly UNZIP="`which unzip`"
 
 readonly LICENSE="/* @license http://www.apache.org/licenses/LICENSE-2.0 */"
 
@@ -40,7 +41,7 @@ function download() {
     fi
 
     echo -n "Extracting closure compiler: "
-    unzip -q "${TMP}/${JS_COMPILER_ZIP}" -d "${LIB}"
+    $UNZIP -q "${TMP}/${JS_COMPILER_ZIP}" -d "${LIB}"
     echo "Done"
 
     cd "${CWD}" && rm -rf "${TMP}"
