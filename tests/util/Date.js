@@ -13,6 +13,7 @@ util.DateTestCase = TestCase('DateTestCase');
 
 util.DateTestCase.prototype.testToISOString = function() {
   var date = new Date(2015, 0, 31, 0, 0, 0);
+  date.setHours(date.getHours() - date.getTimezoneOffset() / 60);
   date.toISOString = null; // clear native.
 
   assertEquals('2015-01-31T00:00:00.000Z', util.Date.toISOString(date));
