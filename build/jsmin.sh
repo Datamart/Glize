@@ -26,7 +26,7 @@ readonly NEW_LINE=$'\n'
 
 
 #
-# Downloads closure compiler
+# Downloads closure compiler.
 #
 function download() {
   if [ ! -f "${JS_COMPILER_JAR}" ]; then

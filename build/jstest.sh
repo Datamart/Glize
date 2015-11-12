@@ -1,136 +1,171 @@
-#!/usr/bin/env bash
+#!/bin/bash
+#
+# Guide: https://google.github.io/styleguide/shell.xml
+# Link: https://code.google.com/p/js-test-driver/
 
-# https://code.google.com/p/js-test-driver/
+readonly CWD=$(cd $(dirname $0); pwd)
+readonly LIB="${CWD}/lib"
 
-echo "Running jstest. "
+readonly WGET="`which wget`"
+readonly CURL="`which curl`"
+readonly UNZIP="`which unzip`"
+readonly TAR="`which tar`"
+readonly NOHUP="`which nohup`"
+readonly JAVA="`which java`"
 
-ROOTDIR="$( cd "$( dirname "$0")" && pwd )"
-JSTD_VERSION=1.3.5
+readonly JSTD_VERSION="1.3.5"
+readonly JSTD_KEY="JsTestDriver"
+readonly JSTD_URL="http://js-test-driver.googlecode.com/files/${JSTD_KEY}-${JSTD_VERSION}.jar"
+readonly JSTD_JAR="${LIB}/${JSTD_KEY}-${JSTD_VERSION}.jar"
 
-echo "Root: ${ROOTDIR}"
+readonly PHANTOMJS_VERSION="1.9.1"
+readonly PHANTOMJS_KEY="phantomjs"
+readonly PHANTOMJS_LIB="${LIB}/${PHANTOMJS_KEY}"
+readonly PHANTOMJS_URL="https://phantomjs.googlecode.com/files"
+readonly PHANTOMJS_MACOS_URL="${PHANTOMJS_URL}/${PHANTOMJS_KEY}-${PHANTOMJS_VERSION}-macosx.zip"
+readonly PHANTOMJS_LINUX_URL="${PHANTOMJS_URL}/${PHANTOMJS_KEY}-${PHANTOMJS_VERSION}-linux-i686.tar.bz2"
+readonly PHANTOMJS_LINUX64_URL="${PHANTOMJS_URL}/${PHANTOMJS_KEY}-${PHANTOMJS_VERSION}-linux-x86_64.tar.bz2"
 
-mkdir -p "$ROOTDIR/lib"
+#
+# Downloads test driver.
+#
+function download() {
+  mkdir -p "${LIB}"
 
-if [ ! -f "$ROOTDIR/lib/JsTestDriver-$JSTD_VERSION.jar" ]; then
-    echo "Downloading JsTestDriver jar ..."
-    curl http://js-test-driver.googlecode.com/files/JsTestDriver-$JSTD_VERSION.jar > $ROOTDIR/lib/JsTestDriver-$JSTD_VERSION.jar
-fi
+  if [ ! -f "${LIB}/${JSTD_KEY}-$JSTD_VERSION.jar" ]; then
+    echo "Downloading ${JSTD_KEY}:"
+    if [ -n "$WGET" ]; then
+      $WGET "${JSTD_URL}" -O "${JSTD_JAR}"
+    else
+      $CURL "${JSTD_URL}" > "${JSTD_JAR}"
+    fi
+    echo "Done"
+  fi
 
-if [ ! -f "$ROOTDIR/lib/coverage-$JSTD_VERSION.jar" ]; then
-    echo "Downloading coverage jar ..."
-    curl http://js-test-driver.googlecode.com/files/coverage-$JSTD_VERSION.jar > $ROOTDIR/lib/coverage-$JSTD_VERSION.jar
-fi
-
-if [ ! -d "$ROOTDIR/lib/phantomjs" ]; then
-    mkdir -p "$ROOTDIR/lib/phantomjs"
-    echo "Downloading phantomjs ..."
+  if [ ! -d "${LIB}/${PHANTOMJS_KEY}" ]; then
+    mkdir -p "${PHANTOMJS_LIB}"
+    echo "Downloading ${PHANTOMJS_KEY}:"
     if [ `uname` == "Darwin" ]; then
-      curl https://phantomjs.googlecode.com/files/phantomjs-1.9.1-macosx.zip > $ROOTDIR/lib/phantomjs/phantomjs.zip
-      unzip $ROOTDIR/lib/phantomjs/phantomjs.zip -d $ROOTDIR/lib/phantomjs/
+      if [ -n "$WGET" ]; then
+        $WGET "${PHANTOMJS_MACOS_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
+      else
+        $CURL "${PHANTOMJS_MACOS_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
+      fi
+      $UNZIP "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip" -d "${PHANTOMJS_LIB}"
     else
       if [ `uname -m` == "x86_64" ]; then
-        curl https://phantomjs.googlecode.com/files/phantomjs-1.9.1-linux-x86_64.tar.bz2 > $ROOTDIR/lib/phantomjs/phantomjs.tar.bz2
+        if [ -n "$WGET" ]; then
+          $WGET "${PHANTOMJS_LINUX64_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
+        else
+          $CURL "${PHANTOMJS_LINUX64_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
+        fi
       else
-        curl https://phantomjs.googlecode.com/files/phantomjs-1.9.1-linux-i686.tar.bz2 > $ROOTDIR/lib/phantomjs/phantomjs.tar.bz2
+        if [ -n "$WGET" ]; then
+          $WGET "${PHANTOMJS_LINUX_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
+        else
+          $CURL "${PHANTOMJS_LINUX_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
+        fi
       fi
-      tar -xvjpf $ROOTDIR/lib/phantomjs/phantomjs.tar.bz2 -C $ROOTDIR/lib/phantomjs/
+      $TAR -xvjpf "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2" -C "${PHANTOMJS_LIB}"
     fi
-    mv $ROOTDIR/lib/phantomjs/phantomjs-*/* $ROOTDIR/lib/phantomjs/
-    rm -rf $ROOTDIR/lib/phantomjs/phantomjs*
-fi
+    mv ${PHANTOMJS_LIB}/phantomjs-*/* "${PHANTOMJS_LIB}"
+    rm -rf ${PHANTOMJS_LIB}/phantomjs*
+    echo "Done"
+  fi
+}
 
+#
+# Configures tests.
+#
+function config() {
+  echo "var page = require('webpage').create();
+        var url = 'http://localhost:9876/capture';
+        var attempts = 0;
+        var captured = false;
+        var locked = false;
 
-#if [ ! -f "$ROOTDIR/lib/phantomjs/phantomjs-jstd.js" ]; then
-    echo "var page = require('webpage').create();
-          var url = 'http://localhost:9876/capture';
-          var captureAttempts = 0;
-          var captured = false;
-          var locked = false;
+        var log = function(str) {
+          console.log(new Date + ': ' + str);
+          console.log(navigator.userAgent);
+        };
 
-          var log = function(str) {
-              var dt = new Date();
-              console.log(dt.toString() + ': ' + str);
-              console.log(navigator.userAgent);
-          };
+        var pageLoaded = function(status) {
+          log('Finished loading ' + url + ' with status: ' + status);
 
-          var pageLoaded = function(status) {
-              log('Finished loading ' + url + ' with status: ' + status);
+          var runnerFrame = page.evaluate(function() {
+            return document.getElementById('runner');
+          });
 
-              var runnerFrame = page.evaluate(function() {
-                  return document.getElementById('runner');
-              });
+          if (!runnerFrame) {
+            locked = false;
+            setTimeout(capture, 1E3);
+          } else {
+            captured = true;
+          }
+        };
 
-              if (!runnerFrame) { locked = false; setTimeout(capture, 1000); }
-              else { captured = true; }
-          };
+        var capture = function() {
+          if (5 === attempts) {
+            log('Failed to capture JSTD after ' + attempts + ' attempts.');
+            phantom.exit();
+          }
 
-          var capture = function() {
-              if (captureAttempts === 5) {
-                  log('Failed to capture JSTD after ' + captureAttempts + ' attempts.');
-                  phantom.exit();
-              }
+          if (captured || locked) { return; }
 
-              if (captured || locked) { return; }
+          attempts++;
+          locked = true;
 
-              captureAttempts += 1;
-              locked = true;
+          log('Attempting (' + attempts + ') to load: ' + url);
+          page.open(url, pageLoaded);
+        };
 
-              log('Attempting (' + captureAttempts + ') to load: ' + url);
-              page.open(url, pageLoaded);
-          };
+        capture();" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}-${JSTD_KEY}.js"
 
-          capture();" > "$ROOTDIR/lib/phantomjs/phantomjs-jstd.js"
-#fi
+  echo -e "server: http://localhost:9876\nload:\n  - src/*.js\ntest:\n  - tests/*.js\ntimeout: 90" > "${LIB}/${JSTD_KEY}-${JSTD_VERSION}.conf"
+}
 
+#
+# Runs tests.
+#
+function run() {
+  echo "Starting JSTD Server"
+  $NOHUP $JAVA -jar "${LIB}/${JSTD_KEY}-$JSTD_VERSION.jar" \
+               --port 9876 > "${CWD}/${JSTD_KEY}.out" 2> "${CWD}/${JSTD_KEY}.err" < /dev/null &
+  echo $! > "${CWD}/${JSTD_KEY}.pid"
 
-#if [ ! -f "$ROOTDIR/lib/JsTestDriver-$JSTD_VERSION.conf" ]; then
-    echo "server: http://localhost:9876
+  echo "Starting PhantomJS"
+  $NOHUP "${PHANTOMJS_LIB}/bin/${PHANTOMJS_KEY}" "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}-${JSTD_KEY}.js" > "${CWD}/${PHANTOMJS_KEY}.out" 2> "${CWD}/${PHANTOMJS_KEY}.err" < /dev/null &
+  echo $! > "${CWD}/${PHANTOMJS_KEY}.pid"
 
-load:
-  - src/*.js
+  sleep 2
+  echo "Starting Tests"
+  $JAVA -jar "${JSTD_JAR}" \
+        --config "${LIB}/${JSTD_KEY}-$JSTD_VERSION.conf" \
+        --captureConsole \
+        --tests all \
+        --basePath "${CWD}/../" \
+        --server http://localhost:9876 $*
 
-test:
-  - tests/*.js
+  sleep 2
 
-timeout: 90
+  echo "Killing JSTD Server"
+  PID=`cat ${CWD}/${JSTD_KEY}.pid`
+  kill $PID
+  rm -f "${CWD}/${JSTD_KEY}.out" "${CWD}/${JSTD_KEY}.err" "${CWD}/${JSTD_KEY}.pid"
 
-#plugin:
-# - name: 'coverage'
-#   jar: '$ROOTDIR/lib/coverage-$JSTD_VERSION.jar'
-#   module: 'com.google.jstestdriver.coverage.CoverageModule'
+  echo "Killing PhantomJS"
+  PID=`cat ${CWD}/${PHANTOMJS_KEY}.pid`
+  kill $PID
+  rm -f "${CWD}/${PHANTOMJS_KEY}.out" "${CWD}/${PHANTOMJS_KEY}.err" "${CWD}/${PHANTOMJS_KEY}.pid"
+}
 
-" > "$ROOTDIR/lib/JsTestDriver-$JSTD_VERSION.conf"
-#fi
+#
+# The main function.
+#
+function main() {
+  download
+  config
+  run
+}
 
-echo "Starting JSTD Server"
-nohup java -jar $ROOTDIR/lib/JsTestDriver-$JSTD_VERSION.jar --port 9876 > $ROOTDIR/jstd.out 2> $ROOTDIR/jstd.err < /dev/null &
-echo $! > $ROOTDIR/jstd.pid
-
-echo "Starting PhantomJS"
-nohup $ROOTDIR/lib/phantomjs/bin/phantomjs $ROOTDIR/lib/phantomjs/phantomjs-jstd.js > $ROOTDIR/phantomjs.out 2> $ROOTDIR/phantomjs.err < /dev/null &
-echo $! > $ROOTDIR/phantomjs.pid
-
-
-sleep 2
-echo "Starting Tests"
-java -jar $ROOTDIR/lib/JsTestDriver-1.3.5.jar \
-     --config $ROOTDIR/lib/JsTestDriver-$JSTD_VERSION.conf \
-     --captureConsole \
-     --tests all \
-     --basePath "$ROOTDIR/../" \
-     --server http://localhost:9876 $*
-
-sleep 2
-
-echo "Killing JSTD Server"
-PID=`cat $ROOTDIR/jstd.pid`
-kill $PID
-rm -f $ROOTDIR/jstd.out $ROOTDIR/jstd.err $ROOTDIR/jstd.pid
-
-echo "Killing PhantomJS"
-PID=`cat $ROOTDIR/phantomjs.pid`
-kill $PID
-rm -f $ROOTDIR/phantomjs.out $ROOTDIR/phantomjs.err $ROOTDIR/phantomjs.pid
-
-# TODO (alex): Parse test results and exit with 1 or 0.
-exit 0
+main "$@"
