@@ -30,11 +30,11 @@ readonly NEW_LINE=$'\n'
 # Downloads closure compiler.
 #
 function download() {
-  if [ ! -f "${JS_COMPILER_JAR}" ]; then
+  if [[ ! -f "${JS_COMPILER_JAR}" ]]; then
     echo "Downloading closure compiler:"
     mkdir -p "${LIB}"
     rm -rf "${TMP}" && mkdir "${TMP}" && cd "${TMP}"
-    if [ -n "$WGET" ]; then
+    if [[ -n "$WGET" ]]; then
       $WGET "${JS_COMPILER_URL}" -O "${TMP}/${JS_COMPILER_ZIP}"
     else
       $CURL "${JS_COMPILER_URL}" > "${TMP}/${JS_COMPILER_ZIP}"

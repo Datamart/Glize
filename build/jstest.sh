@@ -32,9 +32,9 @@ readonly PHANTOMJS_LINUX64_URL="${PHANTOMJS_URL}/${PHANTOMJS_KEY}-${PHANTOMJS_VE
 function download() {
   mkdir -p "${LIB}"
 
-  if [ ! -f "${LIB}/${JSTD_KEY}-$JSTD_VERSION.jar" ]; then
+  if [[ ! -f "${LIB}/${JSTD_KEY}-$JSTD_VERSION.jar" ]]; then
     echo "Downloading ${JSTD_KEY}:"
-    if [ -n "$WGET" ]; then
+    if [[ -n "$WGET" ]]; then
       $WGET "${JSTD_URL}" -O "${JSTD_JAR}"
     else
       $CURL "${JSTD_URL}" > "${JSTD_JAR}"
@@ -42,11 +42,11 @@ function download() {
     echo "Done"
   fi
 
-  if [ ! -d "${LIB}/${PHANTOMJS_KEY}" ]; then
+  if [[ ! -d "${LIB}/${PHANTOMJS_KEY}" ]]; then
     mkdir -p "${PHANTOMJS_LIB}"
     echo "Downloading ${PHANTOMJS_KEY}:"
-    if [ `uname` == "Darwin" ]; then
-      if [ -n "$WGET" ]; then
+    if [[ `uname` == "Darwin" ]]; then
+      if [[ -n "$WGET" ]]; then
         $WGET "${PHANTOMJS_MACOS_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
       else
         $CURL "${PHANTOMJS_MACOS_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
@@ -55,14 +55,14 @@ function download() {
       echo -n "Extracting ${PHANTOMJS_KEY}: "
       $UNZIP -q "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip" -d "${PHANTOMJS_LIB}"
     else
-      if [ `uname -m` == "x86_64" ]; then
-        if [ -n "$WGET" ]; then
+      if [[ `uname -m` == "x86_64" ]]; then
+        if [[ -n "$WGET" ]]; then
           $WGET "${PHANTOMJS_LINUX64_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
         else
           $CURL "${PHANTOMJS_LINUX64_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
         fi
       else
-        if [ -n "$WGET" ]; then
+        if [[ -n "$WGET" ]]; then
           $WGET "${PHANTOMJS_LINUX_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
         else
           $CURL "${PHANTOMJS_LINUX_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"

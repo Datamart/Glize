@@ -22,11 +22,11 @@ readonly CUSTOM_TAGS="version,example,static,namespace,requires,event"
 # Downloads closure linter
 #
 function download() {
-  if [ ! -e "`which gjslint`" ]; then
+  if [[ ! -e "`which gjslint`" ]]; then
     echo "Downloading closure linter:"
     mkdir -p "${LIB}"
     rm -rf "${TMP}" && mkdir "${TMP}" && cd "${TMP}"
-    if [ -n "$WGET" ]; then
+    if [[ -n "$WGET" ]]; then
       $WGET "${JS_LINTER_URL}" -O "${TMP}/${JS_LINTER_ZIP}"
     else
       $CURL "${JS_LINTER_URL}" > "${TMP}/${JS_LINTER_ZIP}"

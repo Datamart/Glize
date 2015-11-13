@@ -1,41 +1,54 @@
-#!/usr/bin/env bash
+#!/bin/bash
+#
+# Guide: https://google.github.io/styleguide/shell.xml
+# Link: https://github.com/jsdoc3/jsdoc
+# Link: https://code.google.com/p/jsdoc-toolkit/wiki/CommandlineOptions
 
-# https://github.com/jsdoc3/jsdoc
-# https://code.google.com/p/jsdoc-toolkit/wiki/CommandlineOptions
-# http://google.github.io/styleguide/shell.xml
+readonly CWD=$(cd $(dirname $0); pwd)
+readonly LIB="${CWD}/lib"
+readonly SRC="${CWD}/../src"
+readonly DOCS="${CWD}/../docs"
 
-echo -n "Running jsdoc. "
-JSDOC_PATH="./lib/jsdoc-master/jsdoc"
-OUTPUT_PATH="./jsdoc-master.zip"
-TEMPLATE="./lib/jsdoc-master/templates/haruki"
-CSS_PATH="./lib/jsdoc-master/templates/default/static/styles/jsdoc-default.css"
-SRC_PATH="../src"
-DOC_PATH="../docs"
-CONF_PATH="./jsdoc.json"
-DOWNLOAD_URL=https://codeload.github.com/jsdoc3/jsdoc/zip/master
-WGET="`which wget`"
-CURL="`which curl`"
-LOGO=".page-title {
-        background: url(http://datamart.github.io/Glize/images/glize-logo.png)
-        no-repeat left center/48px;
-        padding-left: 55px;}"
+readonly JSDOC_BIN="${LIB}/node_modules/jsdoc/jsdoc.js"
+readonly JSDOC_CSS="${LIB}/node_modules/jsdoc/templates/default/static/styles/jsdoc-default.css"
+readonly JSDOC_CFG="${CWD}/jsdoc.json"
+readonly JSDOC_LOGO=".page-title {
+  background: url(https://datamart.github.io/Glize/images/glize-logo.png) no-repeat left center/48px;
+  padding-left: 55px;
+}"
 
 
-if [ ! -f "${JSDOC_PATH}" ]; then
-    mkdir -p lib
-    rm -rf tmp && mkdir tmp && cd tmp
-    if [ -n "$WGET" ]; then
-        $WGET "${DOWNLOAD_URL}" -O "${OUTPUT_PATH}"
-    else
-        $CURL "${DOWNLOAD_URL}" > "${OUTPUT_PATH}"
-    fi
-    unzip "${OUTPUT_PATH}" -d ../lib
-    echo ${LOGO} >> ${CSS_PATH}
-    cd ../ && rm -rf tmp
-fi
+#
+# Downloads jsdoc
+#
+function download() {
+  if [[ ! -f "${JSDOC_BIN}" ]]; then
+    echo "Installing jsdoc:"
+    mkdir -p "${LIB}"
+    cd "${LIB}"
+    npm install jsdoc bluebird
+    echo ${JSDOC_LOGO} >> ${JSDOC_CSS}
+    cd "${CWD}"
+    echo "Done"
+  fi
+}
 
-rm -rf ${DOC_PATH} && mkdir ${DOC_PATH}
+#
+# Runs jsdoc.
+#
+function run() {
+  echo -n "Running jsdoc: "
+  rm -rf ${DOCS} && mkdir ${DOCS}
+  ${JSDOC_BIN} ${SRC} -r -c ${JSDOC_CFG} -d ${DOCS}
+  echo "Done"
+}
 
-${JSDOC_PATH} ${SRC_PATH} -r -c ${CONF_PATH} -d ${DOC_PATH}
+#
+# The main function.
+#
+function main() {
+  download
+  run
+}
 
-echo "Done"
+main "$@"
