@@ -22,12 +22,27 @@ readonly JSDOC_LOGO=".page-title {
 # Downloads jsdoc
 #
 function download() {
+  local NPM="${LIB}/npm"
+  if [[ ! -f "${NPM}" ]]; then
+    NPM="$(which npm)"
+  fi
+
   if [[ ! -f "${JSDOC_BIN}" ]]; then
     echo "Installing jsdoc:"
     mkdir -p "${LIB}"
     cd "${LIB}"
-    npm install jsdoc bluebird
-    echo ${JSDOC_LOGO} >> ${JSDOC_CSS}
+    if [[ ! -f "${NPM}" ]]; then
+      echo "Installing npm:"
+      if [[ `uname` == "Darwin" ]]; then
+        brew install npm
+      fi
+    fi
+
+    if [[ -f "${NPM}" ]]; then
+      $NPM install jsdoc bluebird
+      echo ${JSDOC_LOGO} >> ${JSDOC_CSS}
+    fi
+
     cd "${CWD}"
     echo "Done"
   fi
@@ -38,8 +53,10 @@ function download() {
 #
 function run() {
   echo -n "Running jsdoc: "
-  rm -rf ${DOCS} && mkdir ${DOCS}
-  ${JSDOC_BIN} ${SRC} -r -c ${JSDOC_CFG} -d ${DOCS}
+  if [[ -f "${JSDOC_BIN}" ]]; then
+    rm -rf ${DOCS} && mkdir ${DOCS}
+    ${JSDOC_BIN} ${SRC} -r -c ${JSDOC_CFG} -d ${DOCS}
+  fi
   echo "Done"
 }
 

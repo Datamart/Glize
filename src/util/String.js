@@ -63,5 +63,25 @@ util.String = {
   endsWith: function(str, suffix) {
     /** @type {number} */ var index = str.lastIndexOf(suffix);
     return index >= 0 && index === str.length - suffix.length;
+  },
+
+  /**
+   * Transforms the first character of each word to uppercase; other
+   * characters are unaffected..
+   * @param {string} str The string to be transformed.
+   * @return {string} Returns transformed string.
+   * @see http://www.w3.org/wiki/CSS/Properties/text-transform
+   */
+  capitalize: function(str) {
+    /** @type {!Array.<string>} */ var words = str.split(/\s+/);
+    /** @type {number} */ var length = words.length;
+    /** @type {number} */ var i = 0;
+    /** @type {string} */ var word;
+
+    for (; i < length; ++i) {
+      word = words[i];
+      words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+    }
+    return words.join(' ');
   }
 };

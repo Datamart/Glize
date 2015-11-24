@@ -23,3 +23,8 @@ util.StringTestCase.prototype.testPositions = function() {
   assertEquals(true, util.String.endsWith('test string', 'string'));
   assertEquals(false, util.String.endsWith('test strin', 'string'));
 };
+
+util.StringTestCase.prototype.testCapitalize = function() {
+  assertEquals('Test', util.String.capitalize('test'));
+  assertEquals('Test String', util.String.capitalize('test string'));
+};

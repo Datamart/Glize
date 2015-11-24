@@ -11,7 +11,7 @@ readonly CURL="`which curl`"
 readonly UNZIP="`which unzip`"
 readonly TAR="`which tar`"
 readonly NOHUP="`which nohup`"
-readonly JAVA="`which java`"
+# readonly JAVA="`which java`"
 
 readonly JSTD_VERSION="1.3.5"
 readonly JSTD_KEY="JsTestDriver"
@@ -37,7 +37,7 @@ function download() {
     if [[ -n "$WGET" ]]; then
       $WGET "${JSTD_URL}" -O "${JSTD_JAR}"
     else
-      $CURL "${JSTD_URL}" > "${JSTD_JAR}"
+      $CURL -L "${JSTD_URL}" > "${JSTD_JAR}"
     fi
     echo "Done"
   fi
@@ -49,7 +49,7 @@ function download() {
       if [[ -n "$WGET" ]]; then
         $WGET "${PHANTOMJS_MACOS_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
       else
-        $CURL "${PHANTOMJS_MACOS_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
+        $CURL -L "${PHANTOMJS_MACOS_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
       fi
       echo "Done"
       echo -n "Extracting ${PHANTOMJS_KEY}: "
@@ -59,13 +59,13 @@ function download() {
         if [[ -n "$WGET" ]]; then
           $WGET "${PHANTOMJS_LINUX64_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
         else
-          $CURL "${PHANTOMJS_LINUX64_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
+          $CURL -L "${PHANTOMJS_LINUX64_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
         fi
       else
         if [[ -n "$WGET" ]]; then
           $WGET "${PHANTOMJS_LINUX_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
         else
-          $CURL "${PHANTOMJS_LINUX_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
+          $CURL -L "${PHANTOMJS_LINUX_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
         fi
       fi
       echo "Done"
@@ -132,6 +132,11 @@ function config() {
 # Runs tests.
 #
 function run() {
+  local JAVA="${LIB}/java"
+  if [[ ! -f "${JAVA}" ]]; then
+    JAVA="$(which java)"
+  fi
+
   echo "Starting JSTD Server"
   $NOHUP $JAVA -jar "${LIB}/${JSTD_KEY}-$JSTD_VERSION.jar" \
                --port 9876 > "${CWD}/${JSTD_KEY}.out" 2> "${CWD}/${JSTD_KEY}.err" < /dev/null &

@@ -29,7 +29,7 @@ function download() {
     if [[ -n "$WGET" ]]; then
       $WGET "${JS_LINTER_URL}" -O "${TMP}/${JS_LINTER_ZIP}"
     else
-      $CURL "${JS_LINTER_URL}" > "${TMP}/${JS_LINTER_ZIP}"
+      $CURL -L "${JS_LINTER_URL}" > "${TMP}/${JS_LINTER_ZIP}"
     fi
     echo -n "Extracting closure linter: "
     unzip -q "${TMP}/${JS_LINTER_ZIP}" -d "${LIB}"
