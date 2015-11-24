@@ -6,12 +6,14 @@
 readonly CWD=$(cd $(dirname $0); pwd)
 readonly LIB="${CWD}/lib"
 
-readonly WGET="`which wget`"
-readonly CURL="`which curl`"
-readonly UNZIP="`which unzip`"
-readonly TAR="`which tar`"
-readonly NOHUP="`which nohup`"
-# readonly JAVA="`which java`"
+readonly WGET="$(which wget)"
+readonly CURL="$(which curl)"
+readonly UNZIP="$(which unzip)"
+readonly TAR="$(which tar)"
+readonly NOHUP="$(which nohup)"
+readonly JAVA="$(which java)"
+# Hot fix for clean installation of OS X El Capitan.
+readonly JAVA_OSX="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java"
 
 readonly JSTD_VERSION="1.3.5"
 readonly JSTD_KEY="JsTestDriver"
@@ -132,13 +134,13 @@ function config() {
 # Runs tests.
 #
 function run() {
-  local JAVA="${LIB}/java"
-  if [[ ! -f "${JAVA}" ]]; then
-    JAVA="$(which java)"
+  local JAVA_BIN="${JAVA}"
+  if [[ -f "${JAVA_OSX}" ]]; then
+    JAVA_BIN="${JAVA_OSX}"
   fi
 
   echo "Starting JSTD Server"
-  $NOHUP $JAVA -jar "${LIB}/${JSTD_KEY}-$JSTD_VERSION.jar" \
+  $NOHUP "${JAVA_BIN}" -jar "${LIB}/${JSTD_KEY}-$JSTD_VERSION.jar" \
                --port 9876 > "${CWD}/${JSTD_KEY}.out" 2> "${CWD}/${JSTD_KEY}.err" < /dev/null &
   echo $! > "${CWD}/${JSTD_KEY}.pid"
 
@@ -148,7 +150,7 @@ function run() {
 
   sleep 2
   echo "Starting Tests"
-  $JAVA -jar "${JSTD_JAR}" \
+  "${JAVA_BIN}" -jar "${JSTD_JAR}" \
         --config "${LIB}/${JSTD_KEY}-$JSTD_VERSION.conf" \
         --captureConsole \
         --tests all \
