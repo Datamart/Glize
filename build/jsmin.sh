@@ -1,5 +1,6 @@
 #!/bin/bash
 #
+# Downloads and runs Google closure compiler.
 # Guide: https://google.github.io/styleguide/shell.xml
 # Link: https://developers.google.com/closure/compiler/
 # Source: https://github.com/Datamart/Workspace/blob/master/build/jsmin.sh
@@ -8,6 +9,7 @@ readonly CWD=$(cd $(dirname $0); pwd)
 readonly LIB="${CWD}/lib"
 readonly TMP="${CWD}/tmp"
 
+# TODO(user): Replace to project related path.
 readonly JS_COMPILED="${CWD}/../bin/glize.js"
 readonly JS_SOURCES="${CWD}/../src"
 
@@ -18,12 +20,12 @@ readonly JS_COMPILER_JAR="${LIB}/compiler.jar"
 readonly WGET="$(which wget)"
 readonly CURL="$(which curl)"
 readonly PYTHON="$(which python)"
-# readonly JAVA="$(which java)"
+readonly JAVA="$(which java)"
 readonly UNZIP="$(which unzip)"
+# Hot fix for clean installation of OS X El Capitan.
+readonly JAVA_OSX="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java"
 
 readonly LICENSE="/* @license http://www.apache.org/licenses/LICENSE-2.0 */"
-
-# http://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html
 readonly NEW_LINE=$'\n'
 
 
@@ -40,6 +42,7 @@ function download() {
     else
       $CURL -L "${JS_COMPILER_URL}" > "${TMP}/${JS_COMPILER_ZIP}"
     fi
+    echo "Done"
 
     echo -n "Extracting closure compiler: "
     $UNZIP -q "${TMP}/${JS_COMPILER_ZIP}" -d "${LIB}"
@@ -54,24 +57,27 @@ function download() {
 #
 function run() {
   echo "Running closure compiler:"
-  local JAVA="${LIB}/java"
-  if [[ ! -f "${JAVA}" ]]; then
-    JAVA="$(which java)"
+  local JAVA_BIN="${JAVA}"
+  if [[ -f "${JAVA_OSX}" ]]; then
+    JAVA_BIN="${JAVA_OSX}"
   fi
 
-  rm -rf "${JS_COMPILED}" && touch "${JS_COMPILED}" && chmod 0666 "${JS_COMPILED}"
+  if [ -d "${JS_SOURCES}" ]; then
+    rm -rf "${JS_COMPILED}"
+    touch "${JS_COMPILED}" && chmod 0666 "${JS_COMPILED}"
 
-  $PYTHON -c "import sys;sys.argv.pop(0);print(' --js ' + ' --js '.join(sorted(sys.argv, cmp=lambda x,y: cmp(x.lower(), y.lower()))))" `find "${JS_SOURCES}" -name "*.js" -print` |
-      xargs $JAVA -jar "${JS_COMPILER_JAR}" \
-        --compilation_level ADVANCED_OPTIMIZATIONS \
-        --warning_level VERBOSE \
-        --charset UTF-8 \
-        --use_types_for_optimization \
-        --externs "${CWD}/externs.js" \
-        --js_output_file "${JS_COMPILED}"
+    $PYTHON -c "import sys;sys.argv.pop(0);print(' --js ' + ' --js '.join(sorted(sys.argv, cmp=lambda x,y: cmp(x.lower(), y.lower()))))" `find "${JS_SOURCES}" -name "*.js" -print` \
+      | xargs "${JAVA_BIN}" -jar "${JS_COMPILER_JAR}" \
+          --compilation_level ADVANCED_OPTIMIZATIONS \
+          --warning_level VERBOSE \
+          --charset UTF-8 \
+          --use_types_for_optimization \
+          --externs "${CWD}/externs.js" \
+          --js_output_file "${JS_COMPILED}"
 
-  echo "${LICENSE}${NEW_LINE}(function(){" | cat - $JS_COMPILED > /tmp/out && mv /tmp/out $JS_COMPILED
-  echo '})();' >> $JS_COMPILED
+    echo "${LICENSE}${NEW_LINE}(function(){" | cat - $JS_COMPILED > /tmp/out && mv /tmp/out $JS_COMPILED
+    echo '})();' >> $JS_COMPILED
+  fi
 
   echo "Done"
 }
