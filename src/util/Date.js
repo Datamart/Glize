@@ -104,25 +104,11 @@ util.Date = {
    */
   getWeekNumber: function(opt_date) {
     opt_date = opt_date || util.Date.getDate();
+    opt_date.setHours(0, 0, 0, 0);
+    opt_date.setDate(opt_date.getDate() + 3 - (opt_date.getDay() + 6) % 7);
     /** @type {!Date} */ var jan4 = new Date(opt_date.getFullYear(), 0, 4);
-    opt_date.setDate(opt_date.getDate() - ((opt_date.getDay() + 6) % 7) + 3);
-
-    // var s = 24 * 60 * 60 * 1000;
-    // var s = 86400000;
-    // var s = 864e5;
-
-    // var d = (opt_date - jan4) / 864e5 / 7;
-    // var n = Math.ceil(d);
-    // var w =  1 + n;
-    //
-    // var d = (opt_date - jan4) / 864e5 / 7;
-    // var n = 1 + ~~d;
-    // var w = 1 + n;
-    //
-    // var d = (opt_date - jan4) / 864e5 / 7;
-    // var w = 1 + 1 + ~~d;
-
-    return 2 + ~~((opt_date - jan4) / 864e5 / 7);
+    /** @type {number} */ var diff = opt_date - jan4;
+    return 1 + Math.round((diff / 864e5 - 3 + (jan4.getDay() + 6) % 7) / 7);
   },
 
   /**
