@@ -66,13 +66,12 @@ dom.Template = function() {
     /** @type {string} */ var key;
     /** @type {Array} */ var matches;
     /** @type {string} */ var match;
-    /** @type {string} */ var name;
     /** @type {!RegExp} */ var re;
 
     for (key in values) {
-      name = ((opt_prefix ? opt_prefix + '.' : '') + key).replace('.', '\\.');
       value = values[key];
-      re = new RegExp('{{ ' + name + '(\\|\\w+)? }}', 'img');
+      key = ((opt_prefix ? opt_prefix + '.' : '') + key);
+      re = new RegExp('{{ ' + key.replace('.', '\\.') + '(\\|\\w+)? }}', 'img');
       if (util.Array.isArray(value)) {
         value = value.join(', ');
         if (value) content = content.replace(re, value);
