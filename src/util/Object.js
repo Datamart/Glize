@@ -82,6 +82,42 @@ util.Object = {
   },
 
   /**
+   * Flattens the object.
+   * @param {!Object} obj The target object.
+   * @param {string=} opt_delimiter The optional delimiter.
+   * @return {!Object} Return an object one level deep.
+   */
+  flatten: function(obj, opt_delimiter) {
+    /** @type {!Object} */ var result = {};
+    /** @type {string|number} */ var key;
+    opt_delimiter = opt_delimiter || '.';
+
+    /**
+     * @param {!Object} target The target object.
+     * @param {string=} opt_prefix The optional key prefix.
+     */
+    function flatten_(target, opt_prefix) {
+      for (key in target) {
+        var value = target[key];
+        var name = opt_prefix ? opt_prefix + opt_delimiter + key : key;
+
+        if (util.Object.isObject(value)) {
+          flatten_(value, name);
+        } else {
+          result[name] = value;
+        }
+      }
+    }
+
+    flatten_(obj);
+    return result;
+  },
+
+  isObject: function(obj) {
+    return '[object Object]' == Object.prototype.toString.call(obj);
+  },
+
+  /**
    * Returns a string representation of <code>obj</code> object.
    * @param {!Object} obj The representing object.
    * @return {string} Returns a string representing object.
