@@ -34,7 +34,7 @@ util.Array = {
 
     /** @type {!Array} */ var list = util.Array.toArray(obj);
     /** @type {number} */ var length = list.length;
-    /** @type {function(*, number=):number} */ var fn = list['indexOf'];
+    /** @type {function(*, number=):number} */ var fn = list.indexOf;
     /** @type {number} */ var result = fn ?
         fn.call(list, element, opt_fromIndex) : -1;
 
@@ -75,7 +75,7 @@ util.Array = {
     /** @type {number} */ var length = list.length;
     /** @type {number} */ var i = 0;
     /** @type {number} */ var j = 0;
-    /** @type {function(Function, Object=):!Array} */ var fn = list['filter'];
+    /** @type {function(Function, Object=):!Array} */ var fn = list.filter;
     /** @type {!Array} */ var result = fn ?
         fn.call(list, callback, opt_context) : [];
     /** @type {*} */ var element;
@@ -105,7 +105,7 @@ util.Array = {
     /** @type {!Array} */ var list = util.Array.toArray(obj);
     /** @type {number} */ var length = list.length;
     /** @type {number} */ var i = 0;
-    /** @type {function(Function, Object=):!Array} */ var fn = list['map'];
+    /** @type {function(Function, Object=):!Array} */ var fn = list.map;
     /** @type {!Array} */ var result = fn ?
         fn.call(list, callback, opt_context) : new Array(length);
 
@@ -129,7 +129,7 @@ util.Array = {
     /** @type {!Array} */ var list = util.Array.toArray(obj);
     /** @type {number} */ var length = list.length;
     /** @type {number} */ var i = 0;
-    /** @type {function(Function, Object=)} */ var fn = list['forEach'];
+    /** @type {function(Function, Object=)} */ var fn = list.forEach;
 
     if (fn) {
       fn.call(list, callback, opt_context);
@@ -155,7 +155,7 @@ util.Array = {
     /** @type {!Array} */ var list = util.Array.toArray(obj);
     /** @type {number} */ var length = list.length;
     /** @type {number} */ var i = arguments.length > 2 ? 0 : 1;
-    /** @type {function(Function, *=):*} */ var fn = list['reduce'];
+    /** @type {function(Function, *=):*} */ var fn = list.reduce;
 
     if (fn) {
       opt_initial = fn.call(list, callback, opt_initial);
