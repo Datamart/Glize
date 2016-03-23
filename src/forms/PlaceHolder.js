@@ -23,8 +23,9 @@ forms.PlaceHolder = function() {
    */
   this.init = function(container) {
     if (!forms.hasFeature(forms.FEATURES.PLACEHOLDER)) {
-      for (/** @type {number} */ var i = 0; i < forms.TAGS.length;) {
-        initPlaceHolder_(dom.getElementsByTagName(container, forms.TAGS[i++]));
+      /** @type {number} */ var len = forms.TAGS.length;
+      for (; len--;) {
+        initPlaceHolder_(dom.getElementsByTagName(container, forms.TAGS[len]));
       }
     }
   };
@@ -35,8 +36,11 @@ forms.PlaceHolder = function() {
    * @private
    */
   function initPlaceHolder_(elements) {
-    for (/** @type {number} */ var i = 0; i < elements.length;) {
-      /** @type {Node|Element} */ var element = elements[i++];
+    /** @type {number} */ var len = elements.length;
+    /** @type {Node|Element} */ var element;
+
+    for (; len--;) {
+      element = elements[len];
 
       if (element.getAttribute(attribute_)) {
         dom.events.addEventListener(
@@ -50,7 +54,7 @@ forms.PlaceHolder = function() {
   }
 
   /**
-   * @param {Event|Object} e Event.
+   * @param {Event|Object} e The blur or focus event object.
    * @private
    */
   function handleEvent_(e) {
@@ -58,10 +62,11 @@ forms.PlaceHolder = function() {
     /** @type {EventTarget} */ var element = dom.events.getEventTarget(e);
     /** @type {string} */ var type = e.type;
     /** @type {string} */ var value = element.value;
+    /** @type {string} */ var placeholder;
 
     if (element) {
       dom.css.removeClass(/** @type {Node} */ (element), attribute_);
-      /** @type {string} */ var placeholder = element.getAttribute(attribute_);
+      placeholder = element.getAttribute(attribute_);
       if (dom.events.TYPE.FOCUS == type && placeholder == value) {
         element.value = '';
       } else if (dom.events.TYPE.BLUR == type && '' == value) {
