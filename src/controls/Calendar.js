@@ -125,7 +125,7 @@ controls.Calendar = function(container, opt_options) {
    * @param {!function(Element)} callback Iterator callback function.
    */
   this.each = function(callback) {
-    /** @type {Array|NodeList} */
+    /** @type {!Array|NodeList} */
     var cells = dom.getElementsByTagName(getTable_(), 'TD') || [];
     /** @type {number} */ var i = 0;
 
