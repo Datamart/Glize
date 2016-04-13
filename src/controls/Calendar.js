@@ -202,8 +202,9 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function initEvents_(table) {
-    /** @type {!HTMLCollection} */ var headers = table.rows[0].cells;
-    /** @type {Array.<Node>} */ var cells = [
+    /** @type {HTMLCollection.<!HTMLTableCellElement>} */
+    var headers = table.rows[0].cells;
+    /** @type {!Array.<Node>} */ var cells = [
       headers[0],
       headers[headers.length - 1]
     ];
