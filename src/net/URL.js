@@ -75,3 +75,52 @@ net.URL_ = function(url) {
  */
 net.URL = net.NATIVE_URL_ || net.URL_;
 
+
+/**
+ * Resolves relative URL to absolute.
+ * @param {string} url Relative URL.
+ * @param {string=} opt_base Optional base URL.
+ * @return {string} Returns absolute URL.
+ * @static
+ */
+net.toAbsolute = function(url, opt_base) {
+  opt_base = (opt_base || location.href).split('?')[0].split('#')[0];
+
+  if (url) {
+    if (/^https?:\/\//.test(url)) {
+      return url; // The URL is already absolute.
+    }
+
+    if (/^\/\//.test(url)) {
+      return 'http:' + url;  // The URL is already absolute.
+    }
+
+    if (/^(data|javascript|mailto|sms|tel|)\:/.test(url)) {
+      return url;
+    }
+
+    /** @type {!net.URL} */ var obj = new net.URL(opt_base);
+    /** @type {!Array.<string>} */ var parts = url.split('/');
+    /** @type {number} */ var length = parts.length;
+    /** @type {number} */ var i = 0;
+    /** @type {!Array.<string>} */ var base = [];
+
+    if (!/^\//.test(url)) {
+      base = obj['pathname'].split('/');
+      base.pop();
+    }
+
+    for (; i < length; i++) {
+      if ('.' != parts[i]) {
+        if ('..' == parts[i]) {
+          if ('undefined' == typeof base.pop())
+            return dom.NULL;
+        } else {
+          base.push(parts[i]);
+        }
+      }
+    }
+    return obj['origin'] + ('/' + base.join('/')).replace('//', '/');
+  }
+  return dom.NULL;
+};

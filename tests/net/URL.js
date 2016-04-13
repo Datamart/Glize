@@ -22,3 +22,19 @@ net.URLTestCase.prototype.testURL = function() {
   assertEquals('#e=f', url.hash);
   assertEquals(str, url.toString());
 };
+
+net.URLTestCase.prototype.testToAbsolute = function() {
+  var data = [
+    ['http://base.com/mypage1.html', 'mypage1.html', 'http://base.com'],
+    ['http://base.com/mypage2.html', './mypage2.html', 'http://base.com'],
+    ['http://base.com/mypage3.html', '../mypage3.html', 'http://base.com/dir'],
+    ['http://base.com/dir1/mypage4.html', '../dir1/mypage4.html', 'http://base.com/dir1'],
+    ['http://base.com/dir1/mypage5.html', '/dir1/mypage5.html', 'http://base.com/dir1'],
+    [null, '../../dir1/mypage6.html', 'http://base.com/dir1']
+  ];
+
+  for (var i = 0; i < data.length; i++) {
+    var params = data[i];
+    assertEquals(params[0], net.toAbsolute(params[1], params[2]));
+  }
+};
