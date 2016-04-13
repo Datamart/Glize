@@ -12,29 +12,29 @@ formatters.NumberFormatterTestCase = TestCase('NumberFormatterTestCase');
 
 formatters.NumberFormatterTestCase.prototype.testFormat = function() {
   var formatter = new formatters.NumberFormatter();
-  assertEquals(formatter.format(100), '100');
-  assertEquals(formatter.format(1000), '1,000');
-  assertEquals(formatter.format(1500), '1,500');
-  assertEquals(formatter.format(10000), '10,000');
-  assertEquals(formatter.format(1e6), '1,000,000');
+  assertEquals(formatter.formatNumber(100), '100');
+  assertEquals(formatter.formatNumber(1000), '1,000');
+  assertEquals(formatter.formatNumber(1500), '1,500');
+  assertEquals(formatter.formatNumber(10000), '10,000');
+  assertEquals(formatter.formatNumber(1e6), '1,000,000');
 
   var formatter = new formatters.NumberFormatter({'prefix': '$'});
-  assertEquals(formatter.format(100), '$100');
-  assertEquals(formatter.format(1e6), '$1,000,000');
+  assertEquals(formatter.formatNumber(100), '$100');
+  assertEquals(formatter.formatNumber(1e6), '$1,000,000');
 };
 
 
 formatters.NumberFormatterTestCase.prototype.testRound = function() {
   var formatter = new formatters.NumberFormatter();
-  assertEquals(formatter.round(100), '100');
-  assertEquals(formatter.round(1000), '1k');
-  assertEquals(formatter.round(1500), '1.50k');
-  assertEquals(formatter.round(10000), '10k');
-  assertEquals(formatter.round(1e6), '1m');
+  assertEquals(formatter.roundNumber(100), '100');
+  assertEquals(formatter.roundNumber(1000), '1k');
+  assertEquals(formatter.roundNumber(1500), '1.50k');
+  assertEquals(formatter.roundNumber(10000), '10k');
+  assertEquals(formatter.roundNumber(1e6), '1m');
 
   var formatter = new formatters.NumberFormatter({'prefix': '$'});
-  assertEquals(formatter.round(100), '$100');
-  assertEquals(formatter.round(1e6), '$1m');
+  assertEquals(formatter.roundNumber(100), '$100');
+  assertEquals(formatter.roundNumber(1e6), '$1m');
 };
 
 

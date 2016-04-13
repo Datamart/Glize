@@ -140,7 +140,7 @@ controls.Calendar = function(container, opt_options) {
   this.clear = function() {
     selected_ = [];
     /** @type {string} */
-    var now = formatter_.format(util.Date.getDate(), 'YYYY-MM-dd');
+    var now = formatter_.formatDate(util.Date.getDate(), 'YYYY-MM-dd');
     /** @type {string} */ var cellDate;
 
     self_.each(function(cell) {
@@ -233,7 +233,7 @@ controls.Calendar = function(container, opt_options) {
 
 
     if (!isNaN(+target.innerHTML)) {
-      /** @type {Date} */ var selected = formatter_.parse(
+      /** @type {Date} */ var selected = formatter_.parseDate(
           target.getAttribute('value'), opt_options['format']);
       /** @type {number} */ var index;
       /** @type {Date} */ var start;
@@ -298,7 +298,7 @@ controls.Calendar = function(container, opt_options) {
       /** @type {number} */
       var day = ((i - fix >= 0) && (i - fix < dim[month])) ? i - fix + 1 : 0;
       /** @type {string} */
-      var value = !day ? '' : formatter_.format(
+      var value = !day ? '' : formatter_.formatDate(
           new util.Date.DateTime(year, month, day), opt_options['format']);
 
       /** @type {string} */ var className = getCellCssClass_(date, now, day);

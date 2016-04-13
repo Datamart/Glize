@@ -70,11 +70,11 @@ controls.html5.InputDate = function(input) {
   function change_(e) {
     /** @type {string} */ var format = picker_.getFormat();
     /** @type {Date} */
-    var value = formatters.DateFormatter.parse(input_.value, format);
+    var value = formatters.DateFormatter.parseDate(input_.value, format);
     if (value) {
       if (max_) {
         /** @type {Date} */
-        var max = formatters.DateFormatter.parse(max_, format);
+        var max = formatters.DateFormatter.parseDate(max_, format);
         if (value > max) {
           value = max;
         }
@@ -82,13 +82,13 @@ controls.html5.InputDate = function(input) {
 
       if (min_) {
         /** @type {Date} */
-        var min = formatters.DateFormatter.parse(min_, format);
+        var min = formatters.DateFormatter.parseDate(min_, format);
         if (value < min) {
           value = min;
         }
       }
 
-      input_.value = formatters.DateFormatter.format(value, format);
+      input_.value = formatters.DateFormatter.formatDate(value, format);
     }
   }
 

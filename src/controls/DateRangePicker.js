@@ -32,9 +32,9 @@ controls.DateRangePicker = function(opt_options) {
       /** @type {Date} */ var start = dates[0];
       /** @type {Date} */ var end = dates[length - 1];
       self_.setValue(
-          formatters.DateFormatter.format(start, format) +
+          formatters.DateFormatter.formatDate(start, format) +
           opt_options['separator'] +
-          formatters.DateFormatter.format(end, format));
+          formatters.DateFormatter.formatDate(end, format));
 
       setTimeout(self_.hide, opt_options['timeout']);
     }
@@ -51,8 +51,8 @@ controls.DateRangePicker = function(opt_options) {
     /** @type {number} */ var length = value.length;
     if (length == 2) {
       /** @type {string} */ var format = self_.getFormat();
-      start = formatters.DateFormatter.parse(value[0], format);
-      end = formatters.DateFormatter.parse(value[length - 1], format);
+      start = formatters.DateFormatter.parseDate(value[0], format);
+      end = formatters.DateFormatter.parseDate(value[length - 1], format);
     }
 
     while (start <= end) {

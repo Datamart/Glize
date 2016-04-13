@@ -14,8 +14,8 @@ formatters.BytesFormatterTestCase = TestCase('BytesFormatterTestCase');
 formatters.BytesFormatterTestCase.prototype.testFormat = function() {
 
   var formatter = new formatters.BytesFormatter;
-  assertEquals('1000 bytes', formatter.format(1000));
-  assertEquals('1.00 KB', formatter.format(1024));
-  assertEquals('976.56 KB', formatter.format(1e6));
-  assertEquals('1.91 MB', formatter.format(2e6));
+  assertEquals('1000 bytes', formatter.formatBytes(1000));
+  assertEquals('1.00 KB', formatter.formatBytes(1024));
+  assertEquals('976.56 KB', formatter.formatBytes(1e6));
+  assertEquals('1.91 MB', formatter.formatBytes(2e6));
 };

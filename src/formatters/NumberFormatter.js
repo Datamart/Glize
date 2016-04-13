@@ -25,17 +25,17 @@ formatters.NumberFormatter = function(opt_options) {
    * @return {string} The formatted number string.
    * @example
    * var formatter = new formatters.NumberFormatter();
-   * formatter.format(100);   // 100
-   * formatter.format(1000);  // 1,000
-   * formatter.format(1500);  // 1,500
-   * formatter.format(10000); // 10,000
-   * formatter.format(1e6);   // 1,000,000
+   * formatter.formatNumber(100);   // 100
+   * formatter.formatNumber(1000);  // 1,000
+   * formatter.formatNumber(1500);  // 1,500
+   * formatter.formatNumber(10000); // 10,000
+   * formatter.formatNumber(1e6);   // 1,000,000
    * var options = {'prefix': '$'};
    * var formatter = new formatters.NumberFormatter(options);
-   * formatter.format(100);   // $100
-   * formatter.format(1e6);   // $1,000,000
+   * formatter.formatNumber(100);   // $100
+   * formatter.formatNumber(1e6);   // $1,000,000
    */
-  this.format = function(number) {
+  this.formatNumber = function(number) {
     /** @type {!Object.<string, *>} */ var options = getOptions_();
 
     /** @type {Array.<string>} */
@@ -50,22 +50,27 @@ formatters.NumberFormatter = function(opt_options) {
   };
 
   /**
+   * @deprecated Use `formatNumber` instead.
+   */
+  this.format = this.formatNumber;
+
+  /**
    * Rounds given number.
    * @param {number} number The number to be rounded.
    * @return {string} The rounded number string.
    * @example
    * var formatter = new formatters.NumberFormatter();
-   * formatter.round(100);   // 100
-   * formatter.round(1000);  // 1k
-   * formatter.round(1500);  // 1.5k
-   * formatter.round(10000); // 10k
-   * formatter.round(1e6);   // 10m
+   * formatter.roundNumber(100);   // 100
+   * formatter.roundNumber(1000);  // 1k
+   * formatter.roundNumber(1500);  // 1.5k
+   * formatter.roundNumber(10000); // 10k
+   * formatter.roundNumber(1e6);   // 10m
    * var options = {'prefix': '$'};
    * var formatter = new formatters.NumberFormatter(options);
-   * formatter.round(100);   // $100
-   * formatter.round(1e6);   // $10m
+   * formatter.roundNumber(100);   // $100
+   * formatter.roundNumber(1e6);   // $10m
    */
-  this.round = function(number) {
+  this.roundNumber = function(number) {
     // parseInt(number, 10) == ~~number
     /** @type {!Object.<string, *>} */ var options = getOptions_();
     /** @type {number} */
@@ -84,6 +89,11 @@ formatters.NumberFormatter = function(opt_options) {
     var result = (a == b ? a : b) + ['', 'k', 'm', 'g', 't'][~~(base / 3)];
     return options['prefix'] + result + options['suffix'];
   };
+
+  /**
+   * @deprecated Use `roundNumber` instead.
+   */
+  this.round = this.roundNumber;
 
   /**
    * @param {number} number The number.

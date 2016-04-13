@@ -26,9 +26,9 @@ formatters.BytesFormatter = function() {
    * @return {string} The formatted bytes as string.
    * @example
    * var formatter = new formatters.BytesFormatter();
-   * formatter.format(1024); // 1.0 Kb
+   * formatter.formatBytes(1024); // 1.0 Kb
    */
-  this.format = function(bytes) {
+  this.formatBytes = function(bytes) {
     /** @type {number} */ var i = 0;
     while (1023 < bytes) {
       bytes /= 1024;
@@ -36,6 +36,11 @@ formatters.BytesFormatter = function() {
     }
     return (i ? bytes.toFixed(2) : bytes) + ' ' + FORMATS[i];
   };
+
+  /**
+   * @deprecated Use `formatBytes` instead.
+   */
+  this.format = this.formatBytes;
 };
 
 
@@ -46,11 +51,17 @@ formatters.BytesFormatter = function() {
  * @static
  * @example
  * var formatter = new formatters.BytesFormatter();
- * formatter.format(1024); // 1.0 Kb
+ * formatter.formatBytes(1024); // 1.0 Kb
  */
-formatters.BytesFormatter.format = function(bytes) {
+formatters.BytesFormatter.formatBytes = function(bytes) {
   if (!formatters.BytesFormatter.formatter_) {
     formatters.BytesFormatter.formatter_ = new formatters.BytesFormatter;
   }
-  return formatters.BytesFormatter.formatter_.format(bytes);
+  return formatters.BytesFormatter.formatter_.formatBytes(bytes);
 };
+
+
+/**
+ * @deprecated Use `formatters.BytesFormatter.formatBytes` instead.
+ */
+formatters.BytesFormatter.format = formatters.BytesFormatter.formatBytes;

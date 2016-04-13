@@ -143,7 +143,7 @@ controls.DatePicker = function(opt_options) {
   this.getDates = function() {
     /** @type {string} */ var value = self_.getValue();
     return [value ?
-          formatter_.parse(value, self_.getFormat()) : util.Date.getDate()];
+          formatter_.parseDate(value, self_.getFormat()) : util.Date.getDate()];
   };
 
   /**
@@ -151,7 +151,8 @@ controls.DatePicker = function(opt_options) {
    * @protected
    */
   this.clickHandler = function() {
-    self_.setValue(formatter_.format(calendar_.getDate(), self_.getFormat()));
+    self_.setValue(
+        formatter_.formatDate(calendar_.getDate(), self_.getFormat()));
     self_.hide();
   };
 
