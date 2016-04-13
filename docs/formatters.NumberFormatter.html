@@ -200,6 +200,130 @@
     
 
     
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="format"><span class="type-signature"></span>format<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use `formatNumber` instead.</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_NumberFormatter.js.html">formatters/NumberFormatter.js</a>, <a href="formatters_NumberFormatter.js.html#line55">line 55</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="round"><span class="type-signature"></span>round<span class="type-signature"></span></h4>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <dt class="important tag-deprecated">Deprecated:</dt><dd><ul class="dummy"><li>Use `roundNumber` instead.</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_NumberFormatter.js.html">formatters/NumberFormatter.js</a>, <a href="formatters_NumberFormatter.js.html#line96">line 96</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -209,7 +333,7 @@
 
     
 
-    <h4 class="name" id="format"><span class="type-signature"></span>format<span class="signature">(number)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="formatNumber"><span class="type-signature"></span>formatNumber<span class="signature">(number)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -359,15 +483,15 @@
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>var formatter = new formatters.NumberFormatter();
-formatter.format(100);   // 100
-formatter.format(1000);  // 1,000
-formatter.format(1500);  // 1,500
-formatter.format(10000); // 10,000
-formatter.format(1e6);   // 1,000,000
+formatter.formatNumber(100);   // 100
+formatter.formatNumber(1000);  // 1,000
+formatter.formatNumber(1500);  // 1,500
+formatter.formatNumber(10000); // 10,000
+formatter.formatNumber(1e6);   // 1,000,000
 var options = {'prefix': '$'};
 var formatter = new formatters.NumberFormatter(options);
-formatter.format(100);   // $100
-formatter.format(1e6);   // $1,000,000</code></pre>
+formatter.formatNumber(100);   // $100
+formatter.formatNumber(1e6);   // $1,000,000</code></pre>
 
 
 
@@ -472,7 +596,7 @@ formatter.format(1e6);   // $1,000,000</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="formatters_NumberFormatter.js.html">formatters/NumberFormatter.js</a>, <a href="formatters_NumberFormatter.js.html#line92">line 92</a>
+        <a href="formatters_NumberFormatter.js.html">formatters/NumberFormatter.js</a>, <a href="formatters_NumberFormatter.js.html#line102">line 102</a>
     </li></ul></dd>
     
 
@@ -525,7 +649,7 @@ formatter.format(1e6);   // $1,000,000</code></pre>
 
     
 
-    <h4 class="name" id="round"><span class="type-signature"></span>round<span class="signature">(number)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id="roundNumber"><span class="type-signature"></span>roundNumber<span class="signature">(number)</span><span class="type-signature"> &rarr; {string}</span></h4>
 
     
 
@@ -625,7 +749,7 @@ formatter.format(1e6);   // $1,000,000</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="formatters_NumberFormatter.js.html">formatters/NumberFormatter.js</a>, <a href="formatters_NumberFormatter.js.html#line68">line 68</a>
+        <a href="formatters_NumberFormatter.js.html">formatters/NumberFormatter.js</a>, <a href="formatters_NumberFormatter.js.html#line73">line 73</a>
     </li></ul></dd>
     
 
@@ -675,15 +799,15 @@ formatter.format(1e6);   // $1,000,000</code></pre>
     <h5>Example</h5>
     
     <pre class="prettyprint"><code>var formatter = new formatters.NumberFormatter();
-formatter.round(100);   // 100
-formatter.round(1000);  // 1k
-formatter.round(1500);  // 1.5k
-formatter.round(10000); // 10k
-formatter.round(1e6);   // 10m
+formatter.roundNumber(100);   // 100
+formatter.roundNumber(1000);  // 1k
+formatter.roundNumber(1500);  // 1.5k
+formatter.roundNumber(10000); // 10k
+formatter.roundNumber(1e6);   // 10m
 var options = {'prefix': '$'};
 var formatter = new formatters.NumberFormatter(options);
-formatter.round(100);   // $100
-formatter.round(1e6);   // $10m</code></pre>
+formatter.roundNumber(100);   // $100
+formatter.roundNumber(1e6);   // $10m</code></pre>
 
 
 
@@ -709,7 +833,7 @@ formatter.round(1e6);   // $10m</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 13 2016 10:29:00 GMT+0300 (EEST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 13 2016 11:01:28 GMT+0300 (EEST)
 </footer>
 
 <script> prettyPrint(); </script>
