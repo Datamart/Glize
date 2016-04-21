@@ -30,7 +30,7 @@ dom.Template = function() {
    * var callback = function(content) {
    *   document.getElementById('div').innerHTML = content;
    * };
-   * var template = <b>new</b> dom.Template();
+   * var template = new dom.Template();
    * template.load('template.html', callback, values);
    */
   this.load = function(url, callback, values) {
