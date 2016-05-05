@@ -146,6 +146,37 @@ dom.getElementsByClassName = function(element, className) {
 
 
 /**
+ * Alias of W3C <code>element.querySelectorAll</code>.
+ * Used to reduce size after compilation.
+ * @param {!Element|Node} element Element to start searching.
+ * @param {string} selectors One or more CSS selectors separated by commas.
+ * @return {NodeList} Returns a list of the elements within the document that
+ *     match the specified group of selectors.
+ * @see https://www.w3.org/TR/selectors-api/#queryselectorall
+ * @static
+ */
+dom.querySelectorAll = function(element, selectors) {
+  return element && element.querySelectorAll(selectors);
+};
+
+
+/**
+ * Alias of W3C <code>element.querySelector</code>.
+ * Used to reduce size after compilation.
+ * @param {!Element|Node} element Element to start searching.
+ * @param {string} selectors One or more CSS selectors separated by commas.
+ * @return {Element} Returns the first element that is a descendant of the
+ *     element on which it is invoked that matches the specified group of
+ *     selectors.
+ * @see https://www.w3.org/TR/selectors-api/#queryselector
+ * @static
+ */
+dom.querySelector = function(element, selectors) {
+  return element && element.querySelector(selectors);
+};
+
+
+/**
  * Alias of W3C <code>element.getBoundingClientRect</code>.
  * Used to reduce size after compilation.
  * @param {!Element|Node} element Element for calculating bounding rect.
