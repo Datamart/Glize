@@ -42,7 +42,7 @@ controls.DatePicker = function(opt_options) {
 
   /**
    * <code>protected</code> Gets related HTML element.
-   * @return {Node} Returns related HTML element.
+   * @return {Element} Returns related HTML element.
    * @protected
    */
   this.getElement = function() {
@@ -62,7 +62,7 @@ controls.DatePicker = function(opt_options) {
 
   /**
    * Shows date picker control.
-   * @param {Node|Element} element The related element.
+   * @param {Element} element The related element.
    * @example
    * <input onclick="controls.DatePicker.show(this)"
    *        data-format="YYYY/MM/dd"
@@ -217,7 +217,7 @@ controls.DatePicker = function(opt_options) {
   var self_ = this;
 
   /**
-   * @type {Node}
+   * @type {Element}
    * @private
    */
   var element_ = dom.NULL;
@@ -240,7 +240,7 @@ controls.DatePicker = function(opt_options) {
 
 /**
  * Shows date picker control.
- * @param {Node} element The related element.
+ * @param {Element} element The related element.
  * @static
  */
 controls.DatePicker.show = function(element) {

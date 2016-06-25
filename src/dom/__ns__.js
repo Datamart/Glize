@@ -148,7 +148,7 @@ dom.getElementsByClassName = function(element, className) {
 /**
  * Alias of W3C <code>element.querySelectorAll</code>.
  * Used to reduce size after compilation.
- * @param {!Element|Node} element Element to start searching.
+ * @param {Element} element Element to start searching.
  * @param {string} selectors One or more CSS selectors separated by commas.
  * @return {NodeList} Returns a list of the elements within the document that
  *     match the specified group of selectors.
@@ -163,7 +163,7 @@ dom.querySelectorAll = function(element, selectors) {
 /**
  * Alias of W3C <code>element.querySelector</code>.
  * Used to reduce size after compilation.
- * @param {!Element|Node} element Element to start searching.
+ * @param {Element} element Element to start searching.
  * @param {string} selectors One or more CSS selectors separated by commas.
  * @return {Element} Returns the first element that is a descendant of the
  *     element on which it is invoked that matches the specified group of
@@ -179,23 +179,29 @@ dom.querySelector = function(element, selectors) {
 /**
  * Alias of W3C <code>element.getBoundingClientRect</code>.
  * Used to reduce size after compilation.
- * @param {!Element|Node} element Element for calculating bounding rect.
+ * @param {Element} element Element for calculating bounding rect.
  * @return {Object} Returns dict {top, left, width, height, right, bottom}.
+ * @static
  */
 dom.getBoundingClientRect = function(element) {
-  /** @type {Object|ClientRect} */
-  var rect = element.getBoundingClientRect && element.getBoundingClientRect();
-  if (!rect) {
-    rect = {'top': 0, 'left': 0, 'width': element.offsetWidth,
-      'height': element.offsetHeight};
-    while (element && !isNaN(element.offsetLeft) && !isNaN(element.offsetTop)) {
-      rect['left'] += element.offsetLeft - element.scrollLeft;
-      rect['top'] += element.offsetTop - element.scrollTop;
-      element = element.offsetParent;
+  /** @type {Object|ClientRect} */ var rect;
+
+  if (element) {
+    rect = element.getBoundingClientRect && element.getBoundingClientRect();
+    if (!rect) {
+      rect = {'top': 0, 'left': 0, 'width': element.offsetWidth,
+        'height': element.offsetHeight};
+      while (element && !isNaN(element.offsetLeft) &&
+             !isNaN(element.offsetTop)) {
+        rect['left'] += element.offsetLeft - element.scrollLeft;
+        rect['top'] += element.offsetTop - element.scrollTop;
+        element = element.offsetParent;
+      }
+      rect['right'] = rect['left'] + rect['width'];
+      rect['bottom'] = rect['top'] + rect['height'];
     }
-    rect['right'] = rect['left'] + rect['width'];
-    rect['bottom'] = rect['top'] + rect['height'];
   }
+
   return rect;
 };
 
@@ -206,6 +212,7 @@ dom.getBoundingClientRect = function(element) {
  * @param {!Element|Node} element Element for getting style.
  * @param {string} prop Style property name.
  * @return {string|number} Returns element style value.
+ * @static
  */
 dom.getComputedStyle = function(element, prop) {
   if (dom.context['getComputedStyle']) {
@@ -223,10 +230,11 @@ dom.getComputedStyle = function(element, prop) {
 
 /**
  * Clears element content.
- * @param {!Element|Node} element Element to clear.
+ * @param {!Node} element The element to clear.
+ * @static
  */
 dom.clearElement = function(element) {
-  switch (element.tagName.toUpperCase()) {
+  switch (element.nodeName.toUpperCase()) {
     case 'TABLE':
     case 'THEAD':
     case 'TBODY':
@@ -244,12 +252,26 @@ dom.clearElement = function(element) {
 
 
 /**
+ * Removes the object from the document hierarchy.
+ * @param {Node} element The element to remove.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Node/removeChild
+ * @see https://msdn.microsoft.com/en-us/library/ms536708%28v=vs.85%29.aspx
+ * @static
+ */
+dom.removeNode = function(element) {
+  element && element.parentNode && element.parentNode.removeChild(element);
+};
+
+
+/**
  * Alias of W3C <code>element.appendChild</code>.
  * Used to reduce size after compilation.
  * @param {Node} parent The parent element.
  * @param {Node} child The child element.
  * @return {Node} Returns a reference to the <code>child</code> that
  *     is appended to the parent.
+ * @static
  */
 dom.appendChild = function(parent, child) {
   return parent.appendChild(child);
