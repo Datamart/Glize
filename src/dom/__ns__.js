@@ -148,7 +148,7 @@ dom.getElementsByClassName = function(element, className) {
 /**
  * Alias of W3C <code>element.querySelectorAll</code>.
  * Used to reduce size after compilation.
- * @param {Element} element Element to start searching.
+ * @param {Element|DocumentFragment} element Element to start searching.
  * @param {string} selectors One or more CSS selectors separated by commas.
  * @return {NodeList} Returns a list of the elements within the document that
  *     match the specified group of selectors.
@@ -163,7 +163,7 @@ dom.querySelectorAll = function(element, selectors) {
 /**
  * Alias of W3C <code>element.querySelector</code>.
  * Used to reduce size after compilation.
- * @param {Element} element Element to start searching.
+ * @param {Element|DocumentFragment} element Element to start searching.
  * @param {string} selectors One or more CSS selectors separated by commas.
  * @return {Element} Returns the first element that is a descendant of the
  *     element on which it is invoked that matches the specified group of
@@ -230,23 +230,25 @@ dom.getComputedStyle = function(element, prop) {
 
 /**
  * Clears element content.
- * @param {!Node} element The element to clear.
+ * @param {Element} element The element to clear.
  * @static
  */
 dom.clearElement = function(element) {
-  switch (element.nodeName.toUpperCase()) {
-    case 'TABLE':
-    case 'THEAD':
-    case 'TBODY':
-    case 'TFOOT':
-    case 'TR':
-    case 'SELECT':
-      while (element.lastChild) {
-        element.removeChild(element.lastChild);
-      }
-      break;
-    default:
-      element.innerHTML = '';
+  if (element) {
+    switch (element.nodeName.toUpperCase()) {
+      case 'TABLE':
+      case 'THEAD':
+      case 'TBODY':
+      case 'TFOOT':
+      case 'TR':
+      case 'SELECT':
+        while (element.lastChild) {
+          element.removeChild(element.lastChild);
+        }
+        break;
+      default:
+        element.innerHTML = '';
+    }
   }
 };
 
@@ -565,4 +567,3 @@ dom.scripts.load = function(src, opt_callback) {
  * @private
  */
 dom.scripts.last_ = dom.scripts.getLast();
-
