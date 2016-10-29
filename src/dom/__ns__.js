@@ -463,7 +463,7 @@ dom.events.dispatchEvent = function(element, type) {
     evt = dom.document.createEvent('HTMLEvents');
     // initEvent(type, bubbling, cancelable)
     evt.initEvent(type, true, true);
-    result = !element.dispatchEvent(evt);
+    result = element.dispatchEvent(evt);
   } else if (dom.document.createEventObject) {
     evt = dom.document.createEventObject();
     try {
