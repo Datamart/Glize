@@ -13,6 +13,66 @@
  * @namespace
  */
 util.Object = {
+
+  /**
+   * Reference to <code>Object.prototype</code>.
+   * Used to reduce size after compilation.
+   * @const
+   */
+  PROTO: Object.prototype,
+
+  /**
+   * Copies the values of all enumerable own properties from one or more source
+   * objects to a target object.
+   * @param {Object} target The target object.
+   * @param {...Object} var_args The source object(s).
+   * @return {Object} Returns the target object.
+   * @see http://www.ecma-international.org/ecma-262/6.0/#sec-object.assign
+   */
+  assign: function(target, var_args) {
+    /** @type {Function} */ var fn = Object.assign;
+    /** @type {number} */ var i = 1;
+    /** @type {Object} */ var source;
+    /** @type {string} */ var key;
+
+    target = fn && fn.apply(null, arguments);
+
+    if (!fn) {
+      for (; i < arguments.length;) {
+        source = arguments[i++];
+        if (source) {
+          for (key in source) {
+            if (util.Object.PROTO.hasOwnProperty.call(source, key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+      }
+    }
+
+    return target;
+  },
+
+  /**
+   * Returns list of object keys.
+   * @param {!Object} obj Target Object.
+   * @return {!Array.<string>} List of target object keys.
+   * @see http://www.ecma-international.org/ecma-262/5.1/#sec-15.2.3.14
+   */
+  keys: function(obj) {
+    /** @type {Function} */ var fn = Object.keys;
+    /** @type {!Array.<string>} */ var keys = fn ? fn(obj) : [];
+    /** @type {string|number} */ var key;
+
+    if (!fn) {
+      for (key in obj) {
+        keys.push(key);
+      }
+    }
+
+    return keys;
+  },
+
   /**
    * Extends <code>target</code> with another object's properties.
    * @param {!Object} target The target object.
@@ -35,32 +95,12 @@ util.Object = {
           target[key] = util.Object.extend(
               /** @type {!Object} */ (target[key] || {}),
               /** @type {!Object} */ (value));
-        } else {
+        } else if (util.Object.PROTO.hasOwnProperty.call(source, key)) {
           target[key] = value;
         }
       }
     }
     return /** @type {!Object} */ (target);
-  },
-
-  /**
-   * Returns list of object keys.
-   * @param {!Object} obj Target Object.
-   * @return {!Array.<string>} List of target object keys.
-   * @see http://www.ecma-international.org/ecma-262/5.1/#sec-15.2.3.14
-   */
-  keys: function(obj) {
-    /** @type {Function} */ var fn = Object.keys;
-    /** @type {!Array.<string>} */ var keys = fn ? fn(obj) : [];
-    /** @type {string|number} */ var key;
-
-    if (!fn) {
-      for (key in obj) {
-        keys.push(key);
-      }
-    }
-
-    return keys;
   },
 
   /**
@@ -114,7 +154,7 @@ util.Object = {
   },
 
   isObject: function(obj) {
-    return '[object Object]' == Object.prototype.toString.call(obj);
+    return '[object Object]' == util.Object.PROTO.toString.call(obj);
   },
 
   /**

@@ -17,16 +17,16 @@ readonly JAVA_OSX="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/H
 
 readonly JSTD_VERSION="1.3.5"
 readonly JSTD_KEY="JsTestDriver"
-readonly JSTD_URL="http://js-test-driver.googlecode.com/files/${JSTD_KEY}-${JSTD_VERSION}.jar"
+readonly JSTD_URL="https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/js-test-driver/${JSTD_KEY}-${JSTD_VERSION}.jar"
 readonly JSTD_JAR="${LIB}/${JSTD_KEY}-${JSTD_VERSION}.jar"
 
-readonly PHANTOMJS_VERSION="1.9.1"
+readonly PHANTOMJS_VERSION="2.1.1"
 readonly PHANTOMJS_KEY="phantomjs"
 readonly PHANTOMJS_LIB="${LIB}/${PHANTOMJS_KEY}"
-readonly PHANTOMJS_URL="https://phantomjs.googlecode.com/files"
-readonly PHANTOMJS_MACOS_URL="${PHANTOMJS_URL}/${PHANTOMJS_KEY}-${PHANTOMJS_VERSION}-macosx.zip"
-readonly PHANTOMJS_LINUX_URL="${PHANTOMJS_URL}/${PHANTOMJS_KEY}-${PHANTOMJS_VERSION}-linux-i686.tar.bz2"
-readonly PHANTOMJS_LINUX64_URL="${PHANTOMJS_URL}/${PHANTOMJS_KEY}-${PHANTOMJS_VERSION}-linux-x86_64.tar.bz2"
+readonly PHANTOMJS_URL="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOMJS_VERSION}-"
+readonly PHANTOMJS_MACOS_URL="${PHANTOMJS_URL}macosx.zip"
+readonly PHANTOMJS_LINUX_URL="${PHANTOMJS_URL}linux-i686.tar.bz2"
+readonly PHANTOMJS_LINUX64_URL="${PHANTOMJS_URL}linux-x86_64.tar.bz2"
 
 #
 # Downloads test driver.
@@ -36,10 +36,10 @@ function download() {
 
   if [[ ! -f "${LIB}/${JSTD_KEY}-$JSTD_VERSION.jar" ]]; then
     echo "Downloading ${JSTD_KEY}:"
-    if [[ -n "$WGET" ]]; then
-      $WGET "${JSTD_URL}" -O "${JSTD_JAR}"
-    else
+    if [[ -n "$CURL" ]]; then
       $CURL -L "${JSTD_URL}" > "${JSTD_JAR}"
+    else
+      $WGET "${JSTD_URL}" -O "${JSTD_JAR}"
     fi
     echo "Done"
   fi
@@ -48,26 +48,26 @@ function download() {
     mkdir -p "${PHANTOMJS_LIB}"
     echo "Downloading ${PHANTOMJS_KEY}:"
     if [[ `uname` == "Darwin" ]]; then
-      if [[ -n "$WGET" ]]; then
-        $WGET "${PHANTOMJS_MACOS_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
-      else
+      if [[ -n "$CURL" ]]; then
         $CURL -L "${PHANTOMJS_MACOS_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
+      else
+        $WGET "${PHANTOMJS_MACOS_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip"
       fi
       echo "Done"
       echo -n "Extracting ${PHANTOMJS_KEY}: "
       $UNZIP -q "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.zip" -d "${PHANTOMJS_LIB}"
     else
       if [[ `uname -m` == "x86_64" ]]; then
-        if [[ -n "$WGET" ]]; then
-          $WGET "${PHANTOMJS_LINUX64_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
-        else
+        if [[ -n "$CURL" ]]; then
           $CURL -L "${PHANTOMJS_LINUX64_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
+        else
+          $WGET "${PHANTOMJS_LINUX64_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
         fi
       else
-        if [[ -n "$WGET" ]]; then
-          $WGET "${PHANTOMJS_LINUX_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
-        else
+        if [[ -n "$CURL" ]]; then
           $CURL -L "${PHANTOMJS_LINUX_URL}" > "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
+        else
+          $WGET "${PHANTOMJS_LINUX_URL}" -O "${PHANTOMJS_LIB}/${PHANTOMJS_KEY}.tar.bz2"
         fi
       fi
       echo "Done"
