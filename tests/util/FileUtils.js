@@ -10,17 +10,25 @@
 
 util.FileUtilsTestCase = TestCase('FileUtilsTestCase');
 
+util.FileUtilsTestCase.TEST_DATA = [
+  {type: 'image/png', data: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJIAAAA9CAMAAABx7'},
+  {type: 'text/html', data: 'data:text/html,%3Ch1%3EHello%2C%20World!%3C%2Fh1%3E'},
+  {type: 'text/plain', data: 'data:text/plain,Hello World!'},
+  {type: 'text/plain', data: 'data:,Hello World!'}
+];
 
 util.FileUtilsTestCase.prototype.testToBlob = function() {
-  var data = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJIAAAA9CAMAAABx7';
-  var blob = util.FileUtils.toBlob(data);
+  for (var i = 0; i < util.FileUtilsTestCase.TEST_DATA.length;) {
+    var test = util.FileUtilsTestCase.TEST_DATA[i++];
+    var blob = util.FileUtils.toBlob(test.data);
 
-  assertNotNull(blob);
-  assertEquals('object', typeof blob);
-  assertTrue(blob instanceof Blob);
-  assertEquals('image/png', blob.type);
+    assertNotNull(blob);
+    assertEquals('object', typeof blob);
+    assertTrue(blob instanceof Blob);
+    assertEquals(test.type, blob.type);
+  }
 
-  assertNull(util.FileUtils.toBlob('data'));
+  assertNull(util.FileUtils.toBlob('invalid-data'));
 };
 
 /**
@@ -28,13 +36,15 @@ util.FileUtilsTestCase.prototype.testToBlob = function() {
  * @bug TypeError: FileConstructor is not a constructor
  */
 util.FileUtilsTestCase.prototype.testToFile = function() {
-  // var data = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJIAAAA9CAMAAABx7';
-  // var file = util.FileUtils.toFile(data, 'filename');
+  // for (var i = 0; i < util.FileUtilsTestCase.TEST_DATA.length;) {
+  //   var test = util.FileUtilsTestCase.TEST_DATA[i++];
+  //   var file = util.FileUtils.toFile(test.data, 'filename');
 
-  // assertNotNull(file);
-  // assertEquals('object', typeof file);
-  // assertTrue(file instanceof Blob);
-  // assertTrue(file instanceof File);
-  // assertEquals('image/png', file.type);
-  // assertEquals('filename', file.name);
+  //   assertNotNull(file);
+  //   assertEquals('object', typeof file);
+  //   assertTrue(file instanceof Blob);
+  //   assertTrue(file instanceof File);
+  //   assertEquals(test.type, file.type);
+  //   assertEquals('filename', file.name);
+  // }
 };
