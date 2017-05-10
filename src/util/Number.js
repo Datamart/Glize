@@ -56,8 +56,8 @@ util.Number = {
   },
 
   /**
-   * Returns a random integer greater than or equal to {@code min} and
-   * less than or equal {@code max}.
+   * Returns a random integer greater than or equal to <code>min</code> and
+   * less than or equal <code>max</code>.
    * @param {number} min The lower bound for the random integer.
    * @param {number} max The upper bound for the random integer.
    * @return {number} Returns a random integer.
