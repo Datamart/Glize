@@ -31,11 +31,12 @@ net.HttpRequest = function() {
    * @param {function(XMLHttpRequest)} callback A JavaScript function object
    *     that is called whenever the <code>readyState</code> attribute equals
    *     to 4 (DONE).
+   * @param {boolean=} opt_skipRFC Optional, skips RFC 2616 checking.
    * @return {!XMLHttpRequest} Returns instance of XMLHttpRequest.
    */
-  this.doGet = function(url, callback) {
+  this.doGet = function(url, callback, opt_skipRFC) {
     // @link http://tools.ietf.org/html/rfc2616#section-3.2.1
-    if (url.length > 255) {
+    if (!opt_skipRFC && 255 < url.length) {
       /** @type {!Array} */ var parts = url.split('?');
       return self_.doPost(parts[0], callback, parts[1]);
     }

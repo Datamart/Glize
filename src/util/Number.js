@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Number utility methods.
  *
@@ -54,5 +53,16 @@ util.Number = {
     return fn ? fn(value) : (util.Number.isInteger(value) &&
         util.Number.MIN_SAFE_INTEGER <= /** @type {number} */ (value) &&
         util.Number.MAX_SAFE_INTEGER >= /** @type {number} */ (value));
+  },
+
+  /**
+   * Returns a random integer greater than or equal to {@code min} and
+   * less than or equal {@code max}.
+   * @param {number} min The lower bound for the random integer.
+   * @param {number} max The upper bound for the random integer.
+   * @return {number} Returns a random integer.
+   */
+  random: function(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 };
