@@ -28,7 +28,7 @@ var animation = {
    * @see animation.cancelAnimationFrame
    */
   requestAnimationFrame: function(callback) {
-    if (animation.requestAnimationFrame_) {
+    if (!animation.requestAnimationFrame_) {
       /** @type {string} */ var suffix = 'equest' + animation.ANIMATION_FRAME;
       /** @type {number} */ var last = 0;
       animation.requestAnimationFrame_ =
@@ -55,7 +55,7 @@ var animation = {
    * @see animation.requestAnimationFrame
    */
   cancelAnimationFrame: function(request) {
-    if (animation.cancelAnimationFrame_) {
+    if (!animation.cancelAnimationFrame_) {
       /** @type {string} */ var suffix = 'ancel' + animation.ANIMATION_FRAME;
       animation.cancelAnimationFrame_ =
           dom.context['c' + suffix] ||

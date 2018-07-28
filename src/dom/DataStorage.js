@@ -174,7 +174,9 @@ dom.DataStorage = function(opt_options) {
         userData_['addBehavior']('#default#userData');
         dom.appendChild(dom.document.body, userData_);
         userData_['load'](userData_.tagName);
-      } catch (e) {}
+      } catch (e) {
+        userData_ = dom.NULL;
+      }
     }
 
     checkSession_();
