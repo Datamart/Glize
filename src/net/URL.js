@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Creates a URL object composed from the given parameters.
  *
@@ -122,5 +121,6 @@ net.toAbsolute = function(url, opt_base) {
     }
     return obj['origin'] + ('/' + base.join('/')).replace('//', '/');
   }
+
   return dom.NULL;
 };

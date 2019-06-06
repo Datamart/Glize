@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple HTML5 Audio Recorder.
  *
@@ -10,9 +9,9 @@
 
 /**
  * Simple HTML5 Audio Recorder.
- * @param {!function(AudioProcessingEvent)} onprocess The audio process event
+ * @param {function(!AudioProcessingEvent)} onprocess The audio process event
  *     handler.
- * @param {Object=} opt_constraints The optional constraints object.
+ * @param {?Object=} opt_constraints The optional constraints object.
  * @param {number=} opt_bufferSize The optional buffer size of sample-frames.
  * @constructor
  * @see https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer
@@ -30,25 +29,25 @@ media.AudioRecorder = function(onprocess, opt_constraints, opt_bufferSize) {
   opt_bufferSize = opt_bufferSize || 16384;
 
   /**
-   * @return {ScriptProcessorNode} Returns audio recorder processor.
+   * @return {?ScriptProcessorNode} Returns audio recorder processor.
    */
   this.getRecorder = function() {
     return recorder_;
   };
 
   /**
-   * @return {MediaStreamAudioSourceNode} Returns audio stream source.
+   * @return {?MediaStreamAudioSourceNode} Returns audio stream source.
    */
   this.getSource = function() {
     return source_;
   };
 
   /**
-   * @param {Object|MediaStream} stream The media stream object.
+   * @param {!Object|!MediaStream} stream The media stream object.
    * @private
    */
   function onsuccess_(stream) {
-    /** @type {AudioContext} */ var context = media.getAudioContext();
+    /** @type {?AudioContext} */ var context = media.getAudioContext();
     source_ = context['createMediaStreamSource'](stream);
     recorder_ = context['createScriptProcessor'](opt_bufferSize, 1, 1);
     recorder_['onaudioprocess'] = onprocess;
@@ -67,13 +66,13 @@ media.AudioRecorder = function(onprocess, opt_constraints, opt_bufferSize) {
   }
 
   /**
-   * @type {MediaStreamAudioSourceNode}
+   * @type {?MediaStreamAudioSourceNode}
    * @private
    */
   var source_;
 
   /**
-   * @type {ScriptProcessorNode}
+   * @type {?ScriptProcessorNode}
    * @private
    */
   var recorder_;

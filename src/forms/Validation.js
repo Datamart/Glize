@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple implementation of HTML5 Validation.
  *
@@ -19,7 +18,7 @@
 forms.Validation = function() {
 
   /**
-   * @type {!Object.<string, RegExp>}
+   * @type {!Object.<string, !RegExp>}
    * @link https://tools.ietf.org/html/rfc2822#section-3.4.1
    */
   var VALIDATORS = {
@@ -30,7 +29,7 @@ forms.Validation = function() {
 
   /**
    * Initializes HTML5 form validation feature.
-   * @param {Node} container The HTML container which contains form elements.
+   * @param {!Node} container The HTML container which contains form elements.
    */
   this.init = function(container) {
     if (!isSupported_()) {
@@ -41,19 +40,22 @@ forms.Validation = function() {
   };
 
   /**
-   * @param {NodeList} elements List of HTML Form elements.
+   * @param {?NodeList} elements List of HTML Form elements.
    * @private
    */
   function setValidation_(elements) {
-    for (/** @type {number} */ var i = 0; i < elements.length; i++) {
-      /** @type {Node|Element} */ var element = elements[i];
+    /** @type {number} */ var i = 0;
+    /** @type {!Node|!Element} */ var element;
+
+    for (; i < elements.length;) {
+      element = elements[i++];
       initFieldValidation_(element);
       initFormValidation_(element.form);
     }
   }
 
   /**
-   * @param {Node|Element} element HTML input or textarea element.
+   * @param {!Node|!Element} element HTML input or textarea element.
    * @private
    */
   function initFieldValidation_(element) {
@@ -88,7 +90,7 @@ forms.Validation = function() {
 
   /**
    * Initializes form validation.
-   * @param {Node|Element} form The form element to initialize validation.
+   * @param {!Node|!Element} form The form element to initialize validation.
    * @private
    */
   function initFormValidation_(form) {
@@ -119,7 +121,7 @@ forms.Validation = function() {
   }
 
   /**
-   * @param {Node|Element} element HTML input or textarea element.
+   * @param {!Node|!Element} element HTML input or textarea element.
    * @return {boolean} Returns true if the form passes validation,
    *     false otherwise.
    * TODO: Add attribute validation (min, max, step, etc.)
@@ -163,16 +165,16 @@ forms.Validation = function() {
   /**
    * Returns whether a form will validate when it is submitted, without having
    * to submit it.
-   * @param {Node|Element} form The form element.
+   * @param {!Node|!Element} form The form element.
    * @return {boolean} Returns true if the form passes validation.
    * @link http://msdn.microsoft.com/en-us/library/ie/hh772948
    * @private
    */
   function checkFormValidity_(form) {
-    /** @type {Element} */ var invalid = dom.NULL;
+    /** @type {?Element} */ var invalid = dom.NULL;
 
     for (/** @type {number} */ var i = 0; i < form.elements.length; i++) {
-      /** @type {Element} */ var element = form.elements[i];
+      /** @type {!Element} */ var element = form.elements[i];
 
       if (element.checkValidity && !element.checkValidity()) {
         if (!invalid)
@@ -196,14 +198,14 @@ forms.Validation = function() {
   }
 
   /**
-   * @param {Node|Element} element HTML input or textarea element.
+   * @param {!Node|!Element} element HTML input or textarea element.
    * @return {boolean} Returns true if element value is valid, false otherwise.
    * @private
    */
   function checkTypeValidity_(element) {
     /** @type {string} */ var value = element.value;
     /** @type {string} */ var type = element.getAttribute('type');
-    /** @type {RegExp} */ var regexp = VALIDATORS[type];
+    /** @type {?RegExp} */ var regexp = VALIDATORS[type];
 
     if (value && regexp && !regexp.test(value)) {
       element.setCustomValidity(messages.getMessage(type));
@@ -213,7 +215,7 @@ forms.Validation = function() {
   }
 
   /**
-   * @param {Node|Element} element HTML element.
+   * @param {!Node|!Element} element HTML element.
    * @private
    */
   function showValidationMessage_(element) {
@@ -263,7 +265,7 @@ forms.Validation = function() {
   }
 
   /**
-   * @type {Node|Element}
+   * @type {?Node|?Element}
    * @private
    */
   var invalidElement_ = dom.NULL;

@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Defines namespace for media utility methods.
  *
@@ -33,11 +32,11 @@ var media = {
   /**
    * Prompts the user for permission to use their Web camera or other video or
    * audio input.
-   * @param {!Object|MediaStreamConstraints} constraints The object specifying
+   * @param {!Object|!MediaStreamConstraints} constraints The object specifying
    *     the types of media to request.
-   * @param {!function((Object|MediaStream))} onsuccess The function to invoke
+   * @param {function((!Object|!MediaStream))} onsuccess The function to invoke
    *     with the resulting MediaStream object if the call succeeds.
-   * @param {!function(Object)} onerror The function to invoke with the
+   * @param {function(!Object)} onerror The function to invoke with the
    *     resulting MediaStreamError if the call fails.
    * @see http://developer.mozilla.org/en-US/docs/Web/API/Navigator/getUserMedia
    * @see https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices
@@ -55,7 +54,7 @@ var media = {
   /**
    * The AudioContext interface represents an audio-processing graph built from
    * audio modules linked together, each represented by an AudioNode.
-   * @return {AudioContext}
+   * @return {?AudioContext}
    * @see https://developer.mozilla.org/en/docs/Web/API/AudioContext
    * @see http://webaudio.github.io/web-audio-api/#the-audiocontext-interface
    */
@@ -66,7 +65,7 @@ var media = {
 
   /**
    * Converts audio data to WAV Uint8Array.
-   * @param {Float32Array} data The array representing the PCM audio data.
+   * @param {!Float32Array} data The array representing the PCM audio data.
    * @return {!Uint8Array} Returns converted data.
    * @see https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer
    * @see https://en.wikipedia.org/wiki/WAV
@@ -89,7 +88,7 @@ var media = {
 
   /**
    * Converts audio data to WAV encoded to Base64.
-   * @param {Float32Array} data The array representing the PCM audio data.
+   * @param {!Float32Array} data The array representing the PCM audio data.
    * @return {string} Returns encoded data.
    * @see media.toWav
    * @see util.Base64.encode
@@ -97,12 +96,13 @@ var media = {
   toWav64: function(data) {
     /** @type {!Uint8Array} */ var wav = media.toWav(data);
     /** @type {string} */ var str = String.fromCharCode.apply(null, wav);
+
     return util.Base64.encode(str);
   },
 
   /**
    * Converts audio data to WAV encoded to Base64 data URI.
-   * @param {Float32Array} data The array representing the PCM audio data.
+   * @param {!Float32Array} data The array representing the PCM audio data.
    * @return {string} Returns encoded data URI.
    * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/data_URIs
    * @see media.toWav64

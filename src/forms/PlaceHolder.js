@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple implementation of HTML5 place holder.
  *
@@ -19,7 +18,7 @@ forms.PlaceHolder = function() {
 
   /**
    * Initializes HTML5 form placeholder feature.
-   * @param {Node} container The HTML container which contains form elements.
+   * @param {!Node} container The HTML container which contains form elements.
    */
   this.init = function(container) {
     if (!forms.hasFeature(forms.FEATURES.PLACEHOLDER)) {
@@ -32,12 +31,12 @@ forms.PlaceHolder = function() {
 
   /**
    * Sets event listeners for elements with placeholder attribute.
-   * @param {NodeList} elements Form elements.
+   * @param {?NodeList} elements Form elements.
    * @private
    */
   function initPlaceHolder_(elements) {
     /** @type {number} */ var len = elements.length;
-    /** @type {Node|Element} */ var element;
+    /** @type {!Node|!Element} */ var element;
 
     for (; len--;) {
       element = elements[len];
@@ -48,30 +47,31 @@ forms.PlaceHolder = function() {
         dom.events.addEventListener(
             element, dom.events.TYPE.BLUR, handleEvent_);
 
-        handleEvent_({'target': element, 'type': dom.events.TYPE.BLUR});
+        handleEvent_(/**@type {!Event} */ ({
+          'target': element, 'type': dom.events.TYPE.BLUR}));
       }
     }
   }
 
   /**
-   * @param {Event|Object} e The blur or focus event object.
+   * @param {!Event} e The blur or focus event object.
    * @private
    */
   function handleEvent_(e) {
-    e = dom.events.getEvent(/** @type {Event} */ (e));
-    /** @type {EventTarget} */ var element = dom.events.getEventTarget(e);
+    e = dom.events.getEvent(/** @type {!Event} */ (e));
+    /** @type {?EventTarget} */ var element = dom.events.getEventTarget(e);
     /** @type {string} */ var type = e.type;
     /** @type {string} */ var value = element.value;
     /** @type {string} */ var placeholder;
 
     if (element) {
-      dom.css.removeClass(/** @type {Node} */ (element), attribute_);
+      dom.css.removeClass(/** @type {!Node} */ (element), attribute_);
       placeholder = element.getAttribute(attribute_);
       if (dom.events.TYPE.FOCUS == type && placeholder == value) {
         element.value = '';
       } else if (dom.events.TYPE.BLUR == type && '' == value) {
         element.value = placeholder;
-        dom.css.addClass(/** @type {Node} */ (element), attribute_);
+        dom.css.addClass(/** @type {!Node} */ (element), attribute_);
       }
     }
   }

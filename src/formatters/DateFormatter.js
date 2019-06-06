@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Date format library.
  *
@@ -16,11 +15,11 @@
 formatters.DateFormatter = function() {
 
   /**
-   * @type {!Object.<string, function(Date): number>}
+   * @type {!Object.<string, function(!Date): number>}
    */
   var NUMBER_FORMAT = {
     /**
-     * @param {Date} date The date to be formatted.
+     * @param {!Date} date The date to be formatted.
      * @return {number} Returns formatted date as number.
      */
     'YYYYMMdd': function(date) {
@@ -28,7 +27,7 @@ formatters.DateFormatter = function() {
              1e2 * (date.getMonth() + 1) + date.getDate();
     },
     /**
-     * @param {Date} date The date to be formatted.
+     * @param {!Date} date The date to be formatted.
      * @return {number} Returns formatted date as number.
      */
     'YYYYMMddhhmm': function(date) {
@@ -36,7 +35,7 @@ formatters.DateFormatter = function() {
              1e2 * date.getHours() + date.getMinutes();
     },
     /**
-     * @param {Date} date The date to be formatted.
+     * @param {!Date} date The date to be formatted.
      * @return {number} Returns formatted date as number.
      */
     'YYYYMMddhhmmss': function(date) {
@@ -46,7 +45,7 @@ formatters.DateFormatter = function() {
 
   /**
    * Formats given <code>date</code> according to given <code>format</code>.
-   * @param {Date} date The date to be formatted.
+   * @param {!Date} date The date to be formatted.
    * @param {string} format The date format.
    * @return {string} Returns formatted date as string.
    * @example
@@ -56,9 +55,9 @@ formatters.DateFormatter = function() {
    * formatter.formatDate(new Date(), 'dd MMM, YYYY');
    */
   this.formatDate = function(date, format) {
-    /** @type {function(Date): number} */ var fn = NUMBER_FORMAT[format];
+    /** @type {function(!Date): number} */ var fn = NUMBER_FORMAT[format];
     /** @type {number} */ var i = 0;
-    /** @type {Array.<string, number>} */ var tokens;
+    /** @type {?Array.<string, number>} */ var tokens;
     /** @type {number} */ var length;
     /** @type {string} */ var month;
 
@@ -83,19 +82,15 @@ formatters.DateFormatter = function() {
         format = format.replace(tokens[i++], tokens[i++]);
       }
     }
+
     return format;
   };
-
-  /**
-   * @deprecated Use `formatDate` instead.
-   */
-  this.format = this.formatDate;
 
   /**
    * Parses given date <code>str</code>  according to given <code>format</code>.
    * @param {string} str The date string to be parsed.
    * @param {string} format The date format.
-   * @return {Date} The parsed date.
+   * @return {?Date} The parsed date.
    * @example
    * var formatter = new formatters.DateFormatter();
    * formatter.parseDate('2013-01-31', 'YYYY-MM-dd');
@@ -122,16 +117,12 @@ formatters.DateFormatter = function() {
     if (map['MMMM'] || map['MMM']) {
       month = calendar_.getMonthByName(map['MMMM'] || map['MMM']);
     }
+
     return month >= 0 && +map['dd'] < 32 ?
         new util.Date.DateTime(
         year, month, +map['dd'], +map['hh'] || 0,
         +map['mm'] || 0, +map['ss'] || 0) : dom.NULL;
   };
-
-  /**
-   * @deprecated Use `parseDate` instead.
-   */
-  this.parse = this.parseDate;
 
   /**
    * @type {!locale.Calendar}
@@ -143,7 +134,7 @@ formatters.DateFormatter = function() {
 
 /**
  * Formats given <code>date</code> according to given <code>format</code>.
- * @param {Date} date The Date to be formatted.
+ * @param {!Date} date The Date to be formatted.
  * @param {string} format The date format.
  * @return {string} The formatted date as string.
  * @static
@@ -156,21 +147,16 @@ formatters.DateFormatter.formatDate = function(date, format) {
   if (!formatters.DateFormatter.formatter_) {
     formatters.DateFormatter.formatter_ = new formatters.DateFormatter;
   }
+
   return formatters.DateFormatter.formatter_.formatDate(date, format);
 };
-
-
-/**
- * @deprecated Use `formatters.DateFormatter.formatDate` instead.
- */
-formatters.DateFormatter.format = formatters.DateFormatter.formatDate;
 
 
 /**
  * Parses given date <code>str</code>  according to given <code>format</code>.
  * @param {string} str The date string to be parsed.
  * @param {string} format The date format.
- * @return {Date} The parsed date.
+ * @return {!Date} The parsed date.
  * @static
  * @example
  * formatters.DateFormatter.parseDate('2013-01-31', 'YYYY-MM-dd');
@@ -181,12 +167,6 @@ formatters.DateFormatter.parseDate = function(str, format) {
   if (!formatters.DateFormatter.formatter_) {
     formatters.DateFormatter.formatter_ = new formatters.DateFormatter;
   }
+
   return formatters.DateFormatter.formatter_.parseDate(str, format);
 };
-
-
-/**
- * @deprecated Use `formatters.DateFormatter.parseDate` instead.
- */
-formatters.DateFormatter.parse = formatters.DateFormatter.parseDate;
-

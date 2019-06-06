@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview DatePicker control.
  *
@@ -10,7 +9,7 @@
 
 /**
  * Constructor of DatePicker.
- * @param {Object=} opt_options Optional options.
+ * @param {!Object=} opt_options Optional options.
  * @constructor
  * @requires formatters.DateFormatter
  * @requires controls.Calendar
@@ -42,7 +41,7 @@ controls.DatePicker = function(opt_options) {
 
   /**
    * <code>protected</code> Gets related HTML element.
-   * @return {Element} Returns related HTML element.
+   * @return {?Element} Returns related HTML element.
    * @protected
    */
   this.getElement = function() {
@@ -52,7 +51,7 @@ controls.DatePicker = function(opt_options) {
   /**
    * <code>protected</code> Gets reference to
    * <code>{@link controls.Calendar}</code>.
-   * @return {controls.Calendar} Returns reference to
+   * @return {?controls.Calendar} Returns reference to
    * <code>{@link controls.Calendar}</code>.
    * @protected
    */
@@ -62,7 +61,7 @@ controls.DatePicker = function(opt_options) {
 
   /**
    * Shows date picker control.
-   * @param {Element} element The related element.
+   * @param {?Element} element The related element.
    * @example
    * <input onclick="controls.DatePicker.show(this)"
    *        data-format="YYYY/MM/dd"
@@ -70,7 +69,7 @@ controls.DatePicker = function(opt_options) {
    *        readonly>
    */
   this.show = function(element) {
-    /** @type {Node} */ var picker = controls.DatePicker.control_;
+    /** @type {?Node} */ var picker = controls.DatePicker.control_;
     if ('block' === picker.style.display) {
       self_.hide();
     } else {
@@ -80,7 +79,7 @@ controls.DatePicker = function(opt_options) {
                                     dom.context.pageYOffset || 0;
       /** @type {number} */ var x = dom.document.documentElement.scrollLeft ||
                                     dom.context.pageXOffset || 0;
-      /** @type {Object} */ var rect = dom.getBoundingClientRect(element);
+      /** @type {!Object} */ var rect = dom.getBoundingClientRect(element);
       // TODO: implement possibility to show picker above element.
       picker.style.top = (rect['bottom'] + y) + 'px';
       picker.style.left = (rect['left'] + x) + 'px';
@@ -137,7 +136,7 @@ controls.DatePicker = function(opt_options) {
 
   /**
    * <code>protected</code> Gets list of date objects.
-   * @return {!Array.<Date>} Returns list of date objects.
+   * @return {!Array.<!Date>} Returns list of date objects.
    * @protected
    */
   this.getDates = function() {
@@ -181,21 +180,21 @@ controls.DatePicker = function(opt_options) {
   }
 
   /**
-   * @param {Event} e The keydown event.
+   * @param {?Event} e The keydown event.
    * @private
    */
   function keydown_(e) {
     e = dom.events.getEvent(e);
-    27 == (e.keyCode || e.which) && self_.hide();
+    27 === (e.keyCode || e.which) && self_.hide();
   }
 
   /**
-   * @param {Event} e The mousedown event.
+   * @param {?Event} e The mousedown event.
    * @private
    */
   function mousedown_(e) {
     /** @type {boolean} */ var hide = true;
-    /** @type {EventTarget} */ var target = dom.events.getEventTarget(e);
+    /** @type {?EventTarget} */ var target = dom.events.getEventTarget(e);
 
     if (target) {
       for (; target && 'BODY' != target.tagName;) {
@@ -217,13 +216,13 @@ controls.DatePicker = function(opt_options) {
   var self_ = this;
 
   /**
-   * @type {Element}
+   * @type {?Element}
    * @private
    */
   var element_ = dom.NULL;
 
   /**
-   * @type {controls.Calendar}
+   * @type {?controls.Calendar}
    * @private
    */
   var calendar_ = dom.NULL;
@@ -240,7 +239,7 @@ controls.DatePicker = function(opt_options) {
 
 /**
  * Shows date picker control.
- * @param {Element} element The related element.
+ * @param {!Element} element The related element.
  * @static
  */
 controls.DatePicker.show = function(element) {

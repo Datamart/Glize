@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple implementation of JSONP.
  *

@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview MetaData utils.
  *
@@ -23,8 +22,8 @@ util.MetaData = function() {
   util.PropertyReader.apply(this, arguments);
 
   /**
-   * @param {Document|Node=} opt_context The optional DOM context.
-   * @return {Object.<string, string>} Returns meta data.
+   * @param {?Document|?Node=} opt_context The optional DOM context.
+   * @return {!Object.<string, string>} Returns meta data.
    */
   this.getMetaData = function(opt_context) {
     self_.read(opt_context || dom.document, 'meta', 'name', 'content');

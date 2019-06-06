@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Validation localization utils.
  *
@@ -31,7 +30,7 @@ locale.Validation = function() {
   var locale_ = util.Locale.getDefault();
 
   /**
-   * @type {!Object.<string, Object>}
+   * @type {!Object.<string, !Object>}
    * @private
    */
   var data_ = {

@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Provides data persistence using HTML5 local storage mechanism.
  *
@@ -17,7 +16,7 @@
  * @requires dom.Cookies
  * @requires util.Date
  * @constructor
- * @param {Object.<string, *>=} opt_options Optional configuration options.
+ * @param {!Object.<string, *>=} opt_options Optional configuration options.
  * @example
  * options: {
  *   'type': 'local'    // Storage types: local, session, cookie.
@@ -125,7 +124,7 @@ dom.DataStorage = function(opt_options) {
   this.keys = function() {
     /** @type {!Array.<string>} */ var keys = [];
     /** @type {number} */ var i = 0;
-    /** @type {NamedNodeMap} */ var attributes =
+    /** @type {?NamedNodeMap} */ var attributes =
         userData_ && userData_.attributes;
     /** @type {?Object} */ var storage =
         nativeStorage_ || globalStorage_ || data_;
@@ -253,25 +252,25 @@ dom.DataStorage = function(opt_options) {
   var options_ = {};
 
   /**
-   * @type {Object}
+   * @type {!Object}
    * @private
    */
   var data_ = {};
 
   /**
-   * @type {Storage}
+   * @type {?Storage}
    * @private
    */
   var nativeStorage_;
 
   /**
-   * @type {Object}
+   * @type {?Object}
    * @private
    */
   var globalStorage_;
 
   /**
-   * @type {Element}
+   * @type {?Element}
    * @private
    */
   var userData_;

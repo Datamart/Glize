@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Calendar control.
  *
@@ -10,8 +9,8 @@
 
 /**
  * Constructor of Calendar control.
- * @param {string|Node} container The HTML container or its ID.
- * @param {Object=} opt_options Optional options.
+ * @param {string|!Node} container The HTML container or its ID.
+ * @param {!Object=} opt_options Optional options.
  * @extends {dom.EventDispatcher} dom.EventDispatcher
  * @constructor
  * @requires formatters.DateFormatter
@@ -65,7 +64,7 @@ controls.Calendar = function(container, opt_options) {
    * Dispatches <code>controls.Calendar.events.DRAW</code> event and
    * dispatches <code>dom.events.TYPE.CLICK</code> event when clicking on cell.
    * Exported for closure compiler with the same name.
-   * @param {Array.<Date>|Date=} opt_selected Optional list of selected dates.
+   * @param {?Array.<!Date>|!Date=} opt_selected Optional list of selected dates.
    */
   this.draw = function(opt_selected) {
     initSelection_(opt_selected);
@@ -122,10 +121,10 @@ controls.Calendar = function(container, opt_options) {
 
   /**
    * Iterates over table cells.
-   * @param {!function(Element)} callback Iterator callback function.
+   * @param {function(!Element)} callback Iterator callback function.
    */
   this.each = function(callback) {
-    /** @type {!Array|NodeList} */
+    /** @type {!Array|?NodeList} */
     var cells = dom.getElementsByTagName(getTable_(), 'TD') || [];
     /** @type {number} */ var i = 0;
 
@@ -155,7 +154,8 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function getTable_() {
-    return dom.getElementsByTagName(container_, 'TABLE')[0];
+    return dom.getElementsByTagName(
+        /** @type {!Node} */ (container_), 'TABLE')[0];
   }
 
   /**
@@ -163,8 +163,8 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function removeEmptyRow_(table) {
-    /** @type {HTMLCollection} */ var rows = table.rows;
-    /** @type {HTMLTableRowElement} */ var row = rows[rows.length - 1];
+    /** @type {?HTMLCollection.<!HTMLTableRowElement>} */ var rows = table.rows;
+    /** @type {?HTMLTableRowElement} */ var row = rows[rows.length - 1];
     /** @type {number} */ var content = 0;
     /** @type {number} */ var i = 0;
     /** @type {number} */ var length = row.cells.length;
@@ -179,7 +179,7 @@ controls.Calendar = function(container, opt_options) {
   }
 
   /**
-   * @param {Array.<Date>|Date=} opt_selected Optional list of selected dates.
+   * @param {?Array.<!Date>|!Date=} opt_selected Optional list of selected dates.
    * @private
    */
   function initSelection_(opt_selected) {
@@ -202,9 +202,9 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function initEvents_(table) {
-    /** @type {HTMLCollection.<!HTMLTableCellElement>} */
+    /** @type {?HTMLCollection.<!HTMLTableCellElement>} */
     var headers = table.rows[0].cells;
-    /** @type {!Array.<Node>} */ var cells = [
+    /** @type {!Array.<!Node>} */ var cells = [
       headers[0],
       headers[headers.length - 1]
     ];
@@ -226,22 +226,21 @@ controls.Calendar = function(container, opt_options) {
   }
 
   /**
-   * @param {Event} e The event.
+   * @param {?Event} e The event.
    * @private
    */
   function clickHandler_(e) {
-    /** @type {EventTarget} */ var target = dom.events.getEventTarget(e);
-
+    /** @type {?EventTarget} */ var target = dom.events.getEventTarget(e);
 
     if (!isNaN(+target.innerHTML)) {
-      /** @type {Date} */ var selected = formatter_.parseDate(
+      /** @type {?Date} */ var selected = formatter_.parseDate(
           target.getAttribute('value'), opt_options['format']);
       /** @type {number} */ var index;
-      /** @type {Date} */ var start;
-      /** @type {Date} */ var end;
+      /** @type {?Date} */ var start;
+      /** @type {?Date} */ var end;
 
       if (opt_options['multiple'] && !first_) {
-        selected_.push(selected);
+        selected_.push(/** @type {!Date} */ (selected));
         index = selected_.length - 1;
         if (selected_[0] > selected_[index]) {
           selected_.reverse();
@@ -257,8 +256,8 @@ controls.Calendar = function(container, opt_options) {
         self_.draw(selected_);
       } else {
         self_.clear();
-        dom.css.setClass(/** @type {Node} */ (target), 'active');
-        selected_[0] = selected;
+        dom.css.setClass(/** @type {!Node} */ (target), 'active');
+        selected_[0] = /** @type {!Date} */ (selected);
       }
       first_ = !first_;
       self_.dispatchEvent(dom.events.TYPE.CLICK);
@@ -289,7 +288,7 @@ controls.Calendar = function(container, opt_options) {
     /** @type {number} */
     var fix = new util.Date.DateTime(year, month, 1).getDay() + 1;
 
-    /** @type {Array} */
+    /** @type {!Array.<number>} */
     var dim = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     dim[1] = (((year % 100 != 0) && (year % 4 == 0)) ||
         (year % 400 == 0)) ? 29 : 28;
@@ -340,7 +339,7 @@ controls.Calendar = function(container, opt_options) {
     var today = (year == now.getFullYear() &&
                  month == now.getMonth()) ? now.getDate() : 0;
     /** @type {number} */ var i = 0;
-    /** @type {Date} */ var selected;
+    /** @type {?Date} */ var selected;
 
     for (; i < selected_.length; i++) {
       selected = selected_[i];
@@ -386,7 +385,7 @@ controls.Calendar = function(container, opt_options) {
 
   /**
    * List of selected dates.
-   * @type {!Array.<Date>}
+   * @type {!Array.<!Date>}
    * @private
    */
   var selected_ = [];
@@ -406,7 +405,7 @@ controls.Calendar = function(container, opt_options) {
 
   /**
    * The reference to HTML chart container.
-   * @type {Node}
+   * @type {?Node}
    * @private
    */
   var container_ = typeof container == 'string' ?
@@ -418,10 +417,10 @@ controls.Calendar = function(container, opt_options) {
 
 /**
  * Draws calendar into specified <code>container</code>.
- * @param {Node|string} container The HTML container or its ID.
- * @param {Array.<Date>|Date=} opt_selected Optional list of selected dates.
- * @param {Object=} opt_options Optional options.
- * @return {controls.Calendar} Returns reference to controls.Calendar instance.
+ * @param {!Node|string} container The HTML container or its ID.
+ * @param {!Array.<!Date>|!Date=} opt_selected Optional list of selected dates.
+ * @param {!Object=} opt_options Optional options.
+ * @return {!controls.Calendar} Returns reference to controls.Calendar instance.
  * @static
  */
 controls.Calendar.draw = function(container, opt_selected, opt_options) {

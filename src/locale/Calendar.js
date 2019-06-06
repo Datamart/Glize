@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Calendar localization utils.
  *
@@ -33,7 +32,7 @@ locale.Calendar = function() {
 
   /**
    * Gets locale month name.
-   * @param {Date=} opt_date Optional date object, defaults is current date.
+   * @param {?Date=} opt_date Optional date object, defaults is current date.
    * @return {string} Returns month name.
    * @see locale.Calendar#getMonthNames
    */
@@ -84,7 +83,7 @@ locale.Calendar = function() {
   var locale_ = util.Locale.getDefault();
 
   /**
-   * @type {!Object.<string, Object>}
+   * @type {!Object.<string, !Object>}
    * @private
    */
   var data_ = {

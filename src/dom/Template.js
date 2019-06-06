@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple logic-less template engine.
  *
@@ -19,7 +18,7 @@ dom.Template = function() {
   /**
    * Loads template by URL.
    * @param {string} url The template path.
-   * @param {!function(string)} callback The callback function.
+   * @param {function(string)} callback The callback function.
    * @param {!Object} values The template values as dict.
    * @example
    * var values = {
@@ -64,7 +63,7 @@ dom.Template = function() {
     /** @type {number} */ var i = 0;
     /** @type {*} */ var value;
     /** @type {string} */ var key;
-    /** @type {Array} */ var matches;
+    /** @type {?Array} */ var matches;
     /** @type {string} */ var match;
     /** @type {!RegExp} */ var re;
 

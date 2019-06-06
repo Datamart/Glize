@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Number format library.
  *
@@ -10,7 +9,7 @@
 
 /**
  * Constructor of NumberFormatter.
- * @param {Object.<string, *>=} opt_options Formatter options.
+ * @param {!Object.<string, *>=} opt_options Formatter options.
  * @constructor
  * @example
  * options: {
@@ -38,7 +37,7 @@ formatters.NumberFormatter = function(opt_options) {
   this.formatNumber = function(number) {
     /** @type {!Object.<string, *>} */ var options = getOptions_();
 
-    /** @type {Array.<string>} */
+    /** @type {!Array.<string>} */
     var result = (options['fraction'] ? number.toFixed(options['fraction']) :
                                         '' + number).split('.');
 
@@ -48,11 +47,6 @@ formatters.NumberFormatter = function(opt_options) {
         (result[1] ? options['decimal'] + result[1] : '') +
         options['suffix'];
   };
-
-  /**
-   * @deprecated Use `formatNumber` instead.
-   */
-  this.format = this.formatNumber;
 
   /**
    * Rounds given number.
@@ -89,11 +83,6 @@ formatters.NumberFormatter = function(opt_options) {
     var result = (a == b ? a : b) + ['', 'k', 'm', 'g', 't'][~~(base / 3)];
     return options['prefix'] + result + options['suffix'];
   };
-
-  /**
-   * @deprecated Use `roundNumber` instead.
-   */
-  this.round = this.roundNumber;
 
   /**
    * @param {number} number The number.

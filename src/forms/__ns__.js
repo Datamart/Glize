@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Defines utilities methods for manipulating a form and elements.
  *
@@ -22,7 +21,7 @@ var forms = {
   /**
    * Returns a boolean flag indicating if a given feature is supported.
    * @param {string} feature Is a string representing the feature name.
-   * @param {Element=} opt_element Optional element to test.
+   * @param {?Element=} opt_element Optional element to test.
    * @return {boolean} Returns true if a given feature is supported.
    * @see http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7
    * @see forms.FEATURES
@@ -43,8 +42,8 @@ var forms = {
 
   /**
    * Adds onchange/oninput event handler on all form elements.
-   * @param {HTMLFormElement} form Form element.
-   * @param {!function(Event)} handler Event handler.
+   * @param {!HTMLFormElement} form Form element.
+   * @param {function(!Event)} handler Event handler.
    */
   onchange: function(form, handler) {
 
@@ -52,14 +51,14 @@ var forms = {
       /** @type {string} */ var value = element.value;
       setInterval(function() {
         if (value != element.value) {
-          handler(/** @type {Event} */({'target': element}));
+          handler(/** @type {!Event} */({'target': element}));
           value = element.value;
         }
       }, 99);
     }
 
     if (form) {
-      /** @type {HTMLCollection} */ var elements = form.elements;
+      /** @type {!HTMLCollection} */ var elements = form.elements;
       /** @type {number} */ var length = elements.length;
       while (length)
         checker_(elements[--length], handler);
@@ -68,7 +67,7 @@ var forms = {
 
   /**
    * Initializes HTML5 form features: placeholder, validation, etc.
-   * @param {Node} container The HTML container which contains form elements.
+   * @param {!Node} container The HTML container which contains form elements.
    * @example
    * forms.init(document.forms[0]);
    */

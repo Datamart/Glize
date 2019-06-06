@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Defines namespace for <code>controls.html5</code> package.
  *

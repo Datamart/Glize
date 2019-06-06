@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple implementation of </code>java.util.Locale</code>.
  *

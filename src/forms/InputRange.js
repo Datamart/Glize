@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple implementation of HTML5 input
  *               <code>type="range"</code> control.
@@ -12,7 +11,7 @@
 
 /**
  * Simple implementation of HTML5 input <code>type="range"</code> control.
- * @param {string|HTMLInputElement} input The input element or its ID attribute.
+ * @param {string|!HTMLInputElement} input The input element or its ID attribute.
  * @constructor
  * @requires dom.css
  * @requires dom.events
@@ -96,7 +95,7 @@ forms.InputRange = function(input) {
   }
 
   /**
-   * @return {Element} Returns reference to control element.
+   * @return {?Element} Returns reference to control element.
    * @private
    */
   function getControl_() {
@@ -106,11 +105,12 @@ forms.InputRange = function(input) {
       input_.parentNode.insertBefore(control_, input_);
       dom.appendChild(control_, input_);
     }
+
     return control_;
   }
 
   /**
-   * @param {Event} e The mousedown event.
+   * @param {?Event} e The mousedown event.
    * @private
    */
   function mousedown_(e) {
@@ -128,7 +128,7 @@ forms.InputRange = function(input) {
   }
 
   /**
-   * @param {Event} e The mouseup event.
+   * @param {!Event} e The mouseup event.
    * @private
    */
   function mouseup_(e) {
@@ -143,12 +143,12 @@ forms.InputRange = function(input) {
   }
 
   /**
-   * @param {Event} e The mousemove event.
+   * @param {?Event} e The mousemove event.
    * @private
    */
   function mousemove_(e) {
     e = dom.events.getEvent(e);
-    /** @type {Object} */ var rect = dom.getBoundingClientRect(track_);
+    /** @type {!Object} */ var rect = dom.getBoundingClientRect(track_);
     /** @type {number} */ var margin = thumb_.offsetWidth / 2;
     /** @type {number} */ var x = e['changedTouches'] ?
         e['changedTouches'][0].clientX : e.clientX;
@@ -180,38 +180,38 @@ forms.InputRange = function(input) {
    * @private
    */
   function dispatchEvents_() {
-    dom.events.dispatchEvent(input_, dom.events.TYPE.INPUT);
-    dom.events.dispatchEvent(input_, dom.events.TYPE.CHANGE);
+    dom.events.dispatchEvent(/**@type {!Node} */ (input_), dom.events.TYPE.INPUT);
+    dom.events.dispatchEvent(/**@type {!Node} */ (input_), dom.events.TYPE.CHANGE);
   }
 
   /**
    * The reference to control element.
-   * @type {Element}
+   * @type {?Element}
    * @private
    */
   var control_ = dom.NULL;
 
   /**
    * The reference to slider thumb element.
-   * @type {Element}
+   * @type {?Element}
    * @private
    */
   var thumb_ = dom.NULL;
 
   /**
    * The reference to slider track element.
-   * @type {Element}
+   * @type {?Element}
    * @private
    */
   var track_ = dom.NULL;
 
   /**
    * The reference to input element.
-   * @type {HTMLInputElement}
+   * @type {?HTMLInputElement}
    * @private
    */
   var input_ = 'string' === typeof input ?
-      /** @type {HTMLInputElement} */ (dom.getElementById(input)) : input;
+      /** @type {?HTMLInputElement} */ (dom.getElementById(input)) : input;
 
   /**
    * The expected lower bound for the input value.

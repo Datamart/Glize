@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Defines namespace for <code>controls</code> package.
  *

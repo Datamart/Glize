@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple implementation of HTML5 input
  *               <code>type="number"</code> control.
@@ -13,7 +12,7 @@
 /**
  * An implementation of HTML5 input <code>type="number"</code> for non
  * HTML5 browsers.
- * @param {string|HTMLInputElement} input The input element or its ID attribute.
+ * @param {string|!HTMLInputElement} input The input element or its ID attribute.
  * @constructor
  * @requires dom.events
  * @see http://www.w3.org/TR/html-markup/input.number.html
@@ -76,7 +75,7 @@ forms.InputNumber = function(input) {
   }
 
   /**
-   * @param {Event} e The keydown event.
+   * @param {?Event} e The keydown event.
    * @private
    */
   function keydown_(e) {
@@ -90,12 +89,12 @@ forms.InputNumber = function(input) {
   }
 
   /**
-   * @param {Event} e The mousedown event.
+   * @param {?Event} e The mousedown event.
    * @private
    */
   function mousedown_(e) {
     e = dom.events.getEvent(e);
-    /** @type {Object} */ var rect = dom.getBoundingClientRect(input_);
+    /** @type {!Object} */ var rect = dom.getBoundingClientRect(input_);
     /** @type {number} */ var x = e.clientX;
     /** @type {number} */ var y = e.clientY;
     // @bug MSIE does not calculates rect.height for inline elements.
@@ -107,7 +106,7 @@ forms.InputNumber = function(input) {
   }
 
   /**
-   * @param {Event} e The mousemove event.
+   * @param {?Event} e The mousemove event.
    * @private
    */
   function mousemove_(e) {
@@ -134,11 +133,11 @@ forms.InputNumber = function(input) {
 
   /**
    * The reference to input element.
-   * @type {HTMLInputElement}
+   * @type {!HTMLInputElement}
    * @private
    */
   var input_ = typeof input == 'string' ?
-      /** @type {HTMLInputElement} */ (dom.getElementById(input)) : input;
+      /** @type {!HTMLInputElement} */ (dom.getElementById(input)) : input;
 
   /**
    * The expected lower bound for the input value.

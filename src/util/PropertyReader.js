@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview PropertyReader utils.
  *
@@ -17,7 +16,7 @@ util.PropertyReader = function() {
   /**
    * Gets attribute' values of <code>tagName</code> founded in
    *     <code>context</code>.
-   * @param {Document|Node} context The DOM context.
+   * @param {?Document|?Node} context The DOM context.
    * @param {string} tagName The element tag name.
    * @param {string} attribute The name of attribute.
    * @param {string} value The name of value attribute.
@@ -25,7 +24,7 @@ util.PropertyReader = function() {
    */
   this.read = function(context, tagName, attribute, value) {
     if (context) {
-      /** @type {NodeList} */
+      /** @type {?NodeList} */
       var nodes = dom.getElementsByTagName(context, tagName);
       /** @type {number} */ var i = 0;
       /** @type {!Node} */ var node;
@@ -60,7 +59,7 @@ util.PropertyReader = function() {
   };
 
   /**
-   * @return {Object.<string, string>} Returns data object.
+   * @return {!Object.<string, string>} Returns data object.
    */
   this.getData = function() {
     return cache_;

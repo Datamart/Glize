@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Defines animations utility methods.
  *
@@ -21,7 +20,7 @@ var animation = {
 
   /**
    * Registers a function to call when the system ready to update the display.
-   * @param {!function(number)} callback A function to call when it's time to
+   * @param {function(number)} callback A function to call when it's time to
    *     update your animation for the next repaint.
    * @return {number} Return request ID that can be used to cancel the request.
    * @see https://msdn.microsoft.com/en-us/library/hh773174(v=vs.85).aspx
@@ -45,6 +44,7 @@ var animation = {
             }, next - now);
           };
     }
+
     return animation.requestAnimationFrame_(callback);
   },
 
@@ -114,7 +114,7 @@ var animation = {
 
   /**
    * Reference to 'requestAnimationFrame' polyfill.
-   * @type {?function(!function(number)):number}
+   * @type {?function(function(number)): number}
    * @private
    */
   requestAnimationFrame_: null,
@@ -130,8 +130,8 @@ var animation = {
 
 /**
  * Runs animation by property.
- * @param {Node} element Animated element.
- * @param {Object.<string, number>} options Animation options.
+ * @param {!Node} element Animated element.
+ * @param {!Object.<string, number>} options Animation options.
  * @private
  */
 animation.run_ = function(element, options) {
@@ -165,4 +165,3 @@ animation.run_ = function(element, options) {
     }
   });
 };
-

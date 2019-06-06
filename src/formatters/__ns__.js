@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Defines <code>formatters</code> namespace.
  *

@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Event-driven implementation is based on W3C DOM Level 3
  *     {@link http://www.w3.org/TR/domcore/#events|Events} Specification.
@@ -23,7 +22,7 @@ dom.EventDispatcher = function() {
   /**
    * Registers an event listener.
    * @param {string} type The event type for which the user is registering.
-   * @param {function(Event)} listener The listener parameter
+   * @param {function(?Event)} listener The listener parameter
    *     takes an interface implemented by the user which contains the
    *     methods to be called when the event occurs.
    * @see http://www.w3.org/TR/domcore/#dom-eventtarget-addeventlistener
@@ -35,13 +34,13 @@ dom.EventDispatcher = function() {
   /**
    * Removes an event listener.
    * @param {string} type The event type of the listener being removed.
-   * @param {function(Event)} listener Reference to the event
+   * @param {function(?Event)} listener Reference to the event
    *     listener to be removed.
    * @return {boolean} Returns true if listener was removed.
    * @see http://www.w3.org/TR/domcore/#dom-eventtarget-removeeventlistener
    */
   this.removeEventListener = function(type, listener) {
-    /** @type {Array} */ var listeners = events_[type];
+    /** @type {?Array} */ var listeners = events_[type];
     /** @type {number} */ var length = listeners ? listeners.length : 0;
 
     while (length--) {
@@ -50,29 +49,30 @@ dom.EventDispatcher = function() {
         return true;
       }
     }
+
     return false;
   };
 
   /**
    * Dispatches an event into the implementation's event model.
-   * @param {Event|Object|string} evt The event object or event type to be
+   * @param {!Event|!Object|string} evt The event object or event type to be
    *     dispatched.
    * @see http://www.w3.org/TR/domcore/#dom-eventtarget-dispatchevent
    */
   this.dispatchEvent = function(evt) {
     /** @type {string} */ var type = 'string' == typeof evt ? evt : evt['type'];
-    /** @type {Array} */ var listeners = events_[type];
+    /** @type {?Array} */ var listeners = events_[type];
     /** @type {number} */ var length = listeners ? listeners.length : 0;
     /** @type {number} */ var index = 0;
 
     while (index < length) {
-      listeners[index++](/** @type {Event} */({'target': self_, 'type': type}));
+      listeners[index++](/** @type {!Event} */({'target': self_, 'type': type}));
     }
   };
 
   /**
    * Events storage.
-   * @type {!Object.<string, Array>}
+   * @type {!Object.<string, !Array>}
    * @private
    */
   var events_ = {};

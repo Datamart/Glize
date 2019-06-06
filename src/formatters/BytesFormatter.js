@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Bytes format library.
  *
@@ -34,13 +33,9 @@ formatters.BytesFormatter = function() {
       bytes /= 1024;
       ++i;
     }
+
     return (i ? bytes.toFixed(2) : bytes) + ' ' + FORMATS[i];
   };
-
-  /**
-   * @deprecated Use `formatBytes` instead.
-   */
-  this.format = this.formatBytes;
 };
 
 
@@ -57,11 +52,6 @@ formatters.BytesFormatter.formatBytes = function(bytes) {
   if (!formatters.BytesFormatter.formatter_) {
     formatters.BytesFormatter.formatter_ = new formatters.BytesFormatter;
   }
+
   return formatters.BytesFormatter.formatter_.formatBytes(bytes);
 };
-
-
-/**
- * @deprecated Use `formatters.BytesFormatter.formatBytes` instead.
- */
-formatters.BytesFormatter.format = formatters.BytesFormatter.formatBytes;

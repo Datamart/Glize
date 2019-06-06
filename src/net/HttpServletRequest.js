@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple implementation of
  *               <code>javax.servlet.http.HttpServletRequest</code>.
@@ -34,20 +33,21 @@ net.HttpServletRequest = function() {
   /**
    * Returns an <code>Array</code> of all the cookies included
    * with this request.
-   * @return {!Array.<Object>} Returns an <code>Array</code> of all the cookies
-   * included with this request.
+   * @return {!Array.<!Object>} Returns an <code>Array</code> of all the cookies
+   *     included with this request.
    */
   this.getCookies = function() {
     /** @type {!Array.<string>} */ var keys = dom.Cookies.keys();
     /** @type {number} */ var length = keys.length;
     /** @type {number} */ var i = 0;
-    /** @type {!Array.<Object>} */ var cookies = [];
+    /** @type {!Array.<!Object>} */ var cookies = [];
     /** @type {string} */ var name;
 
     for (; i < length;) {
       name = keys[i++];
       cookies[i] = {'name': name, 'value': dom.Cookies.get(name)};
     }
+
     return cookies;
   };
 
@@ -58,10 +58,10 @@ net.HttpServletRequest = function() {
    */
   this.getContextPath = function() {
     if (!net.HttpServletRequest.contextPath_) {
-      /** @type {Element} */ var script = dom.scripts.getCurrent();
+      /** @type {?Element} */ var script = dom.scripts.getCurrent();
       if (script) {
         /** @type {string} */ var path = script.getAttribute('src');
-        /** @type {Element} */ var a = dom.createElement('A');
+        /** @type {?Element} */ var a = dom.createElement('A');
         a['href'] = path;
 
         // Replace all relatives.
@@ -69,6 +69,7 @@ net.HttpServletRequest = function() {
         net.HttpServletRequest.contextPath_ = a['pathname'].replace(path, '');
       }
     }
+
     return net.HttpServletRequest.contextPath_ || '';
   };
 };

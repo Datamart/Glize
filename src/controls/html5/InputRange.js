@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple implementation of HTML5 input
  *               <code>type="range"</code> control.
@@ -13,7 +12,7 @@
 
 /**
  * Simple implementation of HTML5 input <code>type="range"</code> control.
- * @param {string|HTMLInputElement} input The input element or its ID attribute.
+ * @param {string|!HTMLInputElement} input The input element or its ID attribute.
  * @extends {forms.InputRange} forms.InputRange
  * @constructor
  * @see http://www.w3.org/TR/html-markup/input.range.html

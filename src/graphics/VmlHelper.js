@@ -29,7 +29,7 @@ graphics.VmlHelper = function() {
       'm': 't', 'l': 'r', 'c': 'v', 'z': 'x'};
 
     /** @type {number} */ var zoom = 1; // 21600
-    /** @type {Function} */
+    /** @type {!Function} */
     var command = (/[ahqstv]/ig).test(svgPath) ? pathToCurve_ : pathToAbsolute_;
 
     if (command == pathToAbsolute_ && !(/[clmz]/g).test(svgPath)) {
@@ -51,7 +51,7 @@ graphics.VmlHelper = function() {
     /** @type {!Array} */ var pathArray = command(svgPath);
     /** @type {!Array} */ var result = [];
     for (/** @type {number} */ var i = 0; i < pathArray.length; i++) {
-      /** @type {Array} */ var path = pathArray[i];
+      /** @type {!Array} */ var path = pathArray[i];
       /** @type {string} */ var cmd = path[0].toLowerCase();
       /** @type {number} */ var length = path.length;
       cmd = cmd == 'z' ? map[cmd] : cmd;
@@ -60,15 +60,16 @@ graphics.VmlHelper = function() {
       }
       result.push(cmd);
     }
+
     return result.join(' ');
   };
 
 
   /**
-   * @param {Function} f Function.
+   * @param {!Function} f Function.
    * @param {*=} opt_scope Optional scope.
-   * @param {Function=} opt_postprocessor Optional postprocessor function.
-   * @return {Function} Returns function.
+   * @param {?Function=} opt_postprocessor Optional postprocessor function.
+   * @return {!Function} Returns function.
    * @private
    */
   function cacher_(f, opt_scope, opt_postprocessor) {
@@ -87,6 +88,7 @@ graphics.VmlHelper = function() {
       cache[args] = f.apply(opt_scope, arg);
       return opt_postprocessor ? opt_postprocessor(cache[args]) : cache[args];
     }
+
     return newf;
   }
 
@@ -107,10 +109,10 @@ graphics.VmlHelper = function() {
       x2,
       y2
     ];
-  };
+  }
 
   /**
-   * @type {Function}
+   * @type {!Function}
    * @private
    */
   var pathToCurve_ = cacher_(function(path, path2) {
@@ -352,31 +354,32 @@ graphics.VmlHelper = function() {
 
   /**
    * @param {*} pathArray The path array.
-   * @return {Array} Returns cloned path array.
+   * @return {!Array} Returns cloned path array.
    * @private
    */
   function pathClone_(pathArray) {
-    /** @type {Object} */ var result = clone_(pathArray);
+    /** @type {!Object} */ var result = clone_(pathArray);
     result.toString = pathToString_;
-    return /** @type {Array} */ (result);
+    return /** @type {!Array} */ (result);
   }
 
   /**
    * @param {*} obj The object to clone.
-   * @return {Object} Return cloned object.
+   * @return {!Object} Return cloned object.
    * @private
    */
   function clone_(obj) {
     if (Object(obj) !== obj) {
-      return /** @type {Object} */ (obj);
+      return /** @type {!Object} */ (obj);
     }
 
-    /** @type {Object} */ var result = new obj.constructor;
+    /** @type {!Object} */ var result = new obj.constructor;
     for (/** @type {string} */ var key in obj) {
       if (obj.hasOwnProperty(key)) {
         result[key] = clone_(obj[key]);
       }
     }
+
     return result;
   }
 
@@ -595,4 +598,3 @@ graphics.VmlHelper.getVmlPath = function(svgPath) {
   }
   return graphics.VmlHelper.helper_.getVmlPath(svgPath);
 };
-

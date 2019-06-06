@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple implementation of HTML5 input
  *               <code>type="date"</code> control.
@@ -23,7 +22,7 @@
  *   ::-webkit-inner-spin-button { display: none; }
  *   ::-webkit-calendar-picker-indicator { background: orange; }
  * </pre></code>
- * @param {string|Element} input The input element or its ID attribute.
+ * @param {string|!Element} input The input element or its ID attribute.
  * @constructor
  * @requires controls.DatePicker
  * @requires formatters.DateFormatter
@@ -56,7 +55,7 @@ controls.html5.InputDate = function(input) {
   }
 
   /**
-   * @param {Event} e The mousedown event.
+   * @param {?Event} e The mousedown event.
    * @private
    */
   function mousedown_(e) {
@@ -64,16 +63,16 @@ controls.html5.InputDate = function(input) {
   }
 
   /**
-   * @param {Event} e The onchange event.
+   * @param {?Event} e The onchange event.
    * @private
    */
   function change_(e) {
     /** @type {string} */ var format = picker_.getFormat();
-    /** @type {Date} */
+    /** @type {?Date} */
     var value = formatters.DateFormatter.parseDate(input_.value, format);
     if (value) {
       if (max_) {
-        /** @type {Date} */
+        /** @type {?Date} */
         var max = formatters.DateFormatter.parseDate(max_, format);
         if (value > max) {
           value = max;
@@ -81,26 +80,27 @@ controls.html5.InputDate = function(input) {
       }
 
       if (min_) {
-        /** @type {Date} */
+        /** @type {?Date} */
         var min = formatters.DateFormatter.parseDate(min_, format);
         if (value < min) {
           value = min;
         }
       }
 
-      input_.value = formatters.DateFormatter.formatDate(value, format);
+      input_.value = formatters.DateFormatter.formatDate(
+          /** @type {!Date} */ (value), format);
     }
   }
 
   /**
-   * @type {controls.DatePicker}
+   * @type {?controls.DatePicker}
    * @private
    */
   var picker_ = dom.NULL;
 
   /**
    * The reference to input element.
-   * @type {Element}
+   * @type {?Element}
    * @private
    */
   var input_ = typeof input == 'string' ? dom.getElementById(input) : input;

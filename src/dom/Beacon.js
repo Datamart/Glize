@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple Beacon implementation.
  *
@@ -23,15 +22,15 @@ dom.Beacon = {
    * provided by the <code>url</code> parameter.
    * @param {string} url The parameter indicates the resolved URL where the
    *     <code>data</code> is to be transmitted.
-   * @param {ArrayBufferView|Blob|FormData|string=} opt_data The optional data
-   *     to be transmitted.
+   * @param {?ArrayBufferView|?Blob|?FormData|string=} opt_data The optional
+   *     data to be transmitted.
    * @return {boolean} Returns <code>true</code> if the user agent is able to
    *     successfully queue the data for transfer.
    */
   sendBeacon: function(url, opt_data) {
-    /** @type {Function} */ var fn = dom.device['sendBeacon'];
+    /** @type {?Function} */ var fn = dom.device['sendBeacon'];
     /** @type {boolean} */ var result = fn ? fn(url, opt_data) : true;
-    /** @type {XMLHttpRequest} */ var req;
+    /** @type {?XMLHttpRequest} */ var req;
 
     if (!fn) {
       req = dom.context.XMLHttpRequest ?

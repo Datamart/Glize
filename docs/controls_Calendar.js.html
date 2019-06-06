@@ -26,8 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/**
+            <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Calendar control.
  *
  * @see http://google.github.io/styleguide/javascriptguide.xml
@@ -38,8 +37,8 @@
 
 /**
  * Constructor of Calendar control.
- * @param {string|Node} container The HTML container or its ID.
- * @param {Object=} opt_options Optional options.
+ * @param {string|!Node} container The HTML container or its ID.
+ * @param {!Object=} opt_options Optional options.
  * @extends {dom.EventDispatcher} dom.EventDispatcher
  * @constructor
  * @requires formatters.DateFormatter
@@ -93,7 +92,7 @@ controls.Calendar = function(container, opt_options) {
    * Dispatches &lt;code>controls.Calendar.events.DRAW&lt;/code> event and
    * dispatches &lt;code>dom.events.TYPE.CLICK&lt;/code> event when clicking on cell.
    * Exported for closure compiler with the same name.
-   * @param {Array.&lt;Date>|Date=} opt_selected Optional list of selected dates.
+   * @param {?Array.&lt;!Date>|!Date=} opt_selected Optional list of selected dates.
    */
   this.draw = function(opt_selected) {
     initSelection_(opt_selected);
@@ -150,10 +149,10 @@ controls.Calendar = function(container, opt_options) {
 
   /**
    * Iterates over table cells.
-   * @param {!function(Element)} callback Iterator callback function.
+   * @param {function(!Element)} callback Iterator callback function.
    */
   this.each = function(callback) {
-    /** @type {!Array|NodeList} */
+    /** @type {!Array|?NodeList} */
     var cells = dom.getElementsByTagName(getTable_(), 'TD') || [];
     /** @type {number} */ var i = 0;
 
@@ -183,7 +182,8 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function getTable_() {
-    return dom.getElementsByTagName(container_, 'TABLE')[0];
+    return dom.getElementsByTagName(
+        /** @type {!Node} */ (container_), 'TABLE')[0];
   }
 
   /**
@@ -191,8 +191,8 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function removeEmptyRow_(table) {
-    /** @type {HTMLCollection} */ var rows = table.rows;
-    /** @type {HTMLTableRowElement} */ var row = rows[rows.length - 1];
+    /** @type {?HTMLCollection.&lt;!HTMLTableRowElement>} */ var rows = table.rows;
+    /** @type {?HTMLTableRowElement} */ var row = rows[rows.length - 1];
     /** @type {number} */ var content = 0;
     /** @type {number} */ var i = 0;
     /** @type {number} */ var length = row.cells.length;
@@ -207,7 +207,7 @@ controls.Calendar = function(container, opt_options) {
   }
 
   /**
-   * @param {Array.&lt;Date>|Date=} opt_selected Optional list of selected dates.
+   * @param {?Array.&lt;!Date>|!Date=} opt_selected Optional list of selected dates.
    * @private
    */
   function initSelection_(opt_selected) {
@@ -230,9 +230,9 @@ controls.Calendar = function(container, opt_options) {
    * @private
    */
   function initEvents_(table) {
-    /** @type {HTMLCollection.&lt;!HTMLTableCellElement>} */
+    /** @type {?HTMLCollection.&lt;!HTMLTableCellElement>} */
     var headers = table.rows[0].cells;
-    /** @type {!Array.&lt;Node>} */ var cells = [
+    /** @type {!Array.&lt;!Node>} */ var cells = [
       headers[0],
       headers[headers.length - 1]
     ];
@@ -254,22 +254,21 @@ controls.Calendar = function(container, opt_options) {
   }
 
   /**
-   * @param {Event} e The event.
+   * @param {?Event} e The event.
    * @private
    */
   function clickHandler_(e) {
-    /** @type {EventTarget} */ var target = dom.events.getEventTarget(e);
-
+    /** @type {?EventTarget} */ var target = dom.events.getEventTarget(e);
 
     if (!isNaN(+target.innerHTML)) {
-      /** @type {Date} */ var selected = formatter_.parseDate(
+      /** @type {?Date} */ var selected = formatter_.parseDate(
           target.getAttribute('value'), opt_options['format']);
       /** @type {number} */ var index;
-      /** @type {Date} */ var start;
-      /** @type {Date} */ var end;
+      /** @type {?Date} */ var start;
+      /** @type {?Date} */ var end;
 
       if (opt_options['multiple'] &amp;&amp; !first_) {
-        selected_.push(selected);
+        selected_.push(/** @type {!Date} */ (selected));
         index = selected_.length - 1;
         if (selected_[0] > selected_[index]) {
           selected_.reverse();
@@ -285,8 +284,8 @@ controls.Calendar = function(container, opt_options) {
         self_.draw(selected_);
       } else {
         self_.clear();
-        dom.css.setClass(/** @type {Node} */ (target), 'active');
-        selected_[0] = selected;
+        dom.css.setClass(/** @type {!Node} */ (target), 'active');
+        selected_[0] = /** @type {!Date} */ (selected);
       }
       first_ = !first_;
       self_.dispatchEvent(dom.events.TYPE.CLICK);
@@ -317,7 +316,7 @@ controls.Calendar = function(container, opt_options) {
     /** @type {number} */
     var fix = new util.Date.DateTime(year, month, 1).getDay() + 1;
 
-    /** @type {Array} */
+    /** @type {!Array.&lt;number>} */
     var dim = [31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     dim[1] = (((year % 100 != 0) &amp;&amp; (year % 4 == 0)) ||
         (year % 400 == 0)) ? 29 : 28;
@@ -368,7 +367,7 @@ controls.Calendar = function(container, opt_options) {
     var today = (year == now.getFullYear() &amp;&amp;
                  month == now.getMonth()) ? now.getDate() : 0;
     /** @type {number} */ var i = 0;
-    /** @type {Date} */ var selected;
+    /** @type {?Date} */ var selected;
 
     for (; i &lt; selected_.length; i++) {
       selected = selected_[i];
@@ -414,7 +413,7 @@ controls.Calendar = function(container, opt_options) {
 
   /**
    * List of selected dates.
-   * @type {!Array.&lt;Date>}
+   * @type {!Array.&lt;!Date>}
    * @private
    */
   var selected_ = [];
@@ -434,7 +433,7 @@ controls.Calendar = function(container, opt_options) {
 
   /**
    * The reference to HTML chart container.
-   * @type {Node}
+   * @type {?Node}
    * @private
    */
   var container_ = typeof container == 'string' ?
@@ -446,10 +445,10 @@ controls.Calendar = function(container, opt_options) {
 
 /**
  * Draws calendar into specified &lt;code>container&lt;/code>.
- * @param {Node|string} container The HTML container or its ID.
- * @param {Array.&lt;Date>|Date=} opt_selected Optional list of selected dates.
- * @param {Object=} opt_options Optional options.
- * @return {controls.Calendar} Returns reference to controls.Calendar instance.
+ * @param {!Node|string} container The HTML container or its ID.
+ * @param {!Array.&lt;!Date>|!Date=} opt_selected Optional list of selected dates.
+ * @param {!Object=} opt_options Optional options.
+ * @return {!controls.Calendar} Returns reference to controls.Calendar instance.
  * @static
  */
 controls.Calendar.draw = function(container, opt_selected, opt_options) {
@@ -467,13 +466,13 @@ controls.Calendar.draw = function(container, opt_selected, opt_options) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="controls.html5.InputDate.html">InputDate</a></li><li><a href="controls.html5.InputNumber.html">InputNumber</a></li><li><a href="controls.html5.InputRange.html">InputRange</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.BytesFormatter.html">BytesFormatter</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.InputNumber.html">InputNumber</a></li><li><a href="forms.InputRange.html">InputRange</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="media.AudioRecorder.html">AudioRecorder</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Date.DateTime.html">DateTime</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="animation.html">animation</a></li><li><a href="compressors.html">compressors</a></li><li><a href="compressors.LZW.html">LZW</a></li><li><a href="controls.html">controls</a></li><li><a href="controls.html5.html">html5</a></li><li><a href="dom.html">dom</a></li><li><a href="dom.Beacon.html">Beacon</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.css.html">css</a></li><li><a href="dom.events.html">events</a></li><li><a href="dom.scripts.html">scripts</a></li><li><a href="formatters.html">formatters</a></li><li><a href="forms.html">forms</a></li><li><a href="graphics.html">graphics</a></li><li><a href="locale.html">locale</a></li><li><a href="media.html">media</a></li><li><a href="net.html">net</a></li><li><a href="net.JSONP.html">JSONP</a></li><li><a href="util.html">util</a></li><li><a href="util.Array.html">Array</a></li><li><a href="util.Base64.html">Base64</a></li><li><a href="util.Date.html">Date</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Number.html">Number</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.String.html">String</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="animation.html">animation</a></li><li><a href="compressors.html">compressors</a></li><li><a href="compressors.LZW.html">LZW</a></li><li><a href="controls.html">controls</a></li><li><a href="controls.html5.html">html5</a></li><li><a href="dom.html">dom</a></li><li><a href="dom.Beacon.html">Beacon</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.css.html">css</a></li><li><a href="dom.events.html">events</a></li><li><a href="dom.scripts.html">scripts</a></li><li><a href="formatters.html">formatters</a></li><li><a href="forms.html">forms</a></li><li><a href="graphics.html">graphics</a></li><li><a href="locale.html">locale</a></li><li><a href="media.html">media</a></li><li><a href="net.html">net</a></li><li><a href="net.JSONP.html">JSONP</a></li><li><a href="util.html">util</a></li><li><a href="util.Array.html">Array</a></li><li><a href="util.Base64.html">Base64</a></li><li><a href="util.Date.html">Date</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Number.html">Number</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.String.html">String</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li></ul><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="controls.html5.InputDate.html">InputDate</a></li><li><a href="controls.html5.InputNumber.html">InputNumber</a></li><li><a href="controls.html5.InputRange.html">InputRange</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.BytesFormatter.html">BytesFormatter</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.InputNumber.html">InputNumber</a></li><li><a href="forms.InputRange.html">InputRange</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="media.AudioRecorder.html">AudioRecorder</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Date.DateTime.html">DateTime</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue May 09 2017 17:20:45 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Jun 06 2019 00:47:47 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Simple implementation of HTML5 input
  *               <code>type="number"</code> control.
@@ -14,7 +13,7 @@
 /**
  * An implementation of HTML5 input <code>type="number"</code> for non
  * HTML5 browsers.
- * @param {string|HTMLInputElement} input The input element or its ID attribute.
+ * @param {string|!HTMLInputElement} input The input element or its ID attribute.
  * @extends {forms.InputNumber} forms.InputNumber
  * @constructor
  * @see http://www.w3.org/TR/html-markup/input.number.html

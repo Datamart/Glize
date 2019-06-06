@@ -26,8 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/**
+            <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Date format library.
  *
  * @see http://google.github.io/styleguide/javascriptguide.xml
@@ -44,11 +43,11 @@
 formatters.DateFormatter = function() {
 
   /**
-   * @type {!Object.&lt;string, function(Date): number>}
+   * @type {!Object.&lt;string, function(!Date): number>}
    */
   var NUMBER_FORMAT = {
     /**
-     * @param {Date} date The date to be formatted.
+     * @param {!Date} date The date to be formatted.
      * @return {number} Returns formatted date as number.
      */
     'YYYYMMdd': function(date) {
@@ -56,7 +55,7 @@ formatters.DateFormatter = function() {
              1e2 * (date.getMonth() + 1) + date.getDate();
     },
     /**
-     * @param {Date} date The date to be formatted.
+     * @param {!Date} date The date to be formatted.
      * @return {number} Returns formatted date as number.
      */
     'YYYYMMddhhmm': function(date) {
@@ -64,7 +63,7 @@ formatters.DateFormatter = function() {
              1e2 * date.getHours() + date.getMinutes();
     },
     /**
-     * @param {Date} date The date to be formatted.
+     * @param {!Date} date The date to be formatted.
      * @return {number} Returns formatted date as number.
      */
     'YYYYMMddhhmmss': function(date) {
@@ -74,7 +73,7 @@ formatters.DateFormatter = function() {
 
   /**
    * Formats given &lt;code>date&lt;/code> according to given &lt;code>format&lt;/code>.
-   * @param {Date} date The date to be formatted.
+   * @param {!Date} date The date to be formatted.
    * @param {string} format The date format.
    * @return {string} Returns formatted date as string.
    * @example
@@ -84,9 +83,9 @@ formatters.DateFormatter = function() {
    * formatter.formatDate(new Date(), 'dd MMM, YYYY');
    */
   this.formatDate = function(date, format) {
-    /** @type {function(Date): number} */ var fn = NUMBER_FORMAT[format];
+    /** @type {function(!Date): number} */ var fn = NUMBER_FORMAT[format];
     /** @type {number} */ var i = 0;
-    /** @type {Array.&lt;string, number>} */ var tokens;
+    /** @type {?Array.&lt;string, number>} */ var tokens;
     /** @type {number} */ var length;
     /** @type {string} */ var month;
 
@@ -111,19 +110,15 @@ formatters.DateFormatter = function() {
         format = format.replace(tokens[i++], tokens[i++]);
       }
     }
+
     return format;
   };
-
-  /**
-   * @deprecated Use `formatDate` instead.
-   */
-  this.format = this.formatDate;
 
   /**
    * Parses given date &lt;code>str&lt;/code>  according to given &lt;code>format&lt;/code>.
    * @param {string} str The date string to be parsed.
    * @param {string} format The date format.
-   * @return {Date} The parsed date.
+   * @return {?Date} The parsed date.
    * @example
    * var formatter = new formatters.DateFormatter();
    * formatter.parseDate('2013-01-31', 'YYYY-MM-dd');
@@ -150,16 +145,12 @@ formatters.DateFormatter = function() {
     if (map['MMMM'] || map['MMM']) {
       month = calendar_.getMonthByName(map['MMMM'] || map['MMM']);
     }
+
     return month >= 0 &amp;&amp; +map['dd'] &lt; 32 ?
         new util.Date.DateTime(
         year, month, +map['dd'], +map['hh'] || 0,
         +map['mm'] || 0, +map['ss'] || 0) : dom.NULL;
   };
-
-  /**
-   * @deprecated Use `parseDate` instead.
-   */
-  this.parse = this.parseDate;
 
   /**
    * @type {!locale.Calendar}
@@ -171,7 +162,7 @@ formatters.DateFormatter = function() {
 
 /**
  * Formats given &lt;code>date&lt;/code> according to given &lt;code>format&lt;/code>.
- * @param {Date} date The Date to be formatted.
+ * @param {!Date} date The Date to be formatted.
  * @param {string} format The date format.
  * @return {string} The formatted date as string.
  * @static
@@ -184,21 +175,16 @@ formatters.DateFormatter.formatDate = function(date, format) {
   if (!formatters.DateFormatter.formatter_) {
     formatters.DateFormatter.formatter_ = new formatters.DateFormatter;
   }
+
   return formatters.DateFormatter.formatter_.formatDate(date, format);
 };
-
-
-/**
- * @deprecated Use `formatters.DateFormatter.formatDate` instead.
- */
-formatters.DateFormatter.format = formatters.DateFormatter.formatDate;
 
 
 /**
  * Parses given date &lt;code>str&lt;/code>  according to given &lt;code>format&lt;/code>.
  * @param {string} str The date string to be parsed.
  * @param {string} format The date format.
- * @return {Date} The parsed date.
+ * @return {!Date} The parsed date.
  * @static
  * @example
  * formatters.DateFormatter.parseDate('2013-01-31', 'YYYY-MM-dd');
@@ -209,15 +195,9 @@ formatters.DateFormatter.parseDate = function(str, format) {
   if (!formatters.DateFormatter.formatter_) {
     formatters.DateFormatter.formatter_ = new formatters.DateFormatter;
   }
+
   return formatters.DateFormatter.formatter_.parseDate(str, format);
 };
-
-
-/**
- * @deprecated Use `formatters.DateFormatter.parseDate` instead.
- */
-formatters.DateFormatter.parse = formatters.DateFormatter.parseDate;
-
 </code></pre>
         </article>
     </section>
@@ -228,13 +208,13 @@ formatters.DateFormatter.parse = formatters.DateFormatter.parseDate;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="controls.html5.InputDate.html">InputDate</a></li><li><a href="controls.html5.InputNumber.html">InputNumber</a></li><li><a href="controls.html5.InputRange.html">InputRange</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.BytesFormatter.html">BytesFormatter</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.InputNumber.html">InputNumber</a></li><li><a href="forms.InputRange.html">InputRange</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="media.AudioRecorder.html">AudioRecorder</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Date.DateTime.html">DateTime</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul><h3>Namespaces</h3><ul><li><a href="animation.html">animation</a></li><li><a href="compressors.html">compressors</a></li><li><a href="compressors.LZW.html">LZW</a></li><li><a href="controls.html">controls</a></li><li><a href="controls.html5.html">html5</a></li><li><a href="dom.html">dom</a></li><li><a href="dom.Beacon.html">Beacon</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.css.html">css</a></li><li><a href="dom.events.html">events</a></li><li><a href="dom.scripts.html">scripts</a></li><li><a href="formatters.html">formatters</a></li><li><a href="forms.html">forms</a></li><li><a href="graphics.html">graphics</a></li><li><a href="locale.html">locale</a></li><li><a href="media.html">media</a></li><li><a href="net.html">net</a></li><li><a href="net.JSONP.html">JSONP</a></li><li><a href="util.html">util</a></li><li><a href="util.Array.html">Array</a></li><li><a href="util.Base64.html">Base64</a></li><li><a href="util.Date.html">Date</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Number.html">Number</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.String.html">String</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.Base64.html">Base64</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li><li><a href="util.StringUtils.LZW.html">LZW</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="animation.html">animation</a></li><li><a href="compressors.html">compressors</a></li><li><a href="compressors.LZW.html">LZW</a></li><li><a href="controls.html">controls</a></li><li><a href="controls.html5.html">html5</a></li><li><a href="dom.html">dom</a></li><li><a href="dom.Beacon.html">Beacon</a></li><li><a href="dom.Cookies.html">Cookies</a></li><li><a href="dom.css.html">css</a></li><li><a href="dom.events.html">events</a></li><li><a href="dom.scripts.html">scripts</a></li><li><a href="formatters.html">formatters</a></li><li><a href="forms.html">forms</a></li><li><a href="graphics.html">graphics</a></li><li><a href="locale.html">locale</a></li><li><a href="media.html">media</a></li><li><a href="net.html">net</a></li><li><a href="net.JSONP.html">JSONP</a></li><li><a href="util.html">util</a></li><li><a href="util.Array.html">Array</a></li><li><a href="util.Base64.html">Base64</a></li><li><a href="util.Date.html">Date</a></li><li><a href="util.FileUtils.html">FileUtils</a></li><li><a href="util.Number.html">Number</a></li><li><a href="util.Object.html">Object</a></li><li><a href="util.String.html">String</a></li><li><a href="util.StringUtils.html">StringUtils</a></li><li><a href="util.StringUtils.JSON.html">JSON</a></li></ul><h3>Classes</h3><ul><li><a href="controls.Calendar.html">Calendar</a></li><li><a href="controls.DatePicker.html">DatePicker</a></li><li><a href="controls.DateRangePicker.html">DateRangePicker</a></li><li><a href="controls.html5.InputDate.html">InputDate</a></li><li><a href="controls.html5.InputNumber.html">InputNumber</a></li><li><a href="controls.html5.InputRange.html">InputRange</a></li><li><a href="dom.DataStorage.html">DataStorage</a></li><li><a href="dom.EventDispatcher.html">EventDispatcher</a></li><li><a href="dom.Template.html">Template</a></li><li><a href="formatters.BytesFormatter.html">BytesFormatter</a></li><li><a href="formatters.DateFormatter.html">DateFormatter</a></li><li><a href="formatters.NumberFormatter.html">NumberFormatter</a></li><li><a href="forms.InputNumber.html">InputNumber</a></li><li><a href="forms.InputRange.html">InputRange</a></li><li><a href="forms.PlaceHolder.html">PlaceHolder</a></li><li><a href="forms.Validation.html">Validation</a></li><li><a href="graphics.VmlHelper.html">VmlHelper</a></li><li><a href="locale.Calendar.html">Calendar</a></li><li><a href="locale.Validation.html">Validation</a></li><li><a href="media.AudioRecorder.html">AudioRecorder</a></li><li><a href="net.HttpRequest.html">HttpRequest</a></li><li><a href="net.HttpServletRequest.html">HttpServletRequest</a></li><li><a href="net.ServletRequest.html">ServletRequest</a></li><li><a href="net.URL.html">URL</a></li><li><a href="util.Date.DateTime.html">DateTime</a></li><li><a href="util.Locale.html">Locale</a></li><li><a href="util.MetaData.html">MetaData</a></li><li><a href="util.PropertyReader.html">PropertyReader</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue May 09 2017 17:20:45 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Thu Jun 06 2019 00:47:47 GMT-0700 (Pacific Daylight Time)
 </footer>
 
 <script> prettyPrint(); </script>

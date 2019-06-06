@@ -1,4 +1,3 @@
-
 /**
  * @fileoverview Cookies utility methods.
  *
@@ -9,7 +8,7 @@
 
 /**
  * Cookies utility methods.
- * @type {!Object.<string, Function>}
+ * @type {!Object.<string, !Function>}
  * @requires util.Date
  * @namespace
  */
@@ -80,6 +79,7 @@ dom.Cookies = {
     while (length--) {
       keys[length] = (parts[length].split('=')[0]);
     }
+
     return keys;
   }
 };
