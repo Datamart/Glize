@@ -1,6 +1,11 @@
 # Utilities
-- [number-utils](#number-utils--) 
-- [strings-util](#strings-util--)
+
+| Package      | Version | Downloads  |
+| ------------ |-------------:| -----:|
+| [number-utils](#number-utils--)  | [![NPM version](https://img.shields.io/npm/v/number-utils.svg?style=flat)](https://npmjs.org/package/number-utils) | [![NPM downloads](https://img.shields.io/npm/dm/number-utils.svg?style=flat)](https://npmjs.org/package/number-utils) |
+| [strings-util](#strings-util--) | [![NPM version](https://img.shields.io/npm/v/strings-util.svg?style=flat)](https://npmjs.org/package/strings-util) | [![NPM downloads](https://img.shields.io/npm/dm/strings-util.svg?style=flat)](https://npmjs.org/package/strings-util) |
+
+
 
 
 # number-utils [![NPM version](https://img.shields.io/npm/v/number-utils.svg?style=flat)](https://npmjs.org/package/number-utils) [![NPM downloads](https://img.shields.io/npm/dm/number-utils.svg?style=flat)](https://npmjs.org/package/number-utils)
