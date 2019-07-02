@@ -8,3 +8,4 @@ script:
   - ./build/jslint.sh
   - ./build/jsmin.sh
   - ./build/jstest.sh
+  - ./build/npmjs.sh
