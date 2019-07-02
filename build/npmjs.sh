@@ -7,12 +7,12 @@ readonly NPM="$(which npm)"
 
 cd "${CWD}"
 "${NPM}" install number-utils
-cd node_modules/number-utils
+cd "${CWD}/node_modules/number-utils"
 "${NPM}" test
 
 cd "${CWD}"
 "${NPM}" install strings-util
-cd node_modules/strings-util
+cd "${CWD}/node_modules/strings-util"
 "${NPM}" test
 
 cd "${CWD}"
