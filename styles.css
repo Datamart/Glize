@@ -1,6 +1,6 @@
 /** overriding dtm default styles */
 .dtm-header #dtmLogo {display: none !important}
-.dtm-header .dtm-ext-logo {background: url(/Glize/images/glize-logo.png) no-repeat left center/48px}
+.dtm-header .dtm-ext-logo {background: url(/images/glize-logo.png) no-repeat left center/48px}
 
 a {color: #b20000}
 h2 {color: #333 !important;}
@@ -10,7 +10,7 @@ h2 {color: #333 !important;}
 body {
   background-attachment: fixed;
   background-color: white;
-  background-image: url(/Glize/images/glize-bg.jpg);
+  background-image: url(/images/glize-bg.jpg);
   background-size: cover;
   background-blend-mode: luminosity;
   -webkit-background-blend-mode: luminosity;
