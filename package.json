@@ -3,9 +3,10 @@
   "type": "module",
   "version": "21.0.1",
   "description": "Glize is a clean and robust pure Javascript library.",
-  "main": "index.js",
+  "main": "./index.js",
+  "exports": "./index.js",
   "scripts": {
-    "test": "node --experimental-specifier-resolution=node ./tests"
+    "test": "node ./tests"
   },
   "repository": {
     "type": "git",
