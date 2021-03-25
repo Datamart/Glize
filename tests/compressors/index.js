@@ -1,5 +1,5 @@
-import assert from 'assert/strict';
 import * as compressors from '../../src/compressors/index.js';
+import assert from 'assert/strict';
 
 const runTests = () => {
   testDefaultCompressor();
