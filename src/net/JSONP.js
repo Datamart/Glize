@@ -6,56 +6,49 @@
  * @see https://en.wikipedia.org/wiki/JSONP
  */
 
+import * as dom from '../dom/index.js';
+
 
 /**
- *  Simple implementation of JSONP.
+ * Performs JSONP request.
+ * @param {string} url The URL to which to send the request.
+ * @param {string=} param Optional callback query-string parameter name.
+ * @param {number=} timeout The maximum execution timeout.
+ * @return {!Promise} Returns the result as a Promise object.
  * @see https://en.wikipedia.org/wiki/JSONP
- * @namespace
  */
-net.JSONP = {
-  /**
-   * The query-string parameter name.
-   * @const {string}
-   */
-  CALLBACK_KEY: 'jsonp',
+export const load = (url, param = 'jsonp', timeout = 1E4) => {
+  return new Promise((resolve, reject) => {
+    const random = ~~(Math.random() * 1e9);
+    const key = param + '_' + random;
+    const query = param + '=' + key;
+    const context = dom.getContext();
+    const src = url + (~url.indexOf('?') ? '&' : '?') + query;
 
-  /**
-   * Performs JSONP request.
-   * @param {string} url The URL to which to send the request.
-   * @param {!Function} callback The callback function.
-   * @see dom.scripts.load
-   * @see https://en.wikipedia.org/wiki/JSONP
-   */
-  load: function(url, callback) {
-    /** @type {number} */ var random = ~~(Math.random() * 1e9);
-    /** @type {string} */ var key = net.JSONP.CALLBACK_KEY + '_' + random;
-    /** @type {string} */ var query = net.JSONP.CALLBACK_KEY + '=' + key;
-
-    dom.context[key] = function(data) {
-      callback(data);
-      dom.context[key] = dom.NULL;
+    const cleanup = () => {
+      context[key] = null;
+      count_--;
     };
 
-    dom.scripts.load(url + (~url.indexOf('?') ? '&' : '?') + query, function() {
-      net.JSONP.count_--;
-    });
+    context[key] = (data) => {
+      cleanup();
+      resolve(JSON.stringify(data));
+    };
 
-    net.JSONP.count_++;
-  },
-
-  /**
-   * Gets count of active requests.
-   * @return {number} Returns count of active requests.
-   */
-  getCount: function() {
-    return net.JSONP.count_;
-  },
-
-  /**
-   * The count of active requests.
-   * @type {number}
-   * @see net.JSONP#getCount
-   * @private
-   */
-  count_: 0
+    dom.loadScript(src, timeout).catch(() => {cleanup(), reject()});
+    count_++;
+  });
 };
+
+/**
+ * Gets count of active requests.
+ * @return {number} Returns count of active requests.
+ */
+export const getCount = () => count_;
+
+/**
+ * The count of active requests.
+ * @type {number}
+ * @private
+ */
+let count_ = 0;

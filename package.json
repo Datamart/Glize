@@ -1,0 +1,23 @@
+{
+  "name": "glize",
+  "type": "module",
+  "version": "21.0.1",
+  "description": "Glize is a clean and robust pure Javascript library.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Datamart/Glize.git"
+  },
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Datamart/Glize/issues"
+  },
+  "homepage": "https://glize.js.org/",
+  "author": {
+    "name": "Valentin Podkamennyi",
+    "email": "valentin@dtm.io"
+  }
+}
