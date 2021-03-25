@@ -3,5 +3,5 @@
 *.svn-base
 *.so
 .DS_Store
-bin
-build/lib
+legacy
+node_modules
