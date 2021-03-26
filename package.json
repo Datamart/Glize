@@ -16,9 +16,18 @@
   "bugs": {
     "url": "https://github.com/Datamart/Glize/issues"
   },
-  "homepage": "https://glize.js.org/",
+  "homepage": "https://glize.js.org",
   "author": {
     "name": "Valentin Podkamennyi",
     "email": "valentin@dtm.io"
-  }
+  },
+  "keywords": [
+    "compressors", "LZW",
+    "templates", "logic-less-template", "cookies",
+    "number-formatter", "ordinal-number", "byte-formatter",
+    "date-formatter", "date-parser", "locale", "jsonp",
+    "random-array", "random-number",
+    "array-contains",
+    "capitalize", "uuid4", "hash-string"
+  ]
 }
