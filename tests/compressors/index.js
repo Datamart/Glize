@@ -1,7 +1,10 @@
 import * as compressors from '../../src/compressors/index.js';
-import assert from 'assert/strict';
+// import assert from 'assert/strict';
+import * as path from 'path';
+import * as assert from 'assert';
 
 const runTests = () => {
+  console.log('path.delimiter', path.delimiter);
   testDefaultCompressor();
   testLzwCompressor();
 };
