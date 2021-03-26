@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import * as dom from '../../src/dom/index.js';
+import * as assert from 'assert/strict';
+import {dom} from 'glize';
 
 const runTests = () => {
   testTemplate();

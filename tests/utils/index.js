@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import * as utils from '../../src/utils/index.js';
+import * as assert from 'assert/strict';
+import {utils} from 'glize';
 
 const runTests = () => {
   testContains();

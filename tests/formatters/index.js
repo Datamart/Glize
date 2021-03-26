@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import * as formatters from '../../src/formatters/index.js';
+import * as assert from 'assert/strict';
+import {formatters} from 'glize';
 
 const runTests = () => {
   testFormatBytes();

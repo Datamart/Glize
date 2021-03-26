@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import * as locale from '../../src/locale/index.js';
+import * as assert from 'assert/strict';
+import {locale} from 'glize';
 
 const runTests = () => {
   testGetWeekNames();

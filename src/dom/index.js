@@ -5,10 +5,10 @@
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
- import * as cookies from './cookies.js';
- import * as template from './template.js';
+import * as cookies from './cookies.js';
+import * as template from './template.js';
 
- export { cookies, template };
+export { cookies, template };
  
 
 /**

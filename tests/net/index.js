@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import * as net from '../../src/net/index.js';
+import * as assert from 'assert/strict';
+import {net} from 'glize';
 
 const runTests = () => {
   testJsonpLoad();

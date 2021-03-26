@@ -1,5 +1,5 @@
-import * as assert from 'assert';
-import * as compressors from '../../src/compressors/index.js';
+import * as assert from 'assert/strict';
+import {compressors} from 'glize';
 
 const runTests = () => {
   testDefaultCompressor();
