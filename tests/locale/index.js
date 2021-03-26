@@ -1,4 +1,4 @@
-import * as assert from 'assert/strict';
+import * as assert from 'assert';
 import {locale} from 'glize';
 
 const runTests = () => {
