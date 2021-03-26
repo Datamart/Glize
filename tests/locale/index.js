@@ -1,4 +1,4 @@
-import assert from 'assert/strict';
+import * as assert from 'assert';
 import * as locale from '../../src/locale/index.js';
 
 const runTests = () => {

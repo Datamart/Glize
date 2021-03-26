@@ -1,4 +1,4 @@
-import assert from 'assert/strict';
+import * as assert from 'assert';
 import * as formatters from '../../src/formatters/index.js';
 
 const runTests = () => {

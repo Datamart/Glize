@@ -1,4 +1,4 @@
-import assert from 'assert/strict';
+import * as assert from 'assert';
 import * as utils from '../../src/utils/index.js';
 
 const runTests = () => {

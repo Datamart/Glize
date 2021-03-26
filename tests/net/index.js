@@ -1,4 +1,4 @@
-import assert from 'assert/strict';
+import * as assert from 'assert';
 import * as net from '../../src/net/index.js';
 
 const runTests = () => {
