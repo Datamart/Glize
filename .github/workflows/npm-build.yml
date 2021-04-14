@@ -31,9 +31,9 @@ jobs:
     - run: npm test
   jsdoc:
     runs-on: macos-latest
-    name: Run JSDoc
     needs: build
     steps:
+    - uses: actions/checkout@v2
     - uses: andstor/jsdoc-action@v1
       with:
         source_dir: ./src
