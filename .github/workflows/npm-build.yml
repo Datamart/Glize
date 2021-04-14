@@ -29,8 +29,12 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - name: jsdoc
-      uses: andstor/jsdoc-action@v1
+  jsdoc:
+    runs-on: macos-latest
+    name: Run JSDoc
+    needs: build
+    steps:
+    - uses: andstor/jsdoc-action@v1
       with:
         source_dir: ./src
         output_dir: ./docs
