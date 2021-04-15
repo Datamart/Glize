@@ -12,6 +12,5 @@ jobs:
           node-version: 15
           registry-url: https://registry.npmjs.org/
       - run: npm unpublish number-utils -f
-      - run: npm unpublish strings-util -f
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
