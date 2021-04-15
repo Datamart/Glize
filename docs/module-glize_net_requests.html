@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>glize/dom/template - Documentation</title>
+    <title>glize/net/requests - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">glize/dom/template</h1>
+    <h1 class="page-title">glize/net/requests</h1>
     
 
     
@@ -51,7 +51,9 @@
     <div class="container-overview">
     
         
-            <div class="description">Simple logic-less template engine.</div>
+            <div class="description">Simple implementation of
+              <code>javax.servlet.ServletRequest.</code> and
+              <code>javax.servlet.http.HttpServletRequest</code>.</div>
         
 
         
@@ -93,7 +95,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom_Template.js.html">dom/Template.js</a>, <a href="dom_Template.js.html#line1">line 1</a>
+        <a href="net_request.js.html">net/request.js</a>, <a href="net_request.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -106,6 +108,10 @@
             <li><a href="https://google.github.io/styleguide/javascriptguide.xml">https://google.github.io/styleguide/javascriptguide.xml</a></li>
         
             <li><a href="https://developers.google.com/closure/compiler/docs/js-for-compiler">https://developers.google.com/closure/compiler/docs/js-for-compiler</a></li>
+        
+            <li><a href="https://docs.oracle.com/javaee/7/api/javax/servlet/ServletRequest.html">https://docs.oracle.com/javaee/7/api/javax/servlet/ServletRequest.html</a></li>
+        
+            <li><a href="https://docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServletRequest.html">https://docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServletRequest.html</a></li>
         </ul>
     </dd>
     
@@ -143,6 +149,12 @@
     
 
     
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li><a href="module-glize_dom_cookies.html">module:glize/dom/cookies</a></li>
+        </ul>
+    
 
     
 
@@ -161,14 +173,15 @@
 
     
 
-    <h4 class="name" id=".parse"><span class="type-signature">(static) </span>parse<span class="signature">(content, values<span class="signature-attributes">non-null</span>, opt_prefix<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    <h4 class="name" id=".getCookies"><span class="type-signature">(static) </span>getCookies<span class="signature">()</span><span class="type-signature"> &rarr; (non-null) {Array.&lt;!Object>}</span></h4>
 
     
 
 
 
 <div class="description">
-    Parses template text content.
+    Returns an <code>Array</code> of all the cookies included
+   with this request.
 </div>
 
 
@@ -204,7 +217,117 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="dom_Template.js.html">dom/Template.js</a>, <a href="dom_Template.js.html#line25">line 25</a>
+        <a href="net_request.js.html">net/request.js</a>, <a href="net_request.js.html#line36">line 36</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Array.&lt;!Object></code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    Returns an <code>Array</code> of all the cookies
+    included with this request.
+</div>
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".getParameter"><span class="type-signature">(static) </span>getParameter<span class="signature">(name, opt_location)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns the value of a request parameter as a <code>string</code>, or empty
+<code>string</code> if the parameter does not exist.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="net_request.js.html">net/request.js</a>, <a href="net_request.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -236,8 +359,6 @@
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -250,7 +371,7 @@
 
         <tr>
             
-                <td class="name"><code>content</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
@@ -263,19 +384,12 @@
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
             <td class="description last">
-                The template text content.
+                A <code>string</code> specifying the name of the
+    parameter.
                 
             </td>
         </tr>
@@ -284,46 +398,18 @@
 
         <tr>
             
-                <td class="name"><code>values</code></td>
+                <td class="name"><code>opt_location</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><code>Object</code></span>
+<span class="param-type"><code>Element</code></span>
+|
 
+<span class="param-type"><code>Location</code></span>
+|
 
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last">
-                The template values as dict.
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>opt_prefix</code></td>
-            
-
-            <td class="type">
-            
-                
 <span class="param-type"><code>string</code></span>
 
 
@@ -331,21 +417,11 @@
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
             <td class="description last">
-                The optional var name prefix.
+                Optional location object.
                 
             </td>
         </tr>
@@ -386,7 +462,8 @@
 
 
 <div class="param-desc">
-    Returns parsed template text content.
+    Returns a <code>string</code> representing the single
+    value of the parameter.
 </div>
 
     
@@ -394,18 +471,509 @@
 
 
 
-<div class="section-examples">
-<h5>Example</h5>
+</div>
+        
+            
+<div class="section-method">
 
-    <pre class="prettyprint"><code>const values = {
-  'date': '2013-07-18',
-  'user': {'name': 'John'},
-  'func': () => {return 'Hello World.';}
-};
-const content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
-document.getElementById('div').innerHTML = template.parse(content, values);</code></pre>
+    
+
+    <h4 class="name" id=".getParameterMap"><span class="type-signature">(static) </span>getParameterMap<span class="signature">(opt_location)</span><span class="type-signature"> &rarr; (non-null) {Object.&lt;string, string>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns a map of the parameters of this request including parameters from
+parsed from query string and hash.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="net_request.js.html">net/request.js</a>, <a href="net_request.js.html#line85">line 85</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_location</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Element</code></span>
+|
+
+<span class="param-type"><code>Location</code></span>
+|
+
+<span class="param-type"><code>URL</code></span>
+|
+
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                Optional location.
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Object.&lt;string, string></code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    Map containing parameter names as keys
+    and parameter values as map values.
+</div>
+
+    
+</div>
+
+
 
 </div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".getParameterNames"><span class="type-signature">(static) </span>getParameterNames<span class="signature">(opt_location)</span><span class="type-signature"> &rarr; (non-null) {Array.&lt;string>}</span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="net_request.js.html">net/request.js</a>, <a href="net_request.js.html#line72">line 72</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_location</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Element</code></span>
+|
+
+<span class="param-type"><code>Location</code></span>
+|
+
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                Optional location object.
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Array.&lt;string></code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    Returns an <code>Array</code> of
+<code>string</code> objects, each <code>string</code> containing the name
+of a request parameter; or an empty <code>Array</code> if the request has
+no parameters.
+</div>
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".getQueryString"><span class="type-signature">(static) </span>getQueryString<span class="signature">(opt_location)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns the query string that is contained in the request URL after the
+    path.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="net_request.js.html">net/request.js</a>, <a href="net_request.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_location</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Element</code></span>
+|
+
+<span class="param-type"><code>Location</code></span>
+|
+
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                Optional location object.
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>string</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    Returns the query string that is contained in the request
+    URL after the path.
+</div>
+
+    
+</div>
+
+
 
 </div>
         
