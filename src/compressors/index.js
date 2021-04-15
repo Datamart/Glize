@@ -18,14 +18,14 @@ export const TYPE = {
 /**
  * Compress data string using specified compression type.
  * @param {string} data Data to compress.
- * @param {string=} opt_type Optional compression type.
+ * @param {string=} [opt_type=TYPE.LZW] Optional compression type.
  * @return {string} Returns compressed data.
  * @method
- * @example <caption>Usage example.</caption>
+ * @example
  * const result = glize.compress(
  *   'Any string of any length. Any string of any length. Any string of any length.');
  * console.log(result);
- * > Any string of aā leĈth. ĀĂĄĆĈĊČĎĂđēĕėďĚćĉċčďġgĔ.
+ * //> Any string of aā leĈth. ĀĂĄĆĈĊČĎĂđēĕėďĚćĉċčďġgĔ.
  */
 export const compress = (data, opt_type = TYPE.LZW) => {
   let result = '';
@@ -40,9 +40,13 @@ export const compress = (data, opt_type = TYPE.LZW) => {
 /**
  * Decompress data string using specified compression type.
  * @param {string} data Data to compress.
- * @param {string=} opt_type Optional compression type.
+ * @param {string=} [opt_type=TYPE.LZW] Optional compression type.
  * @return {string} Returns compressed data.
  * @method
+ * @example
+ * const result = glize.decompress('Any string of aā leĈth. ĀĂĄĆĈĊČĎĂđēĕėďĚćĉċčďġgĔ.');
+ * console.log(result);
+ * //> Any string of any length. Any string of any length. Any string of any length.
  */
  export const decompress = (data, opt_type = TYPE.LZW) => {
   let result = '';
