@@ -26,7 +26,7 @@ export const getCharset = () => {
 /**
  * Loads script. 
  * @param {string} src The script source to load.
- * @param {number=} timeout The maximum execution timeout.
+ * @param {number=} [timeout=1000] The maximum execution timeout in seconds.
  * @return {!Promise} Returns the result as a Promise object.
  * @method
  */

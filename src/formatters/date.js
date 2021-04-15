@@ -3,6 +3,8 @@
  *
  * @see http://google.github.io/styleguide/javascriptguide.xml
  * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @module glize/formatters/date
+ * @requires glize/locale
  */
 
 import {getMonthName, getMonthByName} from '../locale/index.js';
@@ -10,6 +12,7 @@ import {getMonthName, getMonthByName} from '../locale/index.js';
 /**
  * Static number formats that do not require parsing of the input string.
  * @type {!Object<string, function(!Date): number>}
+ * @inner
  */
 const NUMBER_FORMAT = {
   /**
@@ -42,6 +45,7 @@ const NUMBER_FORMAT = {
  * @param {!Date} date The date to be formatted.
  * @param {string} format The date format.
  * @return {string} Returns formatted date as string.
+ * @method
  * @example
  * formatDate(new Date(), 'YYYY-MM-dd');
  * formatDate(new Date(), 'YYYY-MM-dd hh:mm');
@@ -82,6 +86,7 @@ export const formatDate = (date, format) => {
  * @param {string} str The date string to be parsed.
  * @param {string} format The date format.
  * @return {?Date} The parsed date.
+ * @method
  * @example
  * parseDate('2013-01-31', 'YYYY-MM-dd');
  * parseDate('2013-01-31 20:30', 'YYYY-MM-dd hh:mm');

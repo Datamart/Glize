@@ -3,6 +3,7 @@
  *
  * @see https://google.github.io/styleguide/javascriptguide.xml
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @module glize/formatters/number
  */
 
 
@@ -11,6 +12,7 @@
  * @param {number} number The number to be formatted.
  * @param {!Object<string, *>=} opt_options Formatting options.
  * @return {string} The formatted number string.
+ * @method
  * @example
  * formatNumber(100);   // 100
  * formatNumber(1000);  // 1,000
@@ -39,6 +41,7 @@ export const formatNumber = (number, opt_options) => {
  * @param {number} number The number to be rounded.
  * @param {!Object<string, *>=} opt_options Formatting options.
  * @return {string} The rounded number string.
+ * @method
  * @example
  * roundNumber(100);   // 100
  * roundNumber(1000);  // 1k
@@ -72,6 +75,7 @@ export const roundNumber = (number, opt_options) => {
  * Gets the ordinal suffix for a number.
  * @param {number} number The number.
  * @return {string} Returns the ordinal suffix for a number.
+ * @method
  */
 export const ordinal = (number) => {
   const index = (
