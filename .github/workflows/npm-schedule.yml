@@ -6,9 +6,10 @@ on:
 
 jobs:
   init:
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - run: npm init --force
       - run: npm install glize komito-analytics
-      - run: cd node_modules/glize
-      - run: node ./tests
+      - run: cd node_modules/glize/tests
+      - run: node index.js
