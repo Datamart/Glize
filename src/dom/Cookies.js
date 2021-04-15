@@ -3,6 +3,7 @@
  *
  * @see https://google.github.io/styleguide/javascriptguide.xml
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @module glize/dom/cookies
  */
 
 
@@ -12,6 +13,7 @@
  * @param {string} value The value of the cookie.
  * @param {number} expiration The days after the cookie expires.
  * @param {string=} opt_domain Optional, domain that the cookie belongs to.
+ * @method
  */
 export const set = (key, value, expiration, opt_domain) => {
   const expires = new Date(expiration * 864E5 + Date.now()).toGMTString();
@@ -26,6 +28,7 @@ export const set = (key, value, expiration, opt_domain) => {
  * @param {string=} opt_default The optional default value.
  * @return {string} The value of the cookie. If no cookie is set this
  *     returns opt_default or undefined if opt_default is not provided.
+ * @method
  */
 export const get = (key, opt_default = '') => {
   const re = key + '=([^;].+?)(;|$)';
@@ -36,6 +39,7 @@ export const get = (key, opt_default = '') => {
  * Removes and expires a cookie.
  * @param {string} key The cookie name.
  * @return {boolean} Whether the cookie existed before it was removed.
+ * @method
  */
 export const remove = (key) => {
   const value = get(key);
@@ -46,6 +50,7 @@ export const remove = (key) => {
 
 /**
  * Removes and expires all cookie.
+ * @method
  */
 export const clear = () => {
   const keys = get();
@@ -59,6 +64,7 @@ export const clear = () => {
 /**
  * Gets list of stored keys.
  * @return {!Array<string>} Returns list of stored keys.
+ * @method
  */
 export const keys = () => {
   const re = /;\s*/;

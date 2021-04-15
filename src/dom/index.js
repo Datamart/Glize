@@ -3,6 +3,7 @@
  *
  * @see https://google.github.io/styleguide/javascriptguide.xml
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @module glize/dom
  */
 
 import * as cookies from './cookies.js';
@@ -14,6 +15,7 @@ export { cookies, template };
 /**
  * Gets default document charset.
  * @return {string} Returns default document charset.
+ * @method
  */
 export const getCharset = () => {
  const doc = getDocument();
@@ -26,6 +28,7 @@ export const getCharset = () => {
  * @param {string} src The script source to load.
  * @param {number=} timeout The maximum execution timeout.
  * @return {!Promise} Returns the result as a Promise object.
+ * @method
  */
 export const loadScript = (src, timeout = 1E4) => {
   return new Promise((resolve, reject) => {
@@ -58,6 +61,7 @@ export const loadScript = (src, timeout = 1E4) => {
  * @return {!Window|!Object} Returns root context object.
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Window
  * @see https://nodejs.org/api/globals.html#globals_global
+ * @method
  */
 export const getContext = () => {
   const context = 
@@ -70,6 +74,7 @@ export const getContext = () => {
  * Gets HTML document object.
  * @return {?HTMLDocument} Returns HTML document object.
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Document
+ * @method
  */
 export const getDocument = () => {
   const ctx = getContext();

@@ -1,4 +1,12 @@
 /**
+ * @fileoverview Simple logic-less template engine.
+ *
+ * @see https://google.github.io/styleguide/javascriptguide.xml
+ * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @module glize/dom/template
+ */
+
+/**
  * Parses template text content.
  * @param {string} content The template text content.
  * @param {!Object} values The template values as dict.
@@ -12,6 +20,7 @@
  * };
  * const content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
  * document.getElementById('div').innerHTML = template.parse(content, values);
+ * @method
  */
 export const parse = (content, values, opt_prefix) => {
   const placeholder = '__DOLLAR__' + Date.now();
