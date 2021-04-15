@@ -4,6 +4,8 @@
  * @see http://google.github.io/styleguide/javascriptguide.xml
  * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  * @see https://en.wikipedia.org/wiki/JSONP
+ * @module glize/net/jsonp
+ * @requires glize/dom#loadScript
  */
 
 import * as dom from '../dom/index.js';
@@ -16,6 +18,7 @@ import * as dom from '../dom/index.js';
  * @param {number=} timeout The maximum execution timeout.
  * @return {!Promise} Returns the result as a Promise object.
  * @see https://en.wikipedia.org/wiki/JSONP
+ * @method
  */
 export const load = (url, param = 'jsonp', timeout = 1E4) => {
   return new Promise((resolve, reject) => {
@@ -43,6 +46,7 @@ export const load = (url, param = 'jsonp', timeout = 1E4) => {
 /**
  * Gets count of active requests.
  * @return {number} Returns count of active requests.
+ * @method
  */
 export const getCount = () => count_;
 

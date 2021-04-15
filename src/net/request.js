@@ -7,6 +7,8 @@
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  * @see https://docs.oracle.com/javaee/7/api/javax/servlet/ServletRequest.html
  * @see https://docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServletRequest.html
+ * @module glize/net/requests
+ * @requires glize/dom/cookies
  */
 
 import {cookies}  from '../dom/index.js';
@@ -17,6 +19,7 @@ import {cookies}  from '../dom/index.js';
  * @param {?Element|?Location|string=} opt_location Optional location object.
  * @return {string} Returns the query string that is contained in the request
  *     URL after the path.
+ * @method
  */
 export const getQueryString = (opt_location) => {
   opt_location = getLocation_(opt_location);
@@ -28,6 +31,7 @@ export const getQueryString = (opt_location) => {
  *    with this request.
  * @return {!Array<!Object>} Returns an <code>Array</code> of all the cookies
  *     included with this request.
+ * @method
  */
 export const getCookies = function() {
   const keys = cookies.keys();
@@ -50,6 +54,7 @@ export const getCookies = function() {
  * @param {?Element|?Location|string=} opt_location Optional location object.
  * @return {string} Returns a <code>string</code> representing the single
  *     value of the parameter.
+ * @method
  */
 export const getParameter = (name, opt_location) => {
   const map = getParameterMap(opt_location);
@@ -62,6 +67,7 @@ export const getParameter = (name, opt_location) => {
  * <code>string</code> objects, each <code>string</code> containing the name
  * of a request parameter; or an empty <code>Array</code> if the request has
  * no parameters.
+ * @method
  */
 export const getParameterNames = (opt_location) => {
   const map = getParameterMap(opt_location);
@@ -74,6 +80,7 @@ export const getParameterNames = (opt_location) => {
  * @param {?Element|?Location|?URL|string=} opt_location Optional location.
  * @return {!Object<string, string>} Map containing parameter names as keys
  *     and parameter values as map values.
+ * @method
  */
 export const getParameterMap = (opt_location) => {
   opt_location = getLocation_(opt_location);
@@ -98,6 +105,7 @@ export const getParameterMap = (opt_location) => {
 /**
  * @param {?Element|?Location|?URL|string=} opt_location Optional location.
  * @return {!WorkerLocation|!URL}
+ * @method
  * @private
  */
 const getLocation_ = (opt_location) => {
