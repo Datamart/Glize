@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: dom/Template.js</title>
+    <title>JSDoc: Source: compressors/index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: dom/Template.js</h1>
+    <h1 class="page-title">Source: compressors/index.js</h1>
 
     
 
@@ -27,70 +27,114 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Parses template text content.
- * @param {string} content The template text content.
- * @param {!Object} values The template values as dict.
- * @param {string=} opt_prefix The optional var name prefix.
- * @return {string} Returns parsed template text content.
- * @example
- * const values = {
- *   'date': '2013-07-18',
- *   'user': {'name': 'John'},
- *   'func': () => {return 'Hello World.';}
- * };
- * const content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
- * document.getElementById('div').innerHTML = template.parse(content, values);
+ * @fileoverview Defines compressors utility methods.
+ *
+ * @see https://google.github.io/styleguide/javascriptguide.xml
+ * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  */
-export const parse = (content, values, opt_prefix) => {
-  const placeholder = '__DOLLAR__' + Date.now();
-  const pattern = (str = '') => {
-    return '{{\\s*' + str.replace('.', '\\.') + '(\\|[\\w\\-\\.]+)?\\s*}}';
-  };
 
-  for (let key in values) {
-    let value = values[key];
-    key = ((opt_prefix ? opt_prefix + '.' : '') + key);
 
-    if ('object' == typeof value) {
-      content = parse(content, value, key);
-    } else {
-      if (Array.isArray(value)) {
-        value = value.join(', ');
-      } else if ('function' == typeof value) {
-        value = value();
-      }
-
-      if (value) {
-        let re = new RegExp(pattern(key), 'img');
-        value = value.replace('$', placeholder);
-        content = content.replace(re, value);
-        content = content.replace(placeholder, '$');
-      }
-    }
-  }
-
-  if (!opt_prefix) {
-    content = parseDefaultValue_(content);
-  }
-
-  return content;
+/**
+ * Enumeration of available compression types.
+ * @enum {string}
+ */
+export const TYPE = {
+  LZW: 'lzw'
 };
 
-const parseDefaultValue_ = (content) => {
-  // Replace default values.
-  let matches = content.match(/\{\{\s*[\w\-\.]+(\|\w+)\s*\}\}/img);
-  if (matches) {
-    for (let i = 0; i &lt; matches.length;) {
-      let match = matches[i++];
-      let value = match.match(/\|(\w+)\s*\}\}/);
-      content = content.replace(match, (value &amp;&amp; value[1]) || '');
-    }
+/**
+ * Compress data string using specified compression type.
+ * @param {string} data Data to compress.
+ * @param {string=} opt_type Optional compression type.
+ * @return {string} Returns compressed data.
+ */
+export const compress = (data, opt_type = TYPE.LZW) => {
+  let result = '';
+
+  if (TYPE.LZW === opt_type) {
+    result = LZW.compress(data);
   }
 
-  // Clear all not parsed variables.
-  content = content.replace(/\{\{\s*[\w\-\.]+\s*\}\}/img, '');
+  return result;
+};
 
-  return content;
+/**
+ * Decompress data string using specified compression type.
+ * @param {string} data Data to compress.
+ * @param {string=} opt_type Optional compression type.
+ * @return {string} Returns compressed data.
+ */
+ export const decompress = (data, opt_type = TYPE.LZW) => {
+  let result = '';
+
+  if (TYPE.LZW === opt_type) {
+    result = LZW.decompress(data);
+  }
+
+  return result;
+}
+
+/**
+ * LZW compression utility.
+ * @see http://en.wikipedia.org/wiki/Lempel–Ziv–Welch
+ */
+const LZW = {
+  /**
+   * Encodes string using LZW algorithm.
+   * @param {string} str The input string.
+   * @return {string} Returns compressed string using LZW algorithm.
+   */
+  compress: (str) => {
+    const dict = {};
+    const data = str.split('');
+    const out = [];
+    let code = 256;
+    let phrase = data.shift();
+
+    while (data.length) {
+      const next = data.shift();
+      if (null != dict[phrase + next]) {
+        phrase += next;
+      } else {
+        out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
+        dict[phrase + next] = code++;
+        phrase = next;
+      }
+    }
+    out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
+    for (let i = 0; i &lt; out.length; i++) {
+      out[i] = String.fromCharCode(/** @type {number} */ (out[i]));
+    }
+
+    return out.join('');
+  },
+
+  /**
+   * Decodes string encoded with LZW algorithm.
+   * @param {string} str The input string encoded with LZW algorithm.
+   * @return {string} Returns decoded string.
+   */
+  decompress: (str) => {
+    const dict = {};
+    const data = str.split('');
+    const out = [data.shift()];
+    let code = 256;
+    let chr = out[0];
+    let tmp = chr;
+
+    for (let i = 0; i &lt; data.length; i++) {
+      const next = data[i].charCodeAt(0);
+      const phrase = next &lt; 256 ? 
+          data[i] : 
+          (dict[next] ? dict[next] : (tmp + chr));
+      out.push(phrase);
+      chr = phrase.charAt(0);
+      dict[code++] = tmp + chr;
+      tmp = phrase;
+    }
+
+    return out.join('');
+  }
 };
 </code></pre>
         </article>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: dom/Cookies.js</title>
+    <title>JSDoc: Source: formatters/date.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: dom/Cookies.js</h1>
+    <h1 class="page-title">Source: formatters/date.js</h1>
 
     
 
@@ -27,78 +27,116 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Cookies utility methods.
+ * @fileoverview Date format library.
  *
- * @see https://google.github.io/styleguide/javascriptguide.xml
- * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  */
 
+import {getMonthName, getMonthByName} from '../locale/index.js';
 
 /**
- * Sets a cookie.
- * @param {string} key The name of the cookie.
- * @param {string} value The value of the cookie.
- * @param {number} expiration The days after the cookie expires.
- * @param {string=} opt_domain Optional, domain that the cookie belongs to.
+ * Static number formats that do not require parsing of the input string.
+ * @type {!Object&lt;string, function(!Date): number>}
  */
-export const set = (key, value, expiration, opt_domain) => {
-  const expires = new Date(expiration * 864E5 + Date.now()).toGMTString();
-  document.cookie = escape(key) + '=' + escape(value || '') +
-    '; expires=' + expires +
-    '; path=/; domain=' + (opt_domain || document.domain);
-};
-
-/**
- * Gets the value for the first cookie with the given name.
- * @param {string} key The name of the cookie to get.
- * @param {string=} opt_default The optional default value.
- * @return {string} The value of the cookie. If no cookie is set this
- *     returns opt_default or undefined if opt_default is not provided.
- */
-export const get = (key, opt_default = '') => {
-  const re = key + '=([^;].+?)(;|$)';
-  return unescape((document.cookie.match(re) || [])[1] || opt_default);
-};
-
-/**
- * Removes and expires a cookie.
- * @param {string} key The cookie name.
- * @return {boolean} Whether the cookie existed before it was removed.
- */
-export const remove = (key) => {
-  const value = get(key);
-
-  set(key, '', 0);
-  return !!value;
-};
-
-/**
- * Removes and expires all cookie.
- */
-export const clear = () => {
-  const keys = get();
-  let length = keys.length;
-
-  while (length--) {
-    remove(keys[length]);
+const NUMBER_FORMAT = {
+  /**
+   * @param {!Date} date The date to be formatted.
+   * @return {number} Returns formatted date as number.
+   */
+  'YYYYMMdd': (date) => {
+      return 1e4 * date.getFullYear() +
+             1e2 * (date.getMonth() + 1) + date.getDate();
+  },
+  /**
+   * @param {!Date} date The date to be formatted.
+   * @return {number} Returns formatted date as number.
+   */
+  'YYYYMMddhhmm': (date) => {
+      return 1e4 * NUMBER_FORMAT['YYYYMMdd'](date) +
+             1e2 * date.getHours() + date.getMinutes();
+  },
+  /**
+   * @param {!Date} date The date to be formatted.
+   * @return {number} Returns formatted date as number.
+   */
+  'YYYYMMddhhmmss': (date) => {
+      return 1e2 * NUMBER_FORMAT['YYYYMMddhhmm'](date) + date.getSeconds();
   }
 };
 
 /**
- * Gets list of stored keys.
- * @return {!Array&lt;string>} Returns list of stored keys.
+ * Formats given &lt;code>date&lt;/code> according to given &lt;code>format&lt;/code>.
+ * @param {!Date} date The date to be formatted.
+ * @param {string} format The date format.
+ * @return {string} Returns formatted date as string.
+ * @example
+ * formatDate(new Date(), 'YYYY-MM-dd');
+ * formatDate(new Date(), 'YYYY-MM-dd hh:mm');
+ * formatDate(new Date(), 'dd MMM, YYYY');
  */
-export const keys = () => {
-  const re = /;\s*/;
-  const parts = document.cookie.split(re);
-  let length = parts.length;
-  const keys = new Array(length - 1);
+export const formatDate = (date, format) => {
+  const fn = NUMBER_FORMAT[format];
+  const pad = (num) => ('0' + num).slice(-2);
 
-  while (length--) {
-    keys[length] = (parts[length].split('=')[0]);
+  if (fn) {
+    format = '' + fn(date);
+  } else {
+    const month = getMonthName(date);
+    const tokens = [
+      'YYYY', date.getFullYear(),
+      'YY', (date.getFullYear() + '').substr(2),
+      'MMMM', month,
+      'MMM', month.substr(0, 3),
+      'MM', pad(date.getMonth() + 1),
+      'dd', pad(date.getDate()),
+      'd', date.getDate(),
+      'hh', pad(date.getHours()),
+      'mm', pad(date.getMinutes()),
+      'ss', pad(date.getSeconds())
+    ];
+
+    const length = tokens.length;
+    for (let i = 0; i &lt; length;) {
+      format = format.replace(tokens[i++], tokens[i++]);
+    }
   }
 
-  return keys;
+  return format;
+};
+
+/**
+ * Parses given date &lt;code>str&lt;/code> according to given &lt;code>format&lt;/code>.
+ * @param {string} str The date string to be parsed.
+ * @param {string} format The date format.
+ * @return {?Date} The parsed date.
+ * @example
+ * parseDate('2013-01-31', 'YYYY-MM-dd');
+ * parseDate('2013-01-31 20:30', 'YYYY-MM-dd hh:mm');
+ * parseDate('03 Jan, 2013', 'dd MMM, YYYY');
+ */
+export const parseDate = (str, format) => {
+  const re = /[\/\s,\.\:\-]/;
+  const dateParts = str.split(re);
+  const formatParts = format.split(re);
+  const map = {};
+
+  for (let i = 0; i &lt; Math.min(dateParts.length, formatParts.length); ++i) {
+    const key = formatParts[i];
+    if (key) map[key] = dateParts[i];
+  }
+
+  const year = +(map['YYYY'] || '20' + map['YY']);
+  let month = +(map['MM'] || 0) - 1;
+  if (map['MMMM'] || map['MMM']) {
+    month = getMonthByName(map['MMMM'] || map['MMM']);
+  }
+
+  return month >= 0 &amp;&amp; +map['dd'] &lt; 32 ?
+      new Date(
+        year, month, +map['dd'], 
+        +map['hh'] || 0, +map['mm'] || 0, +map['ss'] || 0) :
+      null;
 };
 </code></pre>
         </article>

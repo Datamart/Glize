@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: dom/Template.js</title>
+    <title>JSDoc: Source: dom/index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: dom/Template.js</h1>
+    <h1 class="page-title">Source: dom/index.js</h1>
 
     
 
@@ -27,70 +27,83 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Parses template text content.
- * @param {string} content The template text content.
- * @param {!Object} values The template values as dict.
- * @param {string=} opt_prefix The optional var name prefix.
- * @return {string} Returns parsed template text content.
- * @example
- * const values = {
- *   'date': '2013-07-18',
- *   'user': {'name': 'John'},
- *   'func': () => {return 'Hello World.';}
- * };
- * const content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
- * document.getElementById('div').innerHTML = template.parse(content, values);
+ * @fileoverview DOM utility methods.
+ *
+ * @see https://google.github.io/styleguide/javascriptguide.xml
+ * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  */
-export const parse = (content, values, opt_prefix) => {
-  const placeholder = '__DOLLAR__' + Date.now();
-  const pattern = (str = '') => {
-    return '{{\\s*' + str.replace('.', '\\.') + '(\\|[\\w\\-\\.]+)?\\s*}}';
-  };
 
-  for (let key in values) {
-    let value = values[key];
-    key = ((opt_prefix ? opt_prefix + '.' : '') + key);
+import * as cookies from './cookies.js';
+import * as template from './template.js';
 
-    if ('object' == typeof value) {
-      content = parse(content, value, key);
-    } else {
-      if (Array.isArray(value)) {
-        value = value.join(', ');
-      } else if ('function' == typeof value) {
-        value = value();
-      }
+export { cookies, template };
+ 
 
-      if (value) {
-        let re = new RegExp(pattern(key), 'img');
-        value = value.replace('$', placeholder);
-        content = content.replace(re, value);
-        content = content.replace(placeholder, '$');
-      }
-    }
-  }
-
-  if (!opt_prefix) {
-    content = parseDefaultValue_(content);
-  }
-
-  return content;
+/**
+ * Gets default document charset.
+ * @return {string} Returns default document charset.
+ */
+export const getCharset = () => {
+ const doc = getDocument();
+ const charset = doc &amp;&amp; (doc.charset || doc.characterSet);
+ return (charset || 'utf-8').toLowerCase();
 };
 
-const parseDefaultValue_ = (content) => {
-  // Replace default values.
-  let matches = content.match(/\{\{\s*[\w\-\.]+(\|\w+)\s*\}\}/img);
-  if (matches) {
-    for (let i = 0; i &lt; matches.length;) {
-      let match = matches[i++];
-      let value = match.match(/\|(\w+)\s*\}\}/);
-      content = content.replace(match, (value &amp;&amp; value[1]) || '');
+/**
+ * Loads script. 
+ * @param {string} src The script source to load.
+ * @param {number=} timeout The maximum execution timeout.
+ * @return {!Promise} Returns the result as a Promise object.
+ */
+export const loadScript = (src, timeout = 1E4) => {
+  return new Promise((resolve, reject) => {
+    const doc = getDocument();
+
+    if (doc) {
+      const script = doc.createElement('SCRIPT');
+      const cleanup = (fn) => {
+        timer &amp;&amp; clearTimeout(timer);
+        script.onload = script.onerror = null;
+        script.parentNode.removeChild(script);
+        fn();
+      };
+
+      script.onload = () => cleanup(resolve);
+      script.onerror = () => cleanup(reject);
+      script.async = true;
+      script.src = src;
+      doc.body.appendChild(script);
+
+      const timer = setTimeout(() => cleanup(reject), timeout);
+    } else {
+      reject();
     }
-  }
+  });
+};
 
-  // Clear all not parsed variables.
-  content = content.replace(/\{\{\s*[\w\-\.]+\s*\}\}/img, '');
+/**
+ * Gets root context object.
+ * @return {!Window|!Object} Returns root context object.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Window
+ * @see https://nodejs.org/api/globals.html#globals_global
+ */
+export const getContext = () => {
+  const context = 
+    ('object' === typeof self &amp;&amp; self.self === self &amp;&amp; self) ||
+    ('object' === typeof global &amp;&amp; global.global === global &amp;&amp; global);
+  return /** @type {!Window|!Object} */ (context);
+};
 
-  return content;
+/**
+ * Gets HTML document object.
+ * @return {?HTMLDocument} Returns HTML document object.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Document
+ */
+export const getDocument = () => {
+  const ctx = getContext();
+  const doc = ctx.document;
+
+  return /** @type {?HTMLDocument} */ (doc);
 };
 </code></pre>
         </article>

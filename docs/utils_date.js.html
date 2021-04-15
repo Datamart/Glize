@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: dom/Template.js</title>
+    <title>JSDoc: Source: utils/date.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: dom/Template.js</h1>
+    <h1 class="page-title">Source: utils/date.js</h1>
 
     
 
@@ -27,70 +27,63 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Parses template text content.
- * @param {string} content The template text content.
- * @param {!Object} values The template values as dict.
- * @param {string=} opt_prefix The optional var name prefix.
- * @return {string} Returns parsed template text content.
- * @example
- * const values = {
- *   'date': '2013-07-18',
- *   'user': {'name': 'John'},
- *   'func': () => {return 'Hello World.';}
- * };
- * const content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
- * document.getElementById('div').innerHTML = template.parse(content, values);
+ * @fileoverview Date utility methods.
+ *
+ * @see https://google.github.io/styleguide/javascriptguide.xml
+ * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  */
-export const parse = (content, values, opt_prefix) => {
-  const placeholder = '__DOLLAR__' + Date.now();
-  const pattern = (str = '') => {
-    return '{{\\s*' + str.replace('.', '\\.') + '(\\|[\\w\\-\\.]+)?\\s*}}';
-  };
 
-  for (let key in values) {
-    let value = values[key];
-    key = ((opt_prefix ? opt_prefix + '.' : '') + key);
 
-    if ('object' == typeof value) {
-      content = parse(content, value, key);
-    } else {
-      if (Array.isArray(value)) {
-        value = value.join(', ');
-      } else if ('function' == typeof value) {
-        value = value();
-      }
-
-      if (value) {
-        let re = new RegExp(pattern(key), 'img');
-        value = value.replace('$', placeholder);
-        content = content.replace(re, value);
-        content = content.replace(placeholder, '$');
-      }
-    }
-  }
-
-  if (!opt_prefix) {
-    content = parseDefaultValue_(content);
-  }
-
-  return content;
+/**
+ * Converts 24-hour time string to 12-hour time string.
+ * @param {string} time The time string ("00:30", "01:45", "12:00", "22:15").
+ * @return {string} Return converted 24-hour time string to 12-hour time.
+ * @example
+ * toAmPmTime('00:30'); // 12:30 AM
+ * toAmPmTime('01:15'); // 1:15 AM
+ * toAmPmTime('11:45'); // 11:45 AM
+ * toAmPmTime('12:15'); // 12:15 PM
+ * toAmPmTime('13:15'); // 1:15 PM
+ * toAmPmTime('23:15'); // 11:15 PM
+ */
+export const toAmPmTime = (time) => {
+  const hours = time.slice(0, 2);
+  return (hours % 12 || 12) + ':' + time.slice(3, 5) + ' ' +
+          (12 > hours ? 'AM' : 'PM');
 };
 
-const parseDefaultValue_ = (content) => {
-  // Replace default values.
-  let matches = content.match(/\{\{\s*[\w\-\.]+(\|\w+)\s*\}\}/img);
-  if (matches) {
-    for (let i = 0; i &lt; matches.length;) {
-      let match = matches[i++];
-      let value = match.match(/\|(\w+)\s*\}\}/);
-      content = content.replace(match, (value &amp;&amp; value[1]) || '');
-    }
-  }
+/**
+ * Gets week date.
+ * @param {!Date=} opt_date The optional date object.
+ * @return {string} Returns week date in ISO 8601 format.
+ * @see https://en.wikipedia.org/wiki/ISO_8601#Week_dates
+ * @see https://en.wikipedia.org/wiki/ISO_week_date
+ * @example
+ * var weekDate = getWeekDate(new Date(2015, 9, 26));
+ * var expected = '2015-W44';
+ * weekDate === expected;
+ */
+export const getWeekDate = (date = new Date()) => {
+  const number = getWeekNumber(date);
+  const week = ('0' + number).slice(-2);
 
-  // Clear all not parsed variables.
-  content = content.replace(/\{\{\s*[\w\-\.]+\s*\}\}/img, '');
+  return date.getFullYear() + '-W' + week;
+};
 
-  return content;
+/**
+ * Gets week number.
+ * @param {!Date=} opt_date The optional date object.
+ * @return {number} Returns week number.
+ * @see https://en.wikipedia.org/wiki/ISO_8601#Week_dates
+ * @see https://en.wikipedia.org/wiki/ISO_week_date
+ */
+export const getWeekNumber = (date = new Date()) => {
+  date.setHours(0, 0, 0, 0);
+  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+  const jan4 = new Date(date.getFullYear(), 0, 4);
+  const diff = date - jan4;
+
+  return 1 + Math.round((diff / 864e5 - 3 + (jan4.getDay() + 6) % 7) / 7);
 };
 </code></pre>
         </article>

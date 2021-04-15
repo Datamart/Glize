@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: dom/Template.js</title>
+    <title>JSDoc: Source: formatters/number.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: dom/Template.js</h1>
+    <h1 class="page-title">Source: formatters/number.js</h1>
 
     
 
@@ -27,70 +27,113 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Parses template text content.
- * @param {string} content The template text content.
- * @param {!Object} values The template values as dict.
- * @param {string=} opt_prefix The optional var name prefix.
- * @return {string} Returns parsed template text content.
- * @example
- * const values = {
- *   'date': '2013-07-18',
- *   'user': {'name': 'John'},
- *   'func': () => {return 'Hello World.';}
- * };
- * const content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
- * document.getElementById('div').innerHTML = template.parse(content, values);
+ * @fileoverview Number format library.
+ *
+ * @see https://google.github.io/styleguide/javascriptguide.xml
+ * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  */
-export const parse = (content, values, opt_prefix) => {
-  const placeholder = '__DOLLAR__' + Date.now();
-  const pattern = (str = '') => {
-    return '{{\\s*' + str.replace('.', '\\.') + '(\\|[\\w\\-\\.]+)?\\s*}}';
-  };
 
-  for (let key in values) {
-    let value = values[key];
-    key = ((opt_prefix ? opt_prefix + '.' : '') + key);
 
-    if ('object' == typeof value) {
-      content = parse(content, value, key);
-    } else {
-      if (Array.isArray(value)) {
-        value = value.join(', ');
-      } else if ('function' == typeof value) {
-        value = value();
-      }
+/**
+ * Formats given number according to given options.
+ * @param {number} number The number to be formatted.
+ * @param {!Object&lt;string, *>=} opt_options Formatting options.
+ * @return {string} The formatted number string.
+ * @example
+ * formatNumber(100);   // 100
+ * formatNumber(1000);  // 1,000
+ * formatNumber(1500);  // 1,500
+ * formatNumber(10000); // 10,000
+ * formatNumber(1e6);   // 1,000,000
+ * const options = {'prefix': '$'};
+ * formatNumber(100, options);   // $100
+ * formatNumber(1e6, options);   // $1,000,000
+ */
+export const formatNumber = (number, opt_options) => {
+  const options = getOptions_(opt_options);
+  const result = (options['fraction'] ? 
+      number.toFixed(options['fraction']) :
+      '' + number).split('.');
 
-      if (value) {
-        let re = new RegExp(pattern(key), 'img');
-        value = value.replace('$', placeholder);
-        content = content.replace(re, value);
-        content = content.replace(placeholder, '$');
-      }
-    }
-  }
-
-  if (!opt_prefix) {
-    content = parseDefaultValue_(content);
-  }
-
-  return content;
+  return options['prefix'] +
+      result[0].replace(/\B(?=(\d{3})+(?!\d))/g,
+      /** @type {string} */ (options['grouping'])) +
+      (result[1] ? options['decimal'] + result[1] : '') +
+      options['suffix'];
 };
 
-const parseDefaultValue_ = (content) => {
-  // Replace default values.
-  let matches = content.match(/\{\{\s*[\w\-\.]+(\|\w+)\s*\}\}/img);
-  if (matches) {
-    for (let i = 0; i &lt; matches.length;) {
-      let match = matches[i++];
-      let value = match.match(/\|(\w+)\s*\}\}/);
-      content = content.replace(match, (value &amp;&amp; value[1]) || '');
-    }
+/**
+ * Rounds given number.
+ * @param {number} number The number to be rounded.
+ * @param {!Object&lt;string, *>=} opt_options Formatting options.
+ * @return {string} The rounded number string.
+ * @example
+ * roundNumber(100);   // 100
+ * roundNumber(1000);  // 1k
+ * roundNumber(1500);  // 1.5k
+ * roundNumber(10000); // 10k
+ * roundNumber(1e6);   // 10m
+ * const options = {'prefix': '$'};
+ * roundNumber(100, options);   // $100
+ * roundNumber(1e6, options);   // $10m
+ */
+export const roundNumber = (number, opt_options) => {
+  const options = getOptions_(opt_options);
+  // parseInt(number, 10) == ~~number
+  const base = (~~number + '').length - (number &lt; 0 ? 2 : 1);
+  const length = ~~(base / 3) * 3;
+  let divider = 1;
+
+  for (let i = 0; i &lt; length; ++i) {
+    divider *= 10;
   }
 
-  // Clear all not parsed variables.
-  content = content.replace(/\{\{\s*[\w\-\.]+\s*\}\}/img, '');
+  const delta = number / divider;
+  const a = ~~delta;
+  const b = delta.toFixed(2 - base % 3);
 
-  return content;
+  const result = (a == b ? a : b) + ['', 'k', 'm', 'g', 't'][~~(base / 3)];
+  return options['prefix'] + result + options['suffix'];
+};
+
+/**
+ * Gets the ordinal suffix for a number.
+ * @param {number} number The number.
+ * @return {string} Returns the ordinal suffix for a number.
+ */
+export const ordinal = (number) => {
+  const index = (
+      number = ~~(number &lt; 0 ? -number : number) % 100) > 10 &amp;&amp;
+      number &lt; 14 || (number %= 10) > 3 ? 0 : number;
+
+  return ['th', 'st', 'nd', 'rd'][index];
+};
+
+/**
+ * @param {!Object&lt;string, *>} options Formatting options.
+ * @return {!Object&lt;string, *>} Returns formatting options.
+ * @private
+ */
+const getOptions_ = (options = {}) => {
+  for (let key in defaults_) {
+    if (!(key in options)) {
+      options[key] = defaults_[key];
+    }
+  }
+  return options;
+};
+
+/**
+ * Default formatting options.
+ * @type {!Object&lt;string, *>}
+ * @private
+ */
+const defaults_ = {
+  'decimal': '.',
+  'grouping': ',',
+  'fraction': 0,
+  'prefix': '',
+  'suffix': ''
 };
 </code></pre>
         </article>

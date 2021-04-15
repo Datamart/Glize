@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: net/request.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: net/request.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Simple implementation of
+ *               &lt;code>javax.servlet.ServletRequest.&lt;/code> and
+ *               &lt;code>javax.servlet.http.HttpServletRequest&lt;/code>.
+ *
+ * @see https://google.github.io/styleguide/javascriptguide.xml
+ * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @see https://docs.oracle.com/javaee/7/api/javax/servlet/ServletRequest.html
+ * @see https://docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServletRequest.html
+ */
+
+import {cookies}  from '../dom/index.js';
+
+/**
+ * Returns the query string that is contained in the request URL after the
+ *     path.
+ * @param {?Element|?Location|string=} opt_location Optional location object.
+ * @return {string} Returns the query string that is contained in the request
+ *     URL after the path.
+ */
+export const getQueryString = (opt_location) => {
+  opt_location = getLocation_(opt_location);
+  return opt_location.search &amp;&amp; opt_location.search.substr(1);
+};
+
+/**
+ * Returns an &lt;code>Array&lt;/code> of all the cookies included
+ *    with this request.
+ * @return {!Array&lt;!Object>} Returns an &lt;code>Array&lt;/code> of all the cookies
+ *     included with this request.
+ */
+export const getCookies = function() {
+  const keys = cookies.keys();
+  const length = keys.length;
+  const result = [];
+
+  for (let i = 0; i &lt; length;) {
+    const name = keys[i++];
+    result[i] = {'name': name, 'value': cookies.get(name)};
+  }
+
+  return result;
+};
+
+/**
+ * Returns the value of a request parameter as a &lt;code>string&lt;/code>, or empty
+ * &lt;code>string&lt;/code> if the parameter does not exist.
+ * @param {string} name A &lt;code>string&lt;/code> specifying the name of the
+ *     parameter.
+ * @param {?Element|?Location|string=} opt_location Optional location object.
+ * @return {string} Returns a &lt;code>string&lt;/code> representing the single
+ *     value of the parameter.
+ */
+export const getParameter = (name, opt_location) => {
+  const map = getParameterMap(opt_location);
+  return map[name] || '';
+};
+
+/**
+ * @param {?Element|?Location|string=} opt_location Optional location object.
+ * @return {!Array&lt;string>} Returns an &lt;code>Array&lt;/code> of
+ * &lt;code>string&lt;/code> objects, each &lt;code>string&lt;/code> containing the name
+ * of a request parameter; or an empty &lt;code>Array&lt;/code> if the request has
+ * no parameters.
+ */
+export const getParameterNames = (opt_location) => {
+  const map = getParameterMap(opt_location);
+  return Object.keys(map);
+};
+
+/**
+ * Returns a map of the parameters of this request including parameters from
+ * parsed from query string and hash.
+ * @param {?Element|?Location|?URL|string=} opt_location Optional location.
+ * @return {!Object&lt;string, string>} Map containing parameter names as keys
+ *     and parameter values as map values.
+ */
+export const getParameterMap = (opt_location) => {
+  opt_location = getLocation_(opt_location);
+  const url = opt_location.toString();
+  const map = {};
+
+  if (!(url in maps_)) {
+    const pairs = opt_location.search.substr(1).split('&amp;').concat(
+        opt_location.hash.substr(1).split('&amp;'));
+    let index = pairs.length >>> 0;
+    while (index--) {
+      const pair = pairs[index].split('=');
+      const key = pair[0];
+      if (key) map[key] = decodeURIComponent(pair[1]);
+    }
+    maps_[url] = map;
+  }
+
+  return maps_[url];
+};
+
+/**
+ * @param {?Element|?Location|?URL|string=} opt_location Optional location.
+ * @return {!WorkerLocation|!URL}
+ * @private
+ */
+const getLocation_ = (opt_location) => {
+  opt_location = opt_location || location;
+
+  if ('string' === typeof opt_location) {
+    opt_location = new URL(opt_location);
+  }
+
+  return opt_location;
+};
+
+/**
+ * Cache for parsed parameters maps.
+ * @type {!Object&lt;string, !Object&lt;string,string>>}
+ * @private
+ */
+const maps_ = {};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#capitalize">capitalize</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#compress">compress</a></li><li><a href="global.html#contains">contains</a></li><li><a href="global.html#decompress">decompress</a></li><li><a href="global.html#formatBytes">formatBytes</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#formatNumber">formatNumber</a></li><li><a href="global.html#FORMATS">FORMATS</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getCharset">getCharset</a></li><li><a href="global.html#getContext">getContext</a></li><li><a href="global.html#getCookies">getCookies</a></li><li><a href="global.html#getCount">getCount</a></li><li><a href="global.html#getDocument">getDocument</a></li><li><a href="global.html#getLocale">getLocale</a></li><li><a href="global.html#getMonthByName">getMonthByName</a></li><li><a href="global.html#getMonthName">getMonthName</a></li><li><a href="global.html#getMonthNames">getMonthNames</a></li><li><a href="global.html#getParameter">getParameter</a></li><li><a href="global.html#getParameterMap">getParameterMap</a></li><li><a href="global.html#getParameterNames">getParameterNames</a></li><li><a href="global.html#getQueryString">getQueryString</a></li><li><a href="global.html#getWeekDate">getWeekDate</a></li><li><a href="global.html#getWeekNames">getWeekNames</a></li><li><a href="global.html#getWeekNumber">getWeekNumber</a></li><li><a href="global.html#hash">hash</a></li><li><a href="global.html#keys">keys</a></li><li><a href="global.html#load">load</a></li><li><a href="global.html#loadScript">loadScript</a></li><li><a href="global.html#LZW">LZW</a></li><li><a href="global.html#NUMBER_FORMAT">NUMBER_FORMAT</a></li><li><a href="global.html#ordinal">ordinal</a></li><li><a href="global.html#parse">parse</a></li><li><a href="global.html#parseDate">parseDate</a></li><li><a href="global.html#random">random</a></li><li><a href="global.html#remove">remove</a></li><li><a href="global.html#roundNumber">roundNumber</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#toAmPmTime">toAmPmTime</a></li><li><a href="global.html#toArray">toArray</a></li><li><a href="global.html#toQueryString">toQueryString</a></li><li><a href="global.html#TYPE">TYPE</a></li><li><a href="global.html#uuid4">uuid4</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu Apr 15 2021 00:01:47 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

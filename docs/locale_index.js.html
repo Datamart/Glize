@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: dom/Template.js</title>
+    <title>JSDoc: Source: locale/index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: dom/Template.js</h1>
+    <h1 class="page-title">Source: locale/index.js</h1>
 
     
 
@@ -27,70 +27,92 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Parses template text content.
- * @param {string} content The template text content.
- * @param {!Object} values The template values as dict.
- * @param {string=} opt_prefix The optional var name prefix.
- * @return {string} Returns parsed template text content.
- * @example
- * const values = {
- *   'date': '2013-07-18',
- *   'user': {'name': 'John'},
- *   'func': () => {return 'Hello World.';}
- * };
- * const content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
- * document.getElementById('div').innerHTML = template.parse(content, values);
+ * @fileoverview Localization utils.
+ *
+ * @see https://google.github.io/styleguide/javascriptguide.xml
+ * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  */
-export const parse = (content, values, opt_prefix) => {
-  const placeholder = '__DOLLAR__' + Date.now();
-  const pattern = (str = '') => {
-    return '{{\\s*' + str.replace('.', '\\.') + '(\\|[\\w\\-\\.]+)?\\s*}}';
-  };
 
-  for (let key in values) {
-    let value = values[key];
-    key = ((opt_prefix ? opt_prefix + '.' : '') + key);
 
-    if ('object' == typeof value) {
-      content = parse(content, value, key);
-    } else {
-      if (Array.isArray(value)) {
-        value = value.join(', ');
-      } else if ('function' == typeof value) {
-        value = value();
-      }
-
-      if (value) {
-        let re = new RegExp(pattern(key), 'img');
-        value = value.replace('$', placeholder);
-        content = content.replace(re, value);
-        content = content.replace(placeholder, '$');
-      }
-    }
-  }
-
-  if (!opt_prefix) {
-    content = parseDefaultValue_(content);
-  }
-
-  return content;
+/**
+ * Gets the current value of the default locale.
+ * @return {string} Returns the current value of the default locale.
+ */
+export const getLocale = function() {
+  const env = ('object' === typeof navigator &amp;&amp; navigator) || process.env;
+  const lang = env['userLanguage'] || env['language'] || 
+               env['LANG'] || env['LANGUAGE'] || 'en';
+  return lang.substr(0, 2).toLowerCase();
 };
 
-const parseDefaultValue_ = (content) => {
-  // Replace default values.
-  let matches = content.match(/\{\{\s*[\w\-\.]+(\|\w+)\s*\}\}/img);
-  if (matches) {
-    for (let i = 0; i &lt; matches.length;) {
-      let match = matches[i++];
-      let value = match.match(/\|(\w+)\s*\}\}/);
-      content = content.replace(match, (value &amp;&amp; value[1]) || '');
+/**
+ * Gets locale week names.
+ * @return {!Array&lt;string>} Returns week names.
+ */
+export const getWeekNames = () => getData_('days');
+
+/**
+ * Gets locale month names.
+ * @return {!Array.&lt;string>} Returns month names.
+ */
+export const getMonthNames = () => getData_('months');
+
+/**
+ * Gets locale month name.
+ * @param {?Date=} opt_date Optional date object, defaults is current date.
+ * @return {string} Returns month name.
+ */
+export const getMonthName = (date = new Date()) => getMonthNames()[date.getMonth()];
+
+/**
+ * Gets month number by month name.
+ * @param {string} name The month name.
+ * @return {number} Returns month number.
+ */
+ export const getMonthByName = (name) => {
+  const monthes = getMonthNames();
+
+  for (let i = 0; i &lt; monthes.length; ++i) {
+    if (name.substr(0, 3).toLowerCase() === 
+        monthes[i].substr(0, 3).toLowerCase()) {
+      return i;
     }
   }
 
-  // Clear all not parsed variables.
-  content = content.replace(/\{\{\s*[\w\-\.]+\s*\}\}/img, '');
+  return -1;
+};
 
-  return content;
+/**
+ * Gets locale data by key.
+ * @param {string} key Data key.
+ * @return {!Array&lt;string>} Returns locale data.
+ * @private
+ */
+const getData_ = (key) => (data_[getLocale()] || data_['en'])[key];
+
+/**
+ * @type {!Object&lt;string, !Object>}
+ * @private
+ */
+const data_ = {
+  'en': {
+    'days': ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+    'months': ['January', 'February', 'March', 'April', 'May', 'June',
+               'July', 'August', 'September', 'October', 'November',
+               'December']
+  },
+  'de': {
+    'days': ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+    'months': ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+               'Juli', 'August', 'September', 'Oktober', 'November',
+               'Dezember']
+  },
+  'ru': {
+    'days': ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+    'months': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+               'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь',
+               'Декабрь']
+  }
 };
 </code></pre>
         </article>
