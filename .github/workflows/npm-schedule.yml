@@ -1,0 +1,13 @@
+name: schedule
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+
+jobs:
+  init:
+    steps:
+      - run: npm init --force
+      - run: npm -i glize
+      - run: npm ci
+      - run: npm test
