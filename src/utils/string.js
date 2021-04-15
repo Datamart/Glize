@@ -3,6 +3,7 @@
  *
  * @see https://google.github.io/styleguide/javascriptguide.xml
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @module glize/utils/string
  */
 
 
@@ -12,6 +13,7 @@
  * @param {string} str The string to be transformed.
  * @return {string} Returns transformed string.
  * @see http://www.w3.org/wiki/CSS/Properties/text-transform
+ * @method
  */
 export const capitalize = (str) => {
   const words = str.split(/\s+/);
@@ -31,6 +33,7 @@ export const capitalize = (str) => {
  * @param {string=} prefix Optional query prefix.
  * @return {string} Returns query string or empty string if no parameters
  *     given.
+ * @method
  */
 export const toQueryString = (obj, prefix = '?') => {
   let result = prefix;
@@ -49,6 +52,7 @@ export const toQueryString = (obj, prefix = '?') => {
  * @link http://en.wikipedia.org/wiki/Universally_unique_identifier
  * @link http://en.wikipedia.org/wiki/Globally_unique_identifier
  * @link http://www.ietf.org/rfc/rfc4122.txt
+ * @method
  */
 export const uuid4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -61,6 +65,7 @@ export const uuid4 = () => {
  * Converts <code>str</code> to hashed string.
  * @param {string} str The input string.
  * @return {string} Returns hashed string.
+ * @method
  */
 export const hash =(str) => {
   const length = str.length;

@@ -5,7 +5,7 @@
  * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
  * @see https://en.wikipedia.org/wiki/JSONP
  * @module glize/net/jsonp
- * @requires glize/dom#loadScript
+ * @requires glize/dom/loadScript
  */
 
 import * as dom from '../dom/index.js';
