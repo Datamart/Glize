@@ -20,6 +20,7 @@ export const TYPE = {
  * @param {string} data Data to compress.
  * @param {string=} opt_type Optional compression type.
  * @return {string} Returns compressed data.
+ * @method
  */
 export const compress = (data, opt_type = TYPE.LZW) => {
   let result = '';
@@ -36,6 +37,7 @@ export const compress = (data, opt_type = TYPE.LZW) => {
  * @param {string} data Data to compress.
  * @param {string=} opt_type Optional compression type.
  * @return {string} Returns compressed data.
+ * @method
  */
  export const decompress = (data, opt_type = TYPE.LZW) => {
   let result = '';
@@ -49,6 +51,7 @@ export const compress = (data, opt_type = TYPE.LZW) => {
 
 /**
  * LZW compression utility.
+ * @inner
  * @see http://en.wikipedia.org/wiki/Lempel–Ziv–Welch
  */
 const LZW = {
@@ -56,6 +59,7 @@ const LZW = {
    * Encodes string using LZW algorithm.
    * @param {string} str The input string.
    * @return {string} Returns compressed string using LZW algorithm.
+   * @method
    */
   compress: (str) => {
     const dict = {};
@@ -86,6 +90,7 @@ const LZW = {
    * Decodes string encoded with LZW algorithm.
    * @param {string} str The input string encoded with LZW algorithm.
    * @return {string} Returns decoded string.
+   * @method
    */
   decompress: (str) => {
     const dict = {};
