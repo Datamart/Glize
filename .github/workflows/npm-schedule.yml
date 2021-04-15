@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: npm init --force
-      - run: npm -i glize
+      - run: npm -i glize komito-analytics
       - run: npm ci
       - run: npm test
