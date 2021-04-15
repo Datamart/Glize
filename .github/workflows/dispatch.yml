@@ -1,0 +1,17 @@
+name: dispatch
+
+on:
+  workflow_dispatch
+
+jobs:
+  unpublish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 15
+          registry-url: https://registry.npmjs.org/
+      - run: npm unpublish number-utils -f
+      - run: npm unpublish strings-util -f
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
