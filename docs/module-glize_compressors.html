@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>net/JSONP.js - Documentation</title>
+    <title>glize/compressors - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,73 +29,414 @@
 
 <div id="main">
     
-    <h1 class="page-title">net/JSONP.js</h1>
+    <h1 class="page-title">glize/compressors</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Simple implementation of JSONP.
- *
- * @see http://google.github.io/styleguide/javascriptguide.xml
- * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
- * @see https://en.wikipedia.org/wiki/JSONP
- */
+        
+            
+        
+    
+</header>
 
-import * as dom from '../dom/index.js';
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Defines compressors utility methods.</div>
+        
+
+        
+            
+<div class="section-method">
 
 
-/**
- * Performs JSONP request.
- * @param {string} url The URL to which to send the request.
- * @param {string=} param Optional callback query-string parameter name.
- * @param {number=} timeout The maximum execution timeout.
- * @return {!Promise} Returns the result as a Promise object.
- * @see https://en.wikipedia.org/wiki/JSONP
- */
-export const load = (url, param = 'jsonp', timeout = 1E4) => {
-  return new Promise((resolve, reject) => {
-    const random = ~~(Math.random() * 1e9);
-    const key = param + '_' + random;
-    const query = param + '=' + key;
-    const context = dom.getContext();
-    const src = url + (~url.indexOf('?') ? '&amp;' : '?') + query;
 
-    const cleanup = () => {
-      context[key] = null;
-      count_--;
-    };
 
-    context[key] = (data) => {
-      cleanup();
-      resolve(JSON.stringify(data));
-    };
 
-    dom.loadScript(src, timeout).catch(() => {cleanup(), reject()});
-    count_++;
-  });
-};
 
-/**
- * Gets count of active requests.
- * @return {number} Returns count of active requests.
- */
-export const getCount = () => count_;
 
-/**
- * The count of active requests.
- * @type {number}
- * @private
- */
-let count_ = 0;
-</code></pre>
-        </article>
-    </section>
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="compressors_index.js.html">compressors/index.js</a>, <a href="compressors_index.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://google.github.io/styleguide/javascriptguide.xml">https://google.github.io/styleguide/javascriptguide.xml</a></li>
+        
+            <li><a href="https://developers.google.com/closure/compiler/docs/js-for-compiler">https://developers.google.com/closure/compiler/docs/js-for-compiler</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".compress"><span class="type-signature">(static, constant) </span>compress<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Compress data string using specified compression type.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="compressors_index.js.html">compressors/index.js</a>, <a href="compressors_index.js.html#line24">line 24</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".decompress"><span class="type-signature">(static, constant) </span>decompress<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Decompress data string using specified compression type.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="compressors_index.js.html">compressors/index.js</a>, <a href="compressors_index.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id=".TYPE"><span class="type-signature">(static, constant) </span>TYPE<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    Enumeration of available compression types.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="compressors_index.js.html">compressors/index.js</a>, <a href="compressors_index.js.html#line14">line 14</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="~LZW"><span class="type-signature">(inner, constant) </span>LZW<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    LZW compression utility.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="compressors_index.js.html">compressors/index.js</a>, <a href="compressors_index.js.html#line54">line 54</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch">http://en.wikipedia.org/wiki/Lempel–Ziv–Welch</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
