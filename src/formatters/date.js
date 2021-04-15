@@ -11,7 +11,7 @@ import {getMonthName, getMonthByName} from '../locale/index.js';
 
 /**
  * Static number formats that do not require parsing of the input string.
- * @type {!Object<string, function(!Date): number>}
+ * @enum {!Object<string, function(!Date): number>}
  * @inner
  */
 const NUMBER_FORMAT = {

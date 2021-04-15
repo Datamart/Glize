@@ -3,12 +3,14 @@
  *
  * @see https://google.github.io/styleguide/javascriptguide.xml
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @module glize/locale
  */
 
 
 /**
  * Gets the current value of the default locale.
  * @return {string} Returns the current value of the default locale.
+ * @method
  */
 export const getLocale = function() {
   const env = ('object' === typeof navigator && navigator) || process.env;
@@ -20,12 +22,14 @@ export const getLocale = function() {
 /**
  * Gets locale week names.
  * @return {!Array<string>} Returns week names.
+ * @method
  */
 export const getWeekNames = () => getData_('days');
 
 /**
  * Gets locale month names.
  * @return {!Array.<string>} Returns month names.
+ * @method
  */
 export const getMonthNames = () => getData_('months');
 
@@ -33,6 +37,7 @@ export const getMonthNames = () => getData_('months');
  * Gets locale month name.
  * @param {?Date=} opt_date Optional date object, defaults is current date.
  * @return {string} Returns month name.
+ * @method
  */
 export const getMonthName = (date = new Date()) => getMonthNames()[date.getMonth()];
 
@@ -40,6 +45,7 @@ export const getMonthName = (date = new Date()) => getMonthNames()[date.getMonth
  * Gets month number by month name.
  * @param {string} name The month name.
  * @return {number} Returns month number.
+ * @method
  */
  export const getMonthByName = (name) => {
   const monthes = getMonthNames();
@@ -58,6 +64,7 @@ export const getMonthName = (date = new Date()) => getMonthNames()[date.getMonth
  * Gets locale data by key.
  * @param {string} key Data key.
  * @return {!Array<string>} Returns locale data.
+ * @method
  * @private
  */
 const getData_ = (key) => (data_[getLocale()] || data_['en'])[key];
