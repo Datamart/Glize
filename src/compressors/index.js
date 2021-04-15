@@ -21,6 +21,11 @@ export const TYPE = {
  * @param {string=} opt_type Optional compression type.
  * @return {string} Returns compressed data.
  * @method
+ * @example <caption>Usage example.</caption>
+ * const result = glize.compress(
+ *   'Any string of any length. Any string of any length. Any string of any length.');
+ * console.log(result);
+ * > Any string of aā leĈth. ĀĂĄĆĈĊČĎĂđēĕėďĚćĉċčďġgĔ.
  */
 export const compress = (data, opt_type = TYPE.LZW) => {
   let result = '';
