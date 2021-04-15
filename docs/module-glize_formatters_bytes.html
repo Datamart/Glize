@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>locale/index.js - Documentation</title>
+    <title>glize/formatters/bytes - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,107 +29,383 @@
 
 <div id="main">
     
-    <h1 class="page-title">locale/index.js</h1>
+    <h1 class="page-title">glize/formatters/bytes</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Localization utils.
- *
- * @see https://google.github.io/styleguide/javascriptguide.xml
- * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
- */
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Bytes format library.</div>
+        
+
+        
+            
+<div class="section-method">
 
 
-/**
- * Gets the current value of the default locale.
- * @return {string} Returns the current value of the default locale.
- */
-export const getLocale = function() {
-  const env = ('object' === typeof navigator &amp;&amp; navigator) || process.env;
-  const lang = env['userLanguage'] || env['language'] || 
-               env['LANG'] || env['LANGUAGE'] || 'en';
-  return lang.substr(0, 2).toLowerCase();
-};
 
-/**
- * Gets locale week names.
- * @return {!Array&lt;string>} Returns week names.
- */
-export const getWeekNames = () => getData_('days');
 
-/**
- * Gets locale month names.
- * @return {!Array.&lt;string>} Returns month names.
- */
-export const getMonthNames = () => getData_('months');
 
-/**
- * Gets locale month name.
- * @param {?Date=} opt_date Optional date object, defaults is current date.
- * @return {string} Returns month name.
- */
-export const getMonthName = (date = new Date()) => getMonthNames()[date.getMonth()];
 
-/**
- * Gets month number by month name.
- * @param {string} name The month name.
- * @return {number} Returns month number.
- */
- export const getMonthByName = (name) => {
-  const monthes = getMonthNames();
 
-  for (let i = 0; i &lt; monthes.length; ++i) {
-    if (name.substr(0, 3).toLowerCase() === 
-        monthes[i].substr(0, 3).toLowerCase()) {
-      return i;
-    }
-  }
+<dl class="details">
 
-  return -1;
-};
+    
 
-/**
- * Gets locale data by key.
- * @param {string} key Data key.
- * @return {!Array&lt;string>} Returns locale data.
- * @private
- */
-const getData_ = (key) => (data_[getLocale()] || data_['en'])[key];
+    
 
-/**
- * @type {!Object&lt;string, !Object>}
- * @private
- */
-const data_ = {
-  'en': {
-    'days': ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    'months': ['January', 'February', 'March', 'April', 'May', 'June',
-               'July', 'August', 'September', 'October', 'November',
-               'December']
-  },
-  'de': {
-    'days': ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-    'months': ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-               'Juli', 'August', 'September', 'Oktober', 'November',
-               'Dezember']
-  },
-  'ru': {
-    'days': ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-    'months': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-               'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь',
-               'Декабрь']
-  }
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_bytes.js.html">formatters/bytes.js</a>, <a href="formatters_bytes.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://google.github.io/styleguide/javascriptguide.xml">https://google.github.io/styleguide/javascriptguide.xml</a></li>
+        
+            <li><a href="https://developers.google.com/closure/compiler/docs/js-for-compiler">https://developers.google.com/closure/compiler/docs/js-for-compiler</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="~FORMATS"><span class="type-signature">(inner, constant, non-null) </span>FORMATS<span class="type-signature"> :Array.&lt;string></span></h4>
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_bytes.js.html">formatters/bytes.js</a>, <a href="formatters_bytes.js.html#line14">line 14</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>Array.&lt;string></code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".formatBytes"><span class="type-signature">(static) </span>formatBytes<span class="signature">(bytes)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Formats given <code>bytes</code> to human friendly format.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_bytes.js.html">formatters/bytes.js</a>, <a href="formatters_bytes.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>bytes</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>number</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                The bytes to be formatted.
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>string</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    The formatted bytes as string.
+</div>
+
+    
+</div>
+
+
+
+<div class="section-examples">
+<h5>Example</h5>
+
+    <pre class="prettyprint"><code>glize.formatters.bytes.formatBytes(1024);
+//> 1.0 Kb</code></pre>
+
+</div>
+
+</div>
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

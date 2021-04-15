@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>locale/index.js - Documentation</title>
+    <title>glize/formatters/date - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,107 +29,615 @@
 
 <div id="main">
     
-    <h1 class="page-title">locale/index.js</h1>
+    <h1 class="page-title">glize/formatters/date</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Localization utils.
- *
- * @see https://google.github.io/styleguide/javascriptguide.xml
- * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
- */
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Date format library.</div>
+        
+
+        
+            
+<div class="section-method">
 
 
-/**
- * Gets the current value of the default locale.
- * @return {string} Returns the current value of the default locale.
- */
-export const getLocale = function() {
-  const env = ('object' === typeof navigator &amp;&amp; navigator) || process.env;
-  const lang = env['userLanguage'] || env['language'] || 
-               env['LANG'] || env['LANGUAGE'] || 'en';
-  return lang.substr(0, 2).toLowerCase();
-};
 
-/**
- * Gets locale week names.
- * @return {!Array&lt;string>} Returns week names.
- */
-export const getWeekNames = () => getData_('days');
 
-/**
- * Gets locale month names.
- * @return {!Array.&lt;string>} Returns month names.
- */
-export const getMonthNames = () => getData_('months');
 
-/**
- * Gets locale month name.
- * @param {?Date=} opt_date Optional date object, defaults is current date.
- * @return {string} Returns month name.
- */
-export const getMonthName = (date = new Date()) => getMonthNames()[date.getMonth()];
 
-/**
- * Gets month number by month name.
- * @param {string} name The month name.
- * @return {number} Returns month number.
- */
- export const getMonthByName = (name) => {
-  const monthes = getMonthNames();
 
-  for (let i = 0; i &lt; monthes.length; ++i) {
-    if (name.substr(0, 3).toLowerCase() === 
-        monthes[i].substr(0, 3).toLowerCase()) {
-      return i;
-    }
-  }
+<dl class="details">
 
-  return -1;
-};
+    
 
-/**
- * Gets locale data by key.
- * @param {string} key Data key.
- * @return {!Array&lt;string>} Returns locale data.
- * @private
- */
-const getData_ = (key) => (data_[getLocale()] || data_['en'])[key];
+    
 
-/**
- * @type {!Object&lt;string, !Object>}
- * @private
- */
-const data_ = {
-  'en': {
-    'days': ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    'months': ['January', 'February', 'March', 'April', 'May', 'June',
-               'July', 'August', 'September', 'October', 'November',
-               'December']
-  },
-  'de': {
-    'days': ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-    'months': ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-               'Juli', 'August', 'September', 'Oktober', 'November',
-               'Dezember']
-  },
-  'ru': {
-    'days': ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-    'months': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-               'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь',
-               'Декабрь']
-  }
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_date.js.html">formatters/date.js</a>, <a href="formatters_date.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="http://google.github.io/styleguide/javascriptguide.xml">http://google.github.io/styleguide/javascriptguide.xml</a></li>
+        
+            <li><a href="http://developers.google.com/closure/compiler/docs/js-for-compiler">http://developers.google.com/closure/compiler/docs/js-for-compiler</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+    
+    </div>
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:glize/locale</li>
+        </ul>
+    
+
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="~NUMBER_FORMAT"><span class="type-signature">(inner, constant, non-null) </span>NUMBER_FORMAT<span class="type-signature"> :Object.&lt;string, function(!Date): number></span></h4>
+
+
+
+
+<div class="description">
+    Static number formats that do not require parsing of the input string.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_date.js.html">formatters/date.js</a>, <a href="formatters_date.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>Object.&lt;string, function(!Date): number></code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".formatDate"><span class="type-signature">(static) </span>formatDate<span class="signature">(date<span class="signature-attributes">non-null</span>, format)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Formats given <code>date</code> according to given <code>format</code>.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_date.js.html">formatters/date.js</a>, <a href="formatters_date.js.html#line54">line 54</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>date</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Date</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                The date to be formatted.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>format</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                The date format.
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>string</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    Returns formatted date as string.
+</div>
+
+    
+</div>
+
+
+
+<div class="section-examples">
+<h5>Example</h5>
+
+    <pre class="prettyprint"><code>formatDate(new Date(), 'YYYY-MM-dd');
+formatDate(new Date(), 'YYYY-MM-dd hh:mm');
+formatDate(new Date(), 'dd MMM, YYYY');</code></pre>
+
+</div>
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".parseDate"><span class="type-signature">(static) </span>parseDate<span class="signature">(str, format)</span><span class="type-signature"> &rarr; (nullable) {Date}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Parses given date <code>str</code> according to given <code>format</code>.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_date.js.html">formatters/date.js</a>, <a href="formatters_date.js.html#line95">line 95</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>str</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                The date string to be parsed.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>format</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>string</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                The date format.
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Date</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    The parsed date.
+</div>
+
+    
+</div>
+
+
+
+<div class="section-examples">
+<h5>Example</h5>
+
+    <pre class="prettyprint"><code>parseDate('2013-01-31', 'YYYY-MM-dd');
+parseDate('2013-01-31 20:30', 'YYYY-MM-dd hh:mm');
+parseDate('03 Jan, 2013', 'dd MMM, YYYY');</code></pre>
+
+</div>
+
+</div>
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>locale/index.js - Documentation</title>
+    <title>glize/formatters/number - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,107 +29,741 @@
 
 <div id="main">
     
-    <h1 class="page-title">locale/index.js</h1>
+    <h1 class="page-title">glize/formatters/number</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Localization utils.
- *
- * @see https://google.github.io/styleguide/javascriptguide.xml
- * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
- */
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description">Number format library.</div>
+        
+
+        
+            
+<div class="section-method">
 
 
-/**
- * Gets the current value of the default locale.
- * @return {string} Returns the current value of the default locale.
- */
-export const getLocale = function() {
-  const env = ('object' === typeof navigator &amp;&amp; navigator) || process.env;
-  const lang = env['userLanguage'] || env['language'] || 
-               env['LANG'] || env['LANGUAGE'] || 'en';
-  return lang.substr(0, 2).toLowerCase();
-};
 
-/**
- * Gets locale week names.
- * @return {!Array&lt;string>} Returns week names.
- */
-export const getWeekNames = () => getData_('days');
 
-/**
- * Gets locale month names.
- * @return {!Array.&lt;string>} Returns month names.
- */
-export const getMonthNames = () => getData_('months');
 
-/**
- * Gets locale month name.
- * @param {?Date=} opt_date Optional date object, defaults is current date.
- * @return {string} Returns month name.
- */
-export const getMonthName = (date = new Date()) => getMonthNames()[date.getMonth()];
 
-/**
- * Gets month number by month name.
- * @param {string} name The month name.
- * @return {number} Returns month number.
- */
- export const getMonthByName = (name) => {
-  const monthes = getMonthNames();
 
-  for (let i = 0; i &lt; monthes.length; ++i) {
-    if (name.substr(0, 3).toLowerCase() === 
-        monthes[i].substr(0, 3).toLowerCase()) {
-      return i;
-    }
-  }
+<dl class="details">
 
-  return -1;
-};
+    
 
-/**
- * Gets locale data by key.
- * @param {string} key Data key.
- * @return {!Array&lt;string>} Returns locale data.
- * @private
- */
-const getData_ = (key) => (data_[getLocale()] || data_['en'])[key];
+    
 
-/**
- * @type {!Object&lt;string, !Object>}
- * @private
- */
-const data_ = {
-  'en': {
-    'days': ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    'months': ['January', 'February', 'March', 'April', 'May', 'June',
-               'July', 'August', 'September', 'October', 'November',
-               'December']
-  },
-  'de': {
-    'days': ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-    'months': ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-               'Juli', 'August', 'September', 'Oktober', 'November',
-               'Dezember']
-  },
-  'ru': {
-    'days': ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
-    'months': ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-               'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь',
-               'Декабрь']
-  }
-};
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_number.js.html">formatters/number.js</a>, <a href="formatters_number.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://google.github.io/styleguide/javascriptguide.xml">https://google.github.io/styleguide/javascriptguide.xml</a></li>
+        
+            <li><a href="https://developers.google.com/closure/compiler/docs/js-for-compiler">https://developers.google.com/closure/compiler/docs/js-for-compiler</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".formatNumber"><span class="type-signature">(static) </span>formatNumber<span class="signature">(number, opt_options<span class="signature-attributes">opt, non-null</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Formats given number according to given options.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_number.js.html">formatters/number.js</a>, <a href="formatters_number.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                The number to be formatted.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Object.&lt;string, *></code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                Formatting options.
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>string</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    The formatted number string.
+</div>
+
+    
+</div>
+
+
+
+<div class="section-examples">
+<h5>Example</h5>
+
+    <pre class="prettyprint"><code>formatNumber(100);   // 100
+formatNumber(1000);  // 1,000
+formatNumber(1500);  // 1,500
+formatNumber(10000); // 10,000
+formatNumber(1e6);   // 1,000,000
+const options = {'prefix': '$'};
+formatNumber(100, options);   // $100
+formatNumber(1e6, options);   // $1,000,000</code></pre>
+
+</div>
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".ordinal"><span class="type-signature">(static) </span>ordinal<span class="signature">(number)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the ordinal suffix for a number.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_number.js.html">formatters/number.js</a>, <a href="formatters_number.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>number</code></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                The number.
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>string</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    Returns the ordinal suffix for a number.
+</div>
+
+    
+</div>
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".roundNumber"><span class="type-signature">(static) </span>roundNumber<span class="signature">(number, opt_options<span class="signature-attributes">opt, non-null</span>)</span><span class="type-signature"> &rarr; {string}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Rounds given number.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="formatters_number.js.html">formatters/number.js</a>, <a href="formatters_number.js.html#line55">line 55</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>number</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>number</code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                The number to be rounded.
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>opt_options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><code>Object.&lt;string, *></code></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">
+                Formatting options.
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>string</code></span>
+
+
+    </dd>
+</dl>
+
+
+<div class="param-desc">
+    The rounded number string.
+</div>
+
+    
+</div>
+
+
+
+<div class="section-examples">
+<h5>Example</h5>
+
+    <pre class="prettyprint"><code>roundNumber(100);   // 100
+roundNumber(1000);  // 1k
+roundNumber(1500);  // 1.5k
+roundNumber(10000); // 10k
+roundNumber(1e6);   // 10m
+const options = {'prefix': '$'};
+roundNumber(100, options);   // $100
+roundNumber(1e6, options);   // $10m</code></pre>
+
+</div>
+
+</div>
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
