@@ -18,5 +18,6 @@ jobs:
           ls -la node_modules
           cd node_modules/glize/
           ls -la
+          npm test
       # - run: npm install
       # - run: npm test
