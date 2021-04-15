@@ -9,7 +9,7 @@
 
 /**
  * Enumeration of available compression types.
- * @enum {string}
+ * @enum {!Object<string, string>}
  */
 export const TYPE = {
   LZW: 'lzw'
