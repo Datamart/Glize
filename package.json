@@ -1,7 +1,7 @@
 {
   "name": "glize",
   "type": "module",
-  "version": "21.0.2",
+  "version": "21.0.3",
   "description": "Glize is a clean and robust pure JavaScript library.",
   "main": "./index.js",
   "exports": "./index.js",
@@ -22,12 +22,23 @@
     "email": "valentin@dtm.io"
   },
   "keywords": [
-    "compressors", "LZW",
-    "templates", "logic-less-template", "cookies",
-    "number-formatter", "ordinal-number", "byte-formatter",
-    "date-formatter", "date-parser", "locale", "jsonp",
-    "random-array", "random-number",
+    "compressors",
+    "LZW",
+    "templates",
+    "logic-less-template",
+    "cookies",
+    "number-formatter",
+    "ordinal-number",
+    "byte-formatter",
+    "date-formatter",
+    "date-parser",
+    "locale",
+    "jsonp",
+    "random-array",
+    "random-number",
     "array-contains",
-    "capitalize", "uuid4", "hash-string"
+    "capitalize",
+    "uuid4",
+    "hash-string"
   ]
 }
