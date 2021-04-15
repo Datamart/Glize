@@ -6,6 +6,7 @@ on:
 
 jobs:
   init:
+    runs-on: ubuntu-latest
     steps:
       - run: npm init --force
       - run: npm -i glize
