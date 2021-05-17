@@ -9,17 +9,17 @@ const runTests = () => {
 const testTemplate = () => {
   let expect = '<b>Test</b>';
   let values = {'var_name': 'Test'};
-  let result = dom.template.parse('<b>{{ var_name }}</b>', values);
+  let result = dom.template.parseTemplate('<b>{{ var_name }}</b>', values);
   assert.equal(expect, result);
 
   expect = '<b>John admin</b>';
   values = { 'user': {'name': 'John'}, 'role': () => {return 'admin';}};
-  result = dom.template.parse('<b>{{ user.name }} {{ role }}</b>', values);
+  result = dom.template.parseTemplate('<b>{{ user.name }} {{ role }}</b>', values);
   assert.equal(expect, result);
 
   expect = '<b>Item $150</b>';
   values = { 'price': '$150'};
-  result = dom.template.parse('<b>{{item.name|Item}} {{price}}</b>', values);
+  result = dom.template.parseTemplate('<b>{{item.name|Item}} {{price}}</b>', values);
   assert.equal(expect, result);
 };
 
