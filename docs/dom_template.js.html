@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>formatters/bytes.js - Documentation</title>
+    <title>dom/template.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">formatters/bytes.js</h1>
+    <h1 class="page-title">dom/template.js</h1>
     
 
     
@@ -40,41 +40,86 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Bytes format library.
+ * @fileoverview Simple logic-less template engine.
  *
  * @see https://google.github.io/styleguide/javascriptguide.xml
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
- * @module glize/formatters/bytes
+ * @module glize/dom/template
  */
 
-
 /**
- * @type {!Array&lt;string>}
- * @inner
- */
-const FORMATS = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-  
-/**
- * Formats given &lt;code>bytes&lt;/code> to human friendly format.
- * @param {number} bytes The bytes to be formatted.
- * @return {string} The formatted bytes as string.
- * @method
+ * Parses template text content.
+ * @param {string} content The template text content.
+ * @param {!Object} values The template values as dict.
+ * @param {string=} opt_prefix The optional var name prefix.
+ * @return {string} Returns parsed template text content.
  * @example
- * glize.formatters.bytes.formatBytes(1024);
- * //> 1.0 Kb
+ * const values = {
+ *   'date': '2013-07-18',
+ *   'user': {'name': 'John'},
+ *   'func': () => {return 'Hello World.';}
+ * };
+ * const content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
+ * document.getElementById('div').innerHTML = parseTemplate(content, values);
+ * @method
  */
-export const formatBytes = (bytes) => {
-  let i = 0;
+export const parseTemplate = (content, values, opt_prefix) => {
+  const placeholder = '__DOLLAR__' + Date.now();
+  const pattern = (str = '') => {
+    return '{{\\s*' + str.replace('.', '\\.') + '(\\|[\\w\\-\\.]+)?\\s*}}';
+  };
 
-  while (1023 &lt; bytes) {
-    bytes /= 1024;
-    ++i;
+  for (let key in values) {
+    let value = values[key];
+    key = ((opt_prefix ? opt_prefix + '.' : '') + key);
+
+    if ('object' == typeof value) {
+      content = parseTemplate(content, /** @type {!Object} */ (value), key);
+    } else {
+      if (Array.isArray(value)) {
+        value = value.join(', ');
+      } else if ('function' == typeof value) {
+        value = value();
+      }
+
+      if (value) {
+        let re = new RegExp(pattern(key), 'img');
+        value = value.replace('$', placeholder);
+        content = content.replace(re, value);
+        content = content.replace(placeholder, '$');
+      }
+    }
   }
 
-  return (i ? bytes.toFixed(2) : bytes) + ' ' + FORMATS[i];
+  if (!opt_prefix) {
+    content = parseDefaultValue_(content);
+  }
+
+  return content;
 };
-  
-  </code></pre>
+
+/**
+ * @param {string} content The content to parse.
+ * @return {string} Returns parsed content.
+ * @private
+ */
+const parseDefaultValue_ = (content) => {
+  // Replace default values.
+  let matches = content.match(/\{\{\s*[\w\-\.]+(\|\w+)\s*\}\}/img);
+  if (matches) {
+    for (let i = 0; i &lt; matches.length;) {
+      let match = matches[i++];
+      let value = match.match(/\|(\w+)\s*\}\}/);
+      content = content.replace(match, (value &amp;&amp; value[1]) || '');
+    }
+  }
+
+  // Clear all not parsed variables.
+  content = content.replace(/\{\{\s*[\w\-\.]+\s*\}\}/img, '');
+
+  return content;
+};
+</code></pre>
         </article>
     </section>
 

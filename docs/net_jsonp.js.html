@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>formatters/bytes.js - Documentation</title>
+    <title>net/jsonp.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">formatters/bytes.js</h1>
+    <h1 class="page-title">net/jsonp.js</h1>
     
 
     
@@ -40,41 +40,67 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * @fileoverview Bytes format library.
+ * @fileoverview Simple implementation of JSONP.
  *
- * @see https://google.github.io/styleguide/javascriptguide.xml
- * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
- * @module glize/formatters/bytes
+ * @see http://google.github.io/styleguide/javascriptguide.xml
+ * @see http://developers.google.com/closure/compiler/docs/js-for-compiler
+ * @see https://en.wikipedia.org/wiki/JSONP
+ * @module glize/net/jsonp
+ * @requires glize/dom
  */
+
+import * as dom from '../dom/index.js';
 
 
 /**
- * @type {!Array&lt;string>}
- * @inner
- */
-const FORMATS = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-  
-/**
- * Formats given &lt;code>bytes&lt;/code> to human friendly format.
- * @param {number} bytes The bytes to be formatted.
- * @return {string} The formatted bytes as string.
+ * Performs JSONP request.
+ * @param {string} url The URL to which to send the request.
+ * @param {string=} param Optional callback query-string parameter name.
+ * @param {number=} timeout The maximum execution timeout.
+ * @return {!Promise} Returns the result as a Promise object.
+ * @see https://en.wikipedia.org/wiki/JSONP
  * @method
- * @example
- * glize.formatters.bytes.formatBytes(1024);
- * //> 1.0 Kb
  */
-export const formatBytes = (bytes) => {
-  let i = 0;
+export const load = (url, param = 'jsonp', timeout = 1E4) => {
+  return new Promise((resolve, reject) => {
+    const random = ~~(Math.random() * 1e9);
+    const key = param + '_' + random;
+    const query = param + '=' + key;
+    const context = dom.getContext();
+    const src = url + (~url.indexOf('?') ? '&amp;' : '?') + query;
 
-  while (1023 &lt; bytes) {
-    bytes /= 1024;
-    ++i;
-  }
+    const cleanup = () => {
+      context[key] = null;
+      count_--;
+    };
 
-  return (i ? bytes.toFixed(2) : bytes) + ' ' + FORMATS[i];
+    context[key] = (data) => {
+      cleanup();
+      resolve(data);
+    };
+
+    dom.loadScript(src, timeout).catch(() => {
+      cleanup();
+      reject();
+    });
+    count_++;
+  });
 };
-  
-  </code></pre>
+
+/**
+ * Gets count of active requests.
+ * @return {number} Returns count of active requests.
+ * @method
+ */
+export const getCount = () => count_;
+
+/**
+ * The count of active requests.
+ * @type {number}
+ * @private
+ */
+let count_ = 0;
+</code></pre>
         </article>
     </section>
 
