@@ -12,8 +12,9 @@
  * @return {string} Returns the current value of the default locale.
  * @method
  */
-export const getLocale = function() {
-  const env = ('object' === typeof navigator && navigator) || process.env;
+ export const getLocale = function() {
+  const env = ('object' === typeof navigator && navigator) || 
+              ('object' === typeof process && process.env);
   const lang = env['userLanguage'] || env['language'] || 
                env['LANG'] || env['LANGUAGE'] || 'en';
   return lang.substr(0, 2).toLowerCase();
@@ -35,7 +36,7 @@ export const getMonthNames = () => getData_('months');
 
 /**
  * Gets locale month name.
- * @param {?Date=} opt_date Optional date object, defaults is current date.
+ * @param {?Date=} date Optional date object, defaults is current date.
  * @return {string} Returns month name.
  * @method
  */

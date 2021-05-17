@@ -19,10 +19,10 @@
  *   'func': () => {return 'Hello World.';}
  * };
  * const content = '{{ date }} {{ user.name }} {{ func }} {{ empty|default }}';
- * document.getElementById('div').innerHTML = template.parse(content, values);
+ * document.getElementById('div').innerHTML = parseTemplate(content, values);
  * @method
  */
-export const parse = (content, values, opt_prefix) => {
+export const parseTemplate = (content, values, opt_prefix) => {
   const placeholder = '__DOLLAR__' + Date.now();
   const pattern = (str = '') => {
     return '{{\\s*' + str.replace('.', '\\.') + '(\\|[\\w\\-\\.]+)?\\s*}}';
@@ -33,7 +33,7 @@ export const parse = (content, values, opt_prefix) => {
     key = ((opt_prefix ? opt_prefix + '.' : '') + key);
 
     if ('object' == typeof value) {
-      content = parse(content, value, key);
+      content = parseTemplate(content, /** @type {!Object} */ (value), key);
     } else {
       if (Array.isArray(value)) {
         value = value.join(', ');
@@ -57,6 +57,11 @@ export const parse = (content, values, opt_prefix) => {
   return content;
 };
 
+/**
+ * @param {string} content The content to parse.
+ * @return {string} Returns parsed content.
+ * @private
+ */
 const parseDefaultValue_ = (content) => {
   // Replace default values.
   let matches = content.match(/\{\{\s*[\w\-\.]+(\|\w+)\s*\}\}/img);

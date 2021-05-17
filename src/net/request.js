@@ -16,7 +16,7 @@ import {cookies}  from '../dom/index.js';
 /**
  * Returns the query string that is contained in the request URL after the
  *     path.
- * @param {?Element|?Location|string=} opt_location Optional location object.
+ * @param {?Element|?Location|?URL|string=} opt_location Optional location object.
  * @return {string} Returns the query string that is contained in the request
  *     URL after the path.
  * @method
@@ -104,7 +104,7 @@ export const getParameterMap = (opt_location) => {
 
 /**
  * @param {?Element|?Location|?URL|string=} opt_location Optional location.
- * @return {!WorkerLocation|!URL}
+ * @return {!URL}
  * @method
  * @private
  */
@@ -115,7 +115,7 @@ const getLocation_ = (opt_location) => {
     opt_location = new URL(opt_location);
   }
 
-  return opt_location;
+  return /** @type {!URL} */ (opt_location);
 };
 
 /**

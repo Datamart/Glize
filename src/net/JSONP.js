@@ -35,10 +35,13 @@ export const load = (url, param = 'jsonp', timeout = 1E4) => {
 
     context[key] = (data) => {
       cleanup();
-      resolve(JSON.stringify(data));
+      resolve(data);
     };
 
-    dom.loadScript(src, timeout).catch(() => {cleanup(), reject()});
+    dom.loadScript(src, timeout).catch(() => {
+      cleanup();
+      reject();
+    });
     count_++;
   });
 };

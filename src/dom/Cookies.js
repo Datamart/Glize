@@ -53,11 +53,11 @@ export const remove = (key) => {
  * @method
  */
 export const clear = () => {
-  const keys = get();
-  let length = keys.length;
+  const names = keys();
+  let length = names.length;
 
   while (length--) {
-    remove(keys[length]);
+    remove(names[length]);
   }
 };
 
