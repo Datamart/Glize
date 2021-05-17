@@ -1,7 +1,7 @@
 {
   "name": "glize",
   "type": "module",
-  "version": "21.0.3",
+  "version": "21.0.4",
   "description": "Glize is a clean and robust pure JavaScript library.",
   "main": "./index.js",
   "exports": "./index.js",
