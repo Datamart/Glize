@@ -9,7 +9,7 @@ const runTests = () => {
 };
 
 const testGetWeekNames = () => {
-  const expect = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  const expect = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const result = locale.getWeekNames();
   assert.equal(expect.length, result.length);
   assert.equal(expect.toString(), result.toString());
