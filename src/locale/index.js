@@ -122,14 +122,14 @@ const getData_ = (key) => (data_[getLocale()] || data_['en'])[key];
 
 /**
  * Storage for cached month names for locale.
- * @type {!Object<string, !Array<string>}
+ * @type {!Object<string, !Array<string>>}
  * @private
  */
 let months_ = {};
 
 /**
  * Storage for cached weekday names for locale.
- * @type {!Object<string, !Array<string>}
+ * @type {!Object<string, !Array<string>>}
  * @private
  */
  let days_ = {};
