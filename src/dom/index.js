@@ -82,3 +82,104 @@ export const getDocument = () => {
 
   return /** @type {?HTMLDocument} */ (doc);
 };
+
+/**
+ * Removes the object from the document hierarchy.
+ * @param {?Node} element The element to remove.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/Node/removeChild
+ * @see https://msdn.microsoft.com/en-us/library/ms536708%28v=vs.85%29.aspx
+ * @method
+ */
+ export const removeNode = (element) => {
+  element && element.parentNode && element.parentNode.removeChild(element);
+};
+
+/**
+ * Alias of W3C <code>document.getElementById</code>.
+ * Used to reduce size after code compilation.
+ * @param {string} id A case-sensitive string representing the unique ID of the
+ *     element being sought.
+ * @return {?Element} Returns reference to an Element object, or null if an
+ *     element with the specified ID is not in the document.
+ * @method
+ */
+export const getElementById = (id) => {
+  return getDocument().getElementById(id);
+};
+
+/**
+ * Alias of W3C <code>document.createElement</code>.
+ * Used to reduce size after code compilation.
+ * @param {string} tagName Tag name.
+ * @return {?Element} Returns created element.
+ * @method
+ */
+export const createElement = (tagName) => {
+  return getDocument().createElement(tagName);
+};
+
+/**
+ * Alias of W3C <code>element.getElementsByTagName</code>.
+ * Used to reduce size after code compilation.
+ * @param {!Element|!Node} element Element to search tags.
+ * @param {string} tagName Tag name.
+ * @return {?NodeList} Returns list of found elements in the
+ *     order they appear in the tree.
+ * @method
+ */
+export const getElementsByTagName = (element, tagName) => {
+  return element && element.getElementsByTagName(tagName);
+};
+
+/**
+ * Alias of W3C <code>element.getElementsByClassName</code>.
+ * Used to reduce size after code compilation.
+ * @param {!Element|!Node} element Element to start searching.
+ * @param {string} className Class name to match.
+ * @return {?NodeList} Array of found elements.
+ * @method
+ */
+export const getElementsByClassName = (element, className) => {
+  return element && element.getElementsByClassName(className);
+};
+
+/**
+ * Alias of W3C <code>element.querySelectorAll</code>.
+ * Used to reduce size after code compilation.
+ * @param {!Element|!DocumentFragment} element Element to start searching.
+ * @param {string} selectors One or more CSS selectors separated by commas.
+ * @return {?NodeList} Returns a list of the elements within the document that
+ *     match the specified group of selectors.
+ * @see https://www.w3.org/TR/selectors-api/#queryselectorall
+ * @method
+ */
+export const querySelectorAll = (element, selectors) => {
+  return element && element.querySelectorAll(selectors);
+};
+
+/**
+ * Alias of W3C <code>element.querySelector</code>.
+ * Used to reduce size after code compilation.
+ * @param {!Element|!DocumentFragment} element Element to start searching.
+ * @param {string} selectors One or more CSS selectors separated by commas.
+ * @return {?Element} Returns the first element that is a descendant of the
+ *     element on which it is invoked that matches the specified group of
+ *     selectors.
+ * @see https://www.w3.org/TR/selectors-api/#queryselector
+ * @method
+ */
+export const querySelector = (element, selectors) => {
+  return element && element.querySelector(selectors);
+};
+
+/**
+ * Alias of W3C <code>element.appendChild</code>.
+ * Used to reduce size after code compilation.
+ * @param {?Node|?Element} parent The parent element.
+ * @param {?Node|?Element} child The child element.
+ * @return {!Node} Returns a reference to the <code>child</code> that
+ *     is appended to the parent.
+ * @method
+ */
+export const appendChild = (parent, child) => parent.appendChild(child);
