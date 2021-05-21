@@ -28,7 +28,7 @@ export const toAmPmTime = (time) => {
 
 /**
  * Gets week date.
- * @param {!Date=} opt_date The optional date object.
+ * @param {!Date=} date The optional date object.
  * @return {string} Returns week date in ISO 8601 format.
  * @see https://en.wikipedia.org/wiki/ISO_8601#Week_dates
  * @see https://en.wikipedia.org/wiki/ISO_week_date
@@ -47,7 +47,7 @@ export const getWeekDate = (date = new Date()) => {
 
 /**
  * Gets week number.
- * @param {!Date=} opt_date The optional date object.
+ * @param {!Date=} date The optional date object.
  * @return {number} Returns week number.
  * @method
  * @see https://en.wikipedia.org/wiki/ISO_8601#Week_dates

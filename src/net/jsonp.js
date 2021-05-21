@@ -25,7 +25,7 @@ export const load = (url, param = 'jsonp', timeout = 1E4) => {
     const random = ~~(Math.random() * 1e9);
     const key = param + '_' + random;
     const query = param + '=' + key;
-    const context = dom.getContext();
+    const context = dom.getRootContext();
     const src = url + (~url.indexOf('?') ? '&' : '?') + query;
 
     const cleanup = () => {

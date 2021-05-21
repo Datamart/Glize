@@ -35,19 +35,18 @@ export const loadScript = (src, timeout = 1E4) => {
     const doc = getDocument();
 
     if (doc) {
-      const script = doc.createElement('SCRIPT');
+      const script = makeNode('SCRIPT');
       const cleanup = (fn) => {
         timer && clearTimeout(timer);
         script.onload = script.onerror = null;
-        script.parentNode.removeChild(script);
+        deleteNode(script);
         fn();
       };
 
       script.onload = () => cleanup(resolve);
       script.onerror = () => cleanup(reject);
       script.async = true;
-      script.src = src;
-      doc.body.appendChild(script);
+      appendNode(doc.body, script).src = src;
 
       const timer = setTimeout(() => cleanup(reject), timeout);
     } else {
@@ -63,7 +62,7 @@ export const loadScript = (src, timeout = 1E4) => {
  * @see https://nodejs.org/api/globals.html#globals_global
  * @method
  */
-export const getContext = () => {
+export const getRootContext = () => {
   const context = 
     ('object' === typeof self && self.self === self && self) ||
     ('object' === typeof global && global.global === global && global);
@@ -77,7 +76,7 @@ export const getContext = () => {
  * @method
  */
 export const getDocument = () => {
-  const ctx = getContext();
+  const ctx = getRootContext();
   const doc = ctx.document;
 
   return /** @type {?HTMLDocument} */ (doc);
@@ -91,9 +90,29 @@ export const getDocument = () => {
  * @see https://msdn.microsoft.com/en-us/library/ms536708%28v=vs.85%29.aspx
  * @method
  */
- export const removeNode = (element) => {
+ export const deleteNode = (element) => {
   element && element.parentNode && element.parentNode.removeChild(element);
 };
+
+/**
+ * Alias of W3C <code>element.appendChild</code>.
+ * Used to reduce size after code compilation.
+ * @param {?Node|?Element} parent The parent element.
+ * @param {?Node|?Element} child The child element.
+ * @return {!Node} Returns a reference to the <code>child</code> that
+ *     is appended to the parent.
+ * @method
+ */
+ export const appendNode = (parent, child) => parent.appendChild(child);
+
+/**
+ * Alias of W3C <code>document.createElement</code>.
+ * Used to reduce size after code compilation.
+ * @param {string} tagName Tag name.
+ * @return {?Element} Returns created element.
+ * @method
+ */
+export const makeNode = (tagName) => getDocument().createElement(tagName);
 
 /**
  * Alias of W3C <code>document.getElementById</code>.
@@ -104,20 +123,7 @@ export const getDocument = () => {
  *     element with the specified ID is not in the document.
  * @method
  */
-export const getElementById = (id) => {
-  return getDocument().getElementById(id);
-};
-
-/**
- * Alias of W3C <code>document.createElement</code>.
- * Used to reduce size after code compilation.
- * @param {string} tagName Tag name.
- * @return {?Element} Returns created element.
- * @method
- */
-export const createElement = (tagName) => {
-  return getDocument().createElement(tagName);
-};
+export const getElement = (id) => getDocument().getElementById(id);
 
 /**
  * Alias of W3C <code>element.getElementsByTagName</code>.
@@ -128,7 +134,7 @@ export const createElement = (tagName) => {
  *     order they appear in the tree.
  * @method
  */
-export const getElementsByTagName = (element, tagName) => {
+export const getElementsByTag = (element, tagName) => {
   return element && element.getElementsByTagName(tagName);
 };
 
@@ -140,7 +146,7 @@ export const getElementsByTagName = (element, tagName) => {
  * @return {?NodeList} Array of found elements.
  * @method
  */
-export const getElementsByClassName = (element, className) => {
+export const getElementsByClass = (element, className) => {
   return element && element.getElementsByClassName(className);
 };
 
@@ -154,7 +160,7 @@ export const getElementsByClassName = (element, className) => {
  * @see https://www.w3.org/TR/selectors-api/#queryselectorall
  * @method
  */
-export const querySelectorAll = (element, selectors) => {
+export const getElementsBySelectors = (element, selectors) => {
   return element && element.querySelectorAll(selectors);
 };
 
@@ -169,17 +175,18 @@ export const querySelectorAll = (element, selectors) => {
  * @see https://www.w3.org/TR/selectors-api/#queryselector
  * @method
  */
-export const querySelector = (element, selectors) => {
+export const getElementBySelectors = (element, selectors) => {
   return element && element.querySelector(selectors);
 };
 
 /**
- * Alias of W3C <code>element.appendChild</code>.
- * Used to reduce size after code compilation.
- * @param {?Node|?Element} parent The parent element.
- * @param {?Node|?Element} child The child element.
- * @return {!Node} Returns a reference to the <code>child</code> that
- *     is appended to the parent.
+ * Alias of W3C <code>element.addEventListener</code>.
+ * Used to reduce size after compilation.
+ * @param {!Element|!Node|!Window} element Element to which attach event.
+ * @param {string} type Type of event.
+ * @param {function(!Event, ...)} listener Event listener.
  * @method
  */
-export const appendChild = (parent, child) => parent.appendChild(child);
+export const addEvent = (element, type, listener) => {
+  element && element.addEventListener(type, listener, false);
+};
