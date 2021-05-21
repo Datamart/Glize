@@ -1,29 +1,28 @@
 {
   "name": "glize",
   "type": "module",
-  "version": "21.2.1",
+  "version": "21.2.2",
   "description": "Glize is a clean and robust pure JavaScript library.",
+  "homepage": "https://glize.js.org",
+  "repository": "github:Datamart/Glize",
+  "license": "Apache-2.0",
   "main": "./index.js",
   "exports": "./index.js",
   "scripts": {
     "test": "node ./tests",
     "build": "time ./build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Datamart/Glize.git"
-  },
-  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/Datamart/Glize/issues"
   },
-  "homepage": "https://glize.js.org",
   "author": {
     "name": "Valentin Podkamennyi",
-    "email": "valentin@dtm.io"
+    "email": "valentin@dtm.io",
+    "url": "https://vpodk.com/"
   },
   "keywords": [
     "compressors",
+    "dom-manipulations",
     "LZW",
     "templates",
     "logic-less-template",
