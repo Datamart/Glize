@@ -56,7 +56,8 @@ export const loadScript = (src, timeout = 1E4) => {
 };
 
 /**
- * Gets root context object.
+ * Gets root context object, <code>Window</code> for browsers 
+ *   and <code>global</code> obkect for Node.
  * @return {!Window|!Object} Returns root context object.
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Window
  * @see https://nodejs.org/api/globals.html#globals_global
@@ -181,7 +182,7 @@ export const getElementBySelectors = (element, selectors) => {
 
 /**
  * Alias of W3C <code>element.addEventListener</code>.
- * Used to reduce size after compilation.
+ * Used to reduce size after code compilation.
  * @param {!Element|!Node|!Window} element Element to which attach event.
  * @param {string} type Type of event.
  * @param {function(!Event, ...)} listener Event listener.
