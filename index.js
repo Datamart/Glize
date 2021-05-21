@@ -5,4 +5,4 @@ import * as locale from './src/locale/index.js';
 import * as net from './src/net/index.js';
 import * as utils from './src/utils/index.js';
 
-export { compressors, dom, formatters, locale, net, utils }
+export { compressors, dom, formatters, locale, net, utils };

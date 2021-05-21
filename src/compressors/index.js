@@ -48,7 +48,7 @@ export const compress = (data, opt_type = TYPE.LZW) => {
  * console.log(result);
  * //> Any string of any length. Any string of any length. Any string of any length.
  */
- export const decompress = (data, opt_type = TYPE.LZW) => {
+export const decompress = (data, opt_type = TYPE.LZW) => {
   let result = '';
 
   if (TYPE.LZW === opt_type) {
@@ -56,7 +56,7 @@ export const compress = (data, opt_type = TYPE.LZW) => {
   }
 
   return result;
-}
+};
 
 /**
  * LZW compression utility.

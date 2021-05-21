@@ -1,0 +1,103 @@
+#!/bin/bash
+#
+# See: https://google.github.io/styleguide/shell.xml
+# See: https://github.com/google/closure-stylesheets
+# See: https://developers.google.com/closure/compiler/
+
+set -e
+
+readonly CWD=$(cd $(dirname $0); pwd)
+readonly LIB="${CWD}/lib"
+readonly TMP="${CWD}/tmp"
+readonly SRC="${CWD}/src"
+
+readonly WGET="$(which wget)"
+readonly CURL="$(which curl)"
+readonly UNZIP="$(which unzip)"
+
+readonly JAVA="$(which java)"
+# Hot fix for clean installation of OS X El Capitan.
+readonly JAVA_OSX="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java"
+
+# https://github.com/google/closure-compiler/wiki/Binary-Downloads
+# readonly JS_COMPILER_ZIP="compiler-latest.zip"
+readonly JS_COMPILER_ZIP="compiler-20200719.zip"
+readonly JS_COMPILER_URL="https://dl.google.com/closure-compiler/${JS_COMPILER_ZIP}"
+readonly JS_COMPILER_JAR="${LIB}/compiler.jar"
+
+#
+# Downloads closure compiler.
+#
+function download() {
+  if [[ ! -f "${JS_COMPILER_JAR}" ]]; then
+    cd "${TMP}"
+
+    echo -n "Downloading closure compiler: "
+    if [[ -n "$CURL" ]]; then
+      $CURL --silent -L "${JS_COMPILER_URL}" > "${TMP}/${JS_COMPILER_ZIP}"
+    else
+      $WGET --quiet "${JS_COMPILER_URL}" -O "${TMP}/${JS_COMPILER_ZIP}"
+    fi
+    echo "Done"
+
+    echo -n "Extracting closure compiler:  "
+    $UNZIP -q "${TMP}/${JS_COMPILER_ZIP}" -d "${LIB}"
+    if [[ ! -f "${JS_COMPILER_JAR}" ]]; then
+      mv "${LIB}"/*compiler*.jar "${JS_COMPILER_JAR}"
+    fi
+    echo "Done"
+
+    cd "${CWD}"
+  fi
+}
+
+#
+# Runs closure compiler.
+#
+function run_compiler() {
+  echo -n "Running closure compiler:     "
+  local JAVA_BIN="${JAVA}"
+  if [[ -f "${JAVA_OSX}" ]]; then
+    JAVA_BIN="${JAVA_OSX}"
+  fi
+
+  if [[ -d "${SRC}" ]]; then
+    "${JAVA_BIN}" -jar "${JS_COMPILER_JAR}" \
+      --js_output_file "/dev/null" \
+      --entry_point "${CWD}/index.js" \
+      --js "${CWD}/index.js" \
+      --js "${CWD}/package.json" \
+      --js "${SRC}/**/*.js" \
+      --jscomp_warning lintChecks \
+      --warning_level VERBOSE \
+      --compilation_level ADVANCED \
+      --use_types_for_optimization \
+      --dependency_mode PRUNE \
+      --language_out STABLE \
+      --charset UTF-8 \
+      --process_common_js_modules \
+      --module_resolution NODE \
+      --isolation_mode IIFE \
+      --rewrite_polyfills false
+  else
+    echo -n "[WARN] Directory '${SRC}' doesn't exist. "
+  fi
+
+  echo "Done"
+}
+
+#
+# The main function.
+#
+function main() {
+  mkdir -p "${LIB}"
+  mkdir -p "${TMP}"
+
+  download
+  run_compiler
+
+  rm -rf "${TMP}"
+  rm -rf "${LIB}"
+}
+
+main "$@"

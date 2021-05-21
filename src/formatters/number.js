@@ -86,7 +86,7 @@ export const ordinal = (number) => {
 };
 
 /**
- * @param {!Object<string, *>} options Formatting options.
+ * @param {!Object<string, *>=} options Formatting options.
  * @return {!Object<string, *>} Returns formatting options.
  * @private
  */
