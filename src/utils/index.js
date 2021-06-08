@@ -8,7 +8,8 @@
 
  import * as array from './array.js';
  import * as date from './date.js';
+ import * as events from './events.js';
  import * as number from './number.js';
  import * as string from './string.js';
 
- export { array, date, number, string };
+ export { array, date, events, number, string };

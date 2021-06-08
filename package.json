@@ -1,7 +1,7 @@
 {
   "name": "glize",
   "type": "module",
-  "version": "21.2.2",
+  "version": "21.3.0",
   "description": "Glize is a clean and robust pure JavaScript library.",
   "homepage": "https://glize.js.org",
   "repository": "github:Datamart/Glize",
@@ -39,6 +39,8 @@
     "array-contains",
     "capitalize",
     "uuid4",
-    "hash-string"
+    "hash-string",
+    "debounce",
+    "throttle"
   ]
 }
