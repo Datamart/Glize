@@ -23,7 +23,9 @@
  * @method
  */
 export const parseTemplate = (content, values, opt_prefix) => {
-  const placeholder = '__DOLLAR__' + Date.now();
+  const DOLLAR_SYMBOL = '__DOLLAR__' + Date.now();
+  const DOLLAR_REGEXP =  new RegExp(DOLLAR_SYMBOL, 'mg');
+
   const pattern = (str = '') => {
     return '{{\\s*' + str.replace('.', '\\.') + '(\\|[\\w\\-\\.]+)?\\s*}}';
   };
@@ -42,10 +44,9 @@ export const parseTemplate = (content, values, opt_prefix) => {
       }
 
       if (value) {
-        let re = new RegExp(pattern(key), 'img');
-        value = value.replace('$', placeholder);
-        content = content.replace(re, value);
-        content = content.replace(placeholder, '$');
+        value = value.replace(/\$/mg, DOLLAR_SYMBOL);
+        content = content.replace(RegExp(pattern(key), 'img'), value);
+        content = content.replace(DOLLAR_REGEXP, '$');
       }
     }
   }
