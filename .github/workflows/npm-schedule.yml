@@ -16,9 +16,7 @@ jobs:
       - run: npm install glize komito-analytics
       - run: |
           cd node_modules/komito-analytics/
-          npm run build --if-present
           npm test --if-present
       - run: |
           cd node_modules/glize/
-          npm run build --if-present
           npm test --if-present
