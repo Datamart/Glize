@@ -34,56 +34,61 @@ const testArrayRandom = () => {
 const testToArray = () => {
   (function() {
     const arr = utils.array.toArray(arguments);
-    assert.equal(arguments.length, arr.length);
-    assert.equal(arguments[0], arr[0]);
+    assert.strictEqual(arguments.length, arr.length);
+    assert.strictEqual(arguments[0], arr[0]);
   })(1, 2, 3);
 
   const str = '123';
   const arr = utils.array.toArray(str);
-  assert.equal(str.length, arr.length);
-  assert.equal(str, arr.join(''));
+  assert.strictEqual(str.length, arr.length);
+  assert.strictEqual(str, arr.join(''));
 };
 
 const testToAmPmTime = () => {
-  assert.equal('12:30 AM', utils.date.toAmPmTime('00:30'));
-  assert.equal('1:15 AM', utils.date.toAmPmTime('01:15'));
-  assert.equal('11:45 AM', utils.date.toAmPmTime('11:45'));
-  assert.equal('12:15 PM', utils.date.toAmPmTime('12:15'));
-  assert.equal('1:15 PM', utils.date.toAmPmTime('13:15'));
-  assert.equal('11:15 PM', utils.date.toAmPmTime('23:15'));
+  assert.strictEqual('12:30 AM', utils.date.toAmPmTime('00:30'));
+  assert.strictEqual('1:15 AM', utils.date.toAmPmTime('01:15'));
+  assert.strictEqual('11:45 AM', utils.date.toAmPmTime('11:45'));
+  assert.strictEqual('12:15 PM', utils.date.toAmPmTime('12:15'));
+  assert.strictEqual('1:15 PM', utils.date.toAmPmTime('13:15'));
+  assert.strictEqual('11:15 PM', utils.date.toAmPmTime('23:15'));
 };
 
 const testGetWeekDate = () => {
-  assert.equal('2015-W43', utils.date.getWeekDate(new Date(2015, 9, 22)));
-  assert.equal('2004-W53', utils.date.getWeekDate(new Date(2005, 0, 1)));
+  assert.strictEqual('2015-W43', utils.date.getWeekDate(new Date(2015, 9, 22)));
+  assert.strictEqual('2004-W53', utils.date.getWeekDate(new Date(2005, 0, 1)));
 
   // ISO year 2009 has 53 weeks and ends three days into Gregorian year 2010.
-  assert.equal('2009-W53', utils.date.getWeekDate(new Date(2009, 11, 31)));
-  assert.equal('2009-W53', utils.date.getWeekDate(new Date(2010, 0, 1)));
-  assert.equal('2009-W53', utils.date.getWeekDate(new Date(2010, 0, 2)));
-  assert.equal('2009-W53', utils.date.getWeekDate(new Date(2010, 0, 3)));
+  assert.strictEqual('2009-W53', utils.date.getWeekDate(new Date(2009, 11, 31)));
+  assert.strictEqual('2009-W53', utils.date.getWeekDate(new Date(2010, 0, 1)));
+  assert.strictEqual('2009-W53', utils.date.getWeekDate(new Date(2010, 0, 2)));
+  assert.strictEqual('2009-W53', utils.date.getWeekDate(new Date(2010, 0, 3)));
 };
 
 const testCapitalize = () => {
-  assert.equal('Test', utils.string.capitalize('test'));
-  assert.equal('Test String', utils.string.capitalize('test string'));
+  assert.strictEqual('Test', utils.string.capitalize('test'));
+  assert.strictEqual('Test String', utils.string.capitalize('test string'));
 };
 
 const testToQueryString = () => {
   const data = {a: 1, b: 'b', c: false};
-  assert.equal('?a=1&b=b&c=false', utils.string.toQueryString(data));
+  assert.strictEqual('?a=1&b=b&c=false', utils.string.toQueryString(data));
 };
 
 const testUuid4 = () => {
-  const uuid = utils.string.uuid4();
-  assert.equal(36, uuid.length);
-  assert.equal('4', uuid.substr(14, 1));
-  const c = uuid.substr(19, 1).toLowerCase();
-  assert.ok(['8', '9', 'a', 'b'].includes(c));
+  const variant = ['8', '9', 'a', 'b'];
+  const re = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  for (let i = 0; i < 99; ++i) {
+    const uuid = utils.string.uuid4();
+    assert.ok(re.test(uuid), 'UUID "' + uuid + '" does not match to the regular expression.');
+    assert.strictEqual(uuid.length, 36, 'The length of the UUID "' + uuid + '" is not equal to 36.');
+    assert.strictEqual(uuid.substr(14, 1), '4', 'Invalid UUID version.');
+    const c = uuid.substr(19, 1).toLowerCase();
+    assert.ok(variant.includes(c), 'Invalid UUID variant field (RFC 4122/DCE).');
+  }
 };
 
 const testHashString = () => {
-  assert.equal('4Q69R', utils.string.hash('https://glize.js.org/'));
+  assert.strictEqual('4Q69R', utils.string.hash('https://glize.js.org/'));
 };
 
 runTests();
