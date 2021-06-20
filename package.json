@@ -44,7 +44,7 @@
     "throttle"
   ],
   "dependencies": {
-    "bytes-formatter": "^21.6.2",
-    "debouncing": "^21.6.1"
+    "bytes-formatter": "^21.6.3",
+    "debouncing": "^21.6.2"
   }
 }

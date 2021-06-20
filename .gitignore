@@ -1,6 +1,5 @@
 .DS_Store
 legacy
 node_modules
-package-lock.json
 lib
 tmp
