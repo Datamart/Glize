@@ -24,6 +24,7 @@ readonly JAVA_OSX="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/H
 readonly JS_COMPILER_ZIP="compiler-20200719.zip"
 readonly JS_COMPILER_URL="https://dl.google.com/closure-compiler/${JS_COMPILER_ZIP}"
 readonly JS_COMPILER_JAR="${LIB}/compiler.jar"
+readonly NODE_MODULES="${CWD}/node_modules"
 
 #
 # Downloads closure compiler.
@@ -65,6 +66,8 @@ function run_compiler() {
     "${JAVA_BIN}" -jar "${JS_COMPILER_JAR}" \
       --js_output_file "/dev/null" \
       --entry_point "${CWD}/index.js" \
+      --js "${NODE_MODULES}/**/package.json" \
+      --js "${NODE_MODULES}/**/**.js" \
       --js "${CWD}/index.js" \
       --js "${CWD}/package.json" \
       --js "${SRC}/**/*.js" \

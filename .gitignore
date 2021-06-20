@@ -1,7 +1,3 @@
-*.pyc
-*.svn
-*.svn-base
-*.so
 .DS_Store
 legacy
 node_modules

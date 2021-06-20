@@ -6,7 +6,7 @@
  * @module glize/formatters
  */
 
-import { formatBytes } from './bytes.js';
+import { formatBytes } from 'bytes-formatter';
 import { formatDate, parseDate } from './date.js';
 import { formatNumber, roundNumber, ordinal } from './number.js';
 
