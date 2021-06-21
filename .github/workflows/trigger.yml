@@ -23,4 +23,7 @@ jobs:
         echo "github.run_id: ${{ github.run_id }}"
         echo "github.repository: ${{ github.repository }}"
         which gh
+        if: ${{ success() }}
+        gh api -X GET /repos/${{ github.repository }}/actions/workflows | jq '.workflows[] | .name,.id'
+
         
