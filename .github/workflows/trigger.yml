@@ -31,6 +31,7 @@ jobs:
         echo "job.status: ${{ job.status }}"
         gh auth status
         gh auth login --with-token
+        export GITHUB_TOKEN=
         gh auth status
         gh api -X GET /repos/${{ github.repository }}/actions/workflows | jq '.workflows[] | .name,.id'
 
