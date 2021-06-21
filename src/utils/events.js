@@ -5,6 +5,7 @@
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  * @see https://github.com/Datamart/debouncing
  * @module glize/utils/events
+ * @suppress {misplacedTypeAnnotation}
  */
 
 import { debounce, throttle } from 'debouncing';
@@ -25,8 +26,10 @@ export {
    * @see https://github.com/Datamart/debouncing
    * @method
    */
-  debounce,
+  debounce
+};
 
+export {
   /**
    * Throttling is a technique in which, no matter how many times the user 
    * fires the event, the attached function will be executed only once in a 

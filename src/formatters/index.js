@@ -5,6 +5,7 @@
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  * @see https://github.com/Datamart/bytes-formatter
  * @module glize/formatters
+ * @suppress {misplacedTypeAnnotation}
  */
 
 import { formatBytes } from 'bytes-formatter';
