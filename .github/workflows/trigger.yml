@@ -23,7 +23,8 @@ jobs:
         echo "github.run_id: ${{ github.run_id }}"
         echo "github.repository: ${{ github.repository }}"
         which gh
-        if: job.status == 'success'
+    - if: job.status == 'success'
+      run: |
         echo "job.status: ${{ job.status }}"
         gh auth login
         gh api -X GET /repos/${{ github.repository }}/actions/workflows | jq '.workflows[] | .name,.id'
