@@ -26,7 +26,7 @@ jobs:
     - if: job.status == 'success'
       run: |
         echo "job.status: ${{ job.status }}"
-        gh auth login
+        gh auth login --with-token ${{ secrets.GITHUB_TOKEN }}
         gh api -X GET /repos/${{ github.repository }}/actions/workflows | jq '.workflows[] | .name,.id'
 
         
