@@ -15,6 +15,4 @@ jobs:
       - run: npm init --force
       - run: npm install glize komito-analytics
       - run: npm ci
-      - run: |
-          cd node_modules/glize/
-          npm test --if-present
+      - run: npm test --if-present
