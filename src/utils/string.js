@@ -4,8 +4,10 @@
  * @see https://google.github.io/styleguide/javascriptguide.xml
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  * @module glize/utils/string
+ * @requires glize/utils/number
  */
 
+import { uint32 } from './number.js';
 
 /**
  * Transforms the first character of each word to uppercase; other
@@ -17,7 +19,7 @@
  */
 export const capitalize = (str) => {
   const words = str.split(/\s+/);
-  const length = words.length;
+  const length = uint32(words.length);
 
   for (let i = 0; i < length; ++i) {
     const word = words[i];
@@ -68,7 +70,7 @@ export const uuid4 = () => {
  * @method
  */
 export const hash =(str) => {
-  const length = str.length;
+  const length = uint32(str.length);
   let result = 0;
   let j = 0;
 

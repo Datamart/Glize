@@ -4,8 +4,10 @@
  * @see https://google.github.io/styleguide/javascriptguide.xml
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  * @module glize/dom/cookies
+ * @requires glize/utils/number
  */
 
+import { uint32 } from '../utils/number.js';
 
 /**
  * Sets a cookie.
@@ -54,7 +56,7 @@ export const remove = (key) => {
  */
 export const clear = () => {
   const names = keys();
-  let length = names.length;
+  let length = uint32(names.length);
 
   while (length--) {
     remove(names[length]);
@@ -69,7 +71,7 @@ export const clear = () => {
 export const keys = () => {
   const re = /;\s*/;
   const parts = document.cookie.split(re);
-  let length = parts.length;
+  let length = uint32(parts.length);
   const keys = new Array(length - 1);
 
   while (length--) {

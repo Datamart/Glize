@@ -9,9 +9,11 @@
  * @see https://docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServletRequest.html
  * @module glize/net/requests
  * @requires glize/dom/cookies
+ * @requires glize/utils/number
  */
 
-import {cookies}  from '../dom/index.js';
+import { cookies } from '../dom/index.js';
+import { uint32 } from '../utils/number.js';
 
 /**
  * Returns the query string that is contained in the request URL after the
@@ -35,7 +37,7 @@ export const getQueryString = (opt_location) => {
  */
 export const getCookies = function() {
   const keys = cookies.keys();
-  const length = keys.length;
+  const length = uint32(keys.length);
   const result = [];
 
   for (let i = 0; i < length;) {
@@ -90,7 +92,7 @@ export const getParameterMap = (opt_location) => {
   if (!(url in maps_)) {
     const pairs = opt_location.search.substr(1).split('&').concat(
         opt_location.hash.substr(1).split('&'));
-    let index = pairs.length >>> 0;
+    let index = uint32(pairs.length);
     while (index--) {
       const pair = pairs[index].split('=');
       const key = pair[0];

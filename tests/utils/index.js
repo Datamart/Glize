@@ -11,6 +11,7 @@ const runTests = () => {
   testToQueryString();
   testUuid4();
   testHashString();
+  testUint();
 };
 
 const testContains = () => {
@@ -89,6 +90,16 @@ const testUuid4 = () => {
 
 const testHashString = () => {
   assert.strictEqual('4Q69R', utils.string.hash('https://glize.js.org/'));
+};
+
+const testUint = () => {
+  const uint32 = utils.number.uint32;
+  assert.strictEqual(uint32(0), 0);
+  assert.strictEqual(uint32(1), 1);
+  assert.strictEqual(uint32(4294967295), 4294967295);
+  assert.strictEqual(uint32(4294967296), NaN);
+  assert.strictEqual(uint32(-4294967295), NaN);
+  assert.strictEqual(uint32(-1), NaN);
 };
 
 runTests();
