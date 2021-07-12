@@ -44,7 +44,7 @@ export const parseTemplate = (content, values, opt_prefix) => {
       }
 
       if (value) {
-        value = value.replace(/\$/mg, DOLLAR_SYMBOL);
+        value = ('' + value).replace(/\$/mg, DOLLAR_SYMBOL);
         content = content.replace(RegExp(pattern(key), 'img'), value);
         content = content.replace(DOLLAR_REGEXP, '$');
       }
