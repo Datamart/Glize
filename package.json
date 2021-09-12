@@ -1,7 +1,7 @@
 {
   "name": "glize",
   "type": "module",
-  "version": "21.7.2",
+  "version": "21.9.12",
   "description": "Glize is a clean and robust pure JavaScript library.",
   "homepage": "https://glize.js.org",
   "repository": "github:Datamart/Glize",
@@ -48,6 +48,7 @@
     "debouncing": "latest",
     "lzw-compressor": "latest",
     "midday": "latest",
+    "string-transform": "latest",
     "uint": "latest"
   }
 }
