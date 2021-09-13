@@ -7,7 +7,7 @@
  * @suppress {misplacedTypeAnnotation}
  */
 
-import { capitalize, hash } from 'string-transform';
+import { capitalize, hash, toCamelCase, toPascalCase } from 'string-transform';
 
 export {
   /**
@@ -29,6 +29,32 @@ export {
    * @method
    */
   hash
+};
+
+export {
+  /**
+   * Converts the passed string into a string with the separator denoted by the 
+   * next word capitalized (aka lower camel case).
+   * @param {string} str The input string.
+   * @return {string} A string convered into a string with the separator 
+   * denoted by the next word capitalized.
+   * @see https://en.wikipedia.org/wiki/Camel_case
+   * @method
+   */
+  toCamelCase
+};
+
+export {
+  /**
+   * Converts the passed string into a string of capitalized words without 
+   * separators (aka upper camel case).
+   * @param {string} str The input string.
+   * @return {string} A string convered into a string of capitalized words 
+   * without separators.
+   * @see https://en.wikipedia.org/wiki/PascalCase
+   * @method
+   */
+  toPascalCase 
 };
 
 /**
