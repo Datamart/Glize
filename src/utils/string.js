@@ -25,7 +25,7 @@ export {
    * @see http://www.w3.org/wiki/CSS/Properties/text-transform
    * @method
    */
-  capitalize
+  capitalize,
 };
 
 export {
@@ -35,33 +35,33 @@ export {
    * @return {string} Returns hashed string.
    * @method
    */
-  hash
+  hash,
 };
 
 export {
   /**
-   * Converts the passed string into a string with the separator denoted by the 
+   * Converts the passed string into a string with the separator denoted by the
    * next word capitalized (aka lower camel case).
    * @param {string} str The input string.
-   * @return {string} A string transformed into a string with the separator 
+   * @return {string} A string transformed into a string with the separator
    * denoted by the next word capitalized.
    * @see https://en.wikipedia.org/wiki/Camel_case
    * @method
    */
-  toCamelCase
+  toCamelCase,
 };
 
 export {
   /**
-   * Converts the passed string into a string of capitalized words without 
+   * Converts the passed string into a string of capitalized words without
    * separators (aka upper camel case).
    * @param {string} str The input string.
-   * @return {string} A string transformed into a string of capitalized words 
+   * @return {string} A string transformed into a string of capitalized words
    * without separators.
    * @see https://en.wikipedia.org/wiki/PascalCase
    * @method
    */
-  toPascalCase 
+  toPascalCase,
 };
 
 export {
@@ -73,7 +73,7 @@ export {
    * @see https://en.wikipedia.org/wiki/Snake_case
    * @method
    */
-  toSnakeCase 
+  toSnakeCase,
 };
 
 export {
@@ -83,7 +83,7 @@ export {
    * @return {string} Returns a transformed string.
    * @method
    */
-  toKebabCase 
+  toKebabCase,
 };
 
 /**
