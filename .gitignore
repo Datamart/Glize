@@ -5,3 +5,4 @@
 .DS_Store
 build/lib
 legacy
+node_modules
