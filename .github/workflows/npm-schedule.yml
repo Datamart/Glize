@@ -7,10 +7,11 @@ on:
 jobs:
   init:
     runs-on: ubuntu-latest
+    timeout-minutes: 2
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: 15
+          node-version: 16
       - run: npm init --force
       - run: npm install react-glize
       - run: npm ci
