@@ -4,18 +4,13 @@
  * @see https://google.github.io/styleguide/javascriptguide.xml
  * @see https://developers.google.com/closure/compiler/docs/js-for-compiler
  * @module glize/dom
- * @suppress {misplacedTypeAnnotation}
  */
-import {
-  expirableLocalStorage,
-  expirableSessionStorage,
-} from "expirable-storage";
 
-import * as cookies from "./cookies.js";
-import * as template from "./template.js";
+import * as cookies from './cookies.js';
+import * as template from './template.js';
 
 export { cookies, template };
-export { expirableLocalStorage, expirableSessionStorage };
+ 
 
 /**
  * Gets default document charset.
@@ -23,24 +18,24 @@ export { expirableLocalStorage, expirableSessionStorage };
  * @method
  */
 export const getCharset = () => {
-  const doc = getDocument();
-  const charset = doc && (doc.charset || doc.characterSet);
-  return (charset || "utf-8").toLowerCase();
+ const doc = getDocument();
+ const charset = doc && (doc.charset || doc.characterSet);
+ return (charset || 'utf-8').toLowerCase();
 };
 
 /**
- * Loads script.
+ * Loads script. 
  * @param {string} src The script source to load.
  * @param {number=} [timeout=1000] The maximum execution timeout in seconds.
  * @return {!Promise} Returns the result as a Promise object.
  * @method
  */
-export const loadScript = (src, timeout = 1e4) => {
+export const loadScript = (src, timeout = 1E4) => {
   return new Promise((resolve, reject) => {
     const doc = getDocument();
 
     if (doc) {
-      const script = makeNode("SCRIPT");
+      const script = makeNode('SCRIPT');
       const cleanup = (fn) => {
         timer && clearTimeout(timer);
         script.onload = script.onerror = null;
@@ -61,7 +56,7 @@ export const loadScript = (src, timeout = 1e4) => {
 };
 
 /**
- * Gets root context object, <code>Window</code> for browsers
+ * Gets root context object, <code>Window</code> for browsers 
  *   and <code>global</code> obkect for Node.
  * @return {!Window|!Object} Returns root context object.
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Window
@@ -69,9 +64,9 @@ export const loadScript = (src, timeout = 1e4) => {
  * @method
  */
 export const getRootContext = () => {
-  const context =
-    ("object" === typeof self && self.self === self && self) ||
-    ("object" === typeof global && global.global === global && global);
+  const context = 
+    ('object' === typeof self && self.self === self && self) ||
+    ('object' === typeof global && global.global === global && global);
   return /** @type {!Window|!Object} */ (context);
 };
 
@@ -96,7 +91,7 @@ export const getDocument = () => {
  * @see https://msdn.microsoft.com/en-us/library/ms536708%28v=vs.85%29.aspx
  * @method
  */
-export const deleteNode = (element) => {
+ export const deleteNode = (element) => {
   element && element.parentNode && element.parentNode.removeChild(element);
 };
 
@@ -109,7 +104,7 @@ export const deleteNode = (element) => {
  *     is appended to the parent.
  * @method
  */
-export const appendNode = (parent, child) => parent.appendChild(child);
+ export const appendNode = (parent, child) => parent.appendChild(child);
 
 /**
  * Alias of W3C <code>document.createElement</code>.
