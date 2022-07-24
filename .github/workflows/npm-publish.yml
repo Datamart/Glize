@@ -13,6 +13,7 @@ on:
     
 jobs:
   build:
+    if: github.repository == 'Datamart/Glize'
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
